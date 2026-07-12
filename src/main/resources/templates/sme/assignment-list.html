@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Bài tập</title></head>
+<body>
+<section>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6">Danh sách bài tập</h1>
+
+  <div th:if="${#lists.isEmpty(assignments)}" class="text-center py-20 text-secondary">
+    Chưa có bài tập nào. Vào cấu trúc khóa học để thêm bài tập cho một module.
+  </div>
+
+  <div class="rounded-xl border border-hairline-soft overflow-hidden" th:unless="${#lists.isEmpty(assignments)}">
+    <table class="w-full text-left">
+      <thead class="bg-surface-soft font-label-md text-label-md text-secondary">
+        <tr>
+          <th class="p-4">Tiêu đề</th>
+          <th class="p-4">Khóa học</th>
+          <th class="p-4">Hạn nộp</th>
+          <th class="p-4">Bài nộp</th>
+          <th class="p-4">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="a : ${assignments}" class="border-t border-hairline-soft">
+          <td class="p-4 font-label-md text-ink" th:text="${a.title}">Title</td>
+          <td class="p-4 text-secondary" th:text="${a.module.course.title}">Course</td>
+          <td class="p-4 text-secondary" th:text="${a.dueDate != null ? #temporals.format(a.dueDate, 'dd/MM/yyyy HH:mm') : '-'}">-</td>
+          <td class="p-4 text-secondary" th:text="${a.rubricCriteria.size()} + ' tiêu chí'">0</td>
+          <td class="p-4">
+            <a th:href="@{'/sme/assignments/' + ${a.id}}" class="text-primary hover:underline font-label-md">Chỉnh sửa</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>

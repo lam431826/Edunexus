@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Nộp bài</title></head>
+<body>
+<section class="max-w-3xl">
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1" th:text="${assignment.title}">Assignment</h1>
+  <div class="prose whitespace-pre-wrap font-body-sm text-secondary mb-6" th:text="${assignment.promptMarkdown}">Prompt</div>
+
+  <div th:if="${not #lists.isEmpty(assignment.rubricCriteria)}" class="mb-6 rounded-xl border border-hairline-soft overflow-hidden">
+    <table class="w-full text-left text-[13px]">
+      <thead class="bg-surface-soft font-label-md text-secondary">
+        <tr><th class="p-3">Tiêu chí</th><th class="p-3">Trọng số</th><th class="p-3">Mô tả</th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="c : ${assignment.rubricCriteria}" class="border-t border-hairline-soft">
+          <td class="p-3" th:text="${c.name}">Name</td>
+          <td class="p-3" th:text="${c.weightPercent} + '%'">0%</td>
+          <td class="p-3 text-secondary" th:text="${c.descriptor}">-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div th:if="${existingSubmission != null}" class="mb-6 px-4 py-3 rounded-lg bg-success/10 text-success font-body-sm flex items-center gap-2">
+    <span class="material-symbols-outlined text-[18px]">check_circle</span>
+    Bạn đã nộp bài lúc <span th:text="${#temporals.format(existingSubmission.submittedAt, 'dd/MM/yyyy HH:mm')}"></span>.
+    <a th:href="@{'/student/assignments/' + ${assignment.id} + '/result'}" class="underline ml-2">Xem kết quả</a>
+  </div>
+
+  <div th:if="${errorMessage}" class="mb-4 px-4 py-3 rounded-lg bg-error-container text-error font-body-sm" th:text="${errorMessage}"></div>
+
+  <form th:if="${existingSubmission == null}" th:action="@{'/student/assignments/' + ${assignment.id} + '/submit'}"
+        method="post" enctype="multipart/form-data" class="space-y-4">
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Bài làm (văn bản)</label>
+      <textarea name="contentText" rows="10" class="w-full border border-hairline rounded-xl px-4 py-3"></textarea>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Tệp đính kèm (tùy chọn, tối đa 10MB)</label>
+      <input type="file" name="file" class="w-full border border-dashed border-hairline rounded-lg px-3 py-2"/>
+    </div>
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Nộp bài</button>
+  </form>
+</section>
+</body>
+</html>

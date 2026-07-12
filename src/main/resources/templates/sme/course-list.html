@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Khóa học của tôi</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="font-headline-lg text-headline-lg text-ink-deep">Khóa học của tôi</h1>
+      <p class="text-secondary font-body-sm">Danh sách các khóa học bạn phụ trách nội dung.</p>
+    </div>
+    <button onclick="document.getElementById('newCourseModal').classList.remove('hidden')"
+            class="px-6 py-2 bg-primary hover:bg-primary-container text-on-primary rounded-full font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">add</span> Tạo khóa học mới
+    </button>
+  </div>
+
+  <div th:if="${#lists.isEmpty(courses)}" class="text-center py-20 text-secondary">
+    Bạn chưa phụ trách khóa học nào. Hãy tạo khóa học đầu tiên.
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div th:each="course : ${courses}" class="rounded-xxxl border border-hairline-soft bg-canvas overflow-hidden hover:shadow-md transition-shadow">
+      <div class="h-32 bg-surface-container flex items-center justify-center">
+        <span class="material-symbols-outlined text-5xl text-primary">school</span>
+      </div>
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-2">
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase"
+                th:classappend="${course.status.name() == 'PUBLISHED'} ? 'bg-success/10 text-success' : 'bg-attention/10 text-attention'"
+                th:text="${course.status.name() == 'PUBLISHED'} ? 'Published' : 'Draft'">Draft</span>
+        </div>
+        <h3 class="font-headline-md text-headline-md text-ink mb-1" th:text="${course.title}">Course title</h3>
+        <p class="text-secondary font-body-sm mb-4 line-clamp-2" th:text="${course.description}">Description</p>
+        <a th:href="@{'/sme/courses/' + ${course.id}}"
+           class="w-full inline-flex justify-center py-2 rounded-full border border-hairline hover:border-primary font-label-md text-label-md text-ink">
+          Chỉnh sửa cấu trúc
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div id="newCourseModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="bg-canvas rounded-xl p-8 w-full max-w-md">
+      <h3 class="font-headline-md text-headline-md mb-4">Tạo khóa học mới</h3>
+      <form th:action="@{/sme/courses}" th:object="${courseForm}" method="post" class="space-y-4">
+        <div>
+          <label class="block font-label-md text-label-md mb-1">Tên khóa học</label>
+          <input th:field="*{title}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+        </div>
+        <div>
+          <label class="block font-label-md text-label-md mb-1">Mô tả</label>
+          <textarea th:field="*{description}" rows="3" class="w-full border border-hairline rounded-lg px-3 py-2"></textarea>
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="document.getElementById('newCourseModal').classList.add('hidden')"
+                  class="px-5 py-2 rounded-full border border-hairline">Hủy</button>
+          <button type="submit" class="px-5 py-2 rounded-full bg-primary text-on-primary">Tạo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</body>
+</html>

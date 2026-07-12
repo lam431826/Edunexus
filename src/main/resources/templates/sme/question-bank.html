@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Ngân hàng câu hỏi</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Ngân hàng câu hỏi</h1>
+    <div class="flex gap-3">
+      <a href="/sme/questions/import" class="px-5 py-2 rounded-full border border-hairline font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">upload_file</span> Nhập từ tệp
+      </a>
+      <a href="/sme/questions/ai-staging" class="px-5 py-2 rounded-full border border-primary text-primary font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">auto_awesome</span> Tạo bằng AI
+      </a>
+      <a href="/sme/questions/new" class="px-5 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">add</span> Thêm câu hỏi
+      </a>
+    </div>
+  </div>
+
+  <div th:if="${#lists.isEmpty(questions)}" class="text-center py-20 text-secondary">Chưa có câu hỏi nào.</div>
+
+  <div class="rounded-xl border border-hairline-soft overflow-hidden" th:unless="${#lists.isEmpty(questions)}">
+    <table class="w-full text-left">
+      <thead class="bg-surface-soft font-label-md text-secondary">
+        <tr><th class="p-4">Câu hỏi</th><th class="p-4">Độ khó</th><th class="p-4">Nguồn</th><th class="p-4">Trạng thái</th><th class="p-4">Thao tác</th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="q : ${questions}" class="border-t border-hairline-soft">
+          <td class="p-4 max-w-md truncate" th:text="${q.text}">Question</td>
+          <td class="p-4 text-secondary" th:text="${q.difficulty}">EASY</td>
+          <td class="p-4 text-secondary" th:text="${q.source}">MANUAL</td>
+          <td class="p-4">
+            <span class="px-2 py-1 rounded-full text-[11px] font-label-md"
+                  th:classappend="${q.status.name() == 'APPROVED'} ? 'bg-success/10 text-success' : (${q.status.name() == 'PENDING_REVIEW'} ? 'bg-attention/10 text-attention' : 'bg-critical/10 text-critical')"
+                  th:text="${q.status}">APPROVED</span>
+          </td>
+          <td class="p-4 flex gap-3">
+            <a th:href="@{'/sme/questions/' + ${q.id}}" class="text-primary hover:underline">Sửa</a>
+            <form th:if="${q.status.name() == 'PENDING_REVIEW'}" th:action="@{'/sme/questions/' + ${q.id} + '/approve'}" method="post">
+              <button type="submit" class="text-success hover:underline">Duyệt</button>
+            </form>
+            <form th:action="@{'/sme/questions/' + ${q.id} + '/delete'}" method="post">
+              <button type="submit" class="text-critical hover:underline">Xóa</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>

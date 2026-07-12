@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Soạn bộ thẻ ghi nhớ</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Soạn bộ thẻ ghi nhớ</h1>
+    <a th:href="@{'/sme/flashcards/decks/' + ${deck.id} + '/ai-staging'}" class="px-5 py-2 rounded-full border border-primary text-primary font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">auto_awesome</span> Tạo bằng AI
+    </a>
+  </div>
+
+  <form th:action="@{'/sme/flashcards/decks/' + ${deck.id}}" th:object="${deckForm}" method="post" class="space-y-6">
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Tên bộ thẻ</label>
+        <input th:field="*{name}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Mô tả</label>
+        <input th:field="*{description}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+    </div>
+
+    <div>
+      <label class="block font-label-md text-label-md mb-2">Danh sách thẻ</label>
+      <div id="cardRows" class="space-y-2">
+        <div class="card-row grid grid-cols-12 gap-2" th:each="c, stat : *{cards}">
+          <input type="hidden" th:if="${c.id != null}" th:field="*{cards[__${stat.index}__].id}"/>
+          <input th:field="*{cards[__${stat.index}__].frontText}" placeholder="Mặt trước" class="col-span-6 border border-hairline rounded-lg px-3 py-2"/>
+          <input th:field="*{cards[__${stat.index}__].backText}" placeholder="Mặt sau" class="col-span-6 border border-hairline rounded-lg px-3 py-2"/>
+        </div>
+      </div>
+      <button type="button" id="addCardBtn" class="mt-2 text-primary text-[13px] flex items-center gap-1">
+        <span class="material-symbols-outlined text-[16px]">add</span> Thêm thẻ
+      </button>
+    </div>
+
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Lưu bộ thẻ</button>
+  </form>
+
+  <script>
+  document.getElementById('addCardBtn').addEventListener('click', function () {
+    const container = document.getElementById('cardRows');
+    const nextIndex = container.querySelectorAll('.card-row').length;
+    const row = document.createElement('div');
+    row.className = 'card-row grid grid-cols-12 gap-2';
+    row.innerHTML = `
+      <input name="cards[${nextIndex}].frontText" placeholder="Mặt trước" class="col-span-6 border border-hairline rounded-lg px-3 py-2"/>
+      <input name="cards[${nextIndex}].backText" placeholder="Mặt sau" class="col-span-6 border border-hairline rounded-lg px-3 py-2"/>
+    `;
+    container.appendChild(row);
+  });
+  </script>
+</section>
+</body>
+</html>

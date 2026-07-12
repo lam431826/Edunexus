@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Tạo bài kiểm tra trắc nghiệm</title></head>
+<body>
+<section class="max-w-xl">
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6">Tạo bài kiểm tra trắc nghiệm</h1>
+
+  <form th:action="@{/student/quizzes/new}" th:object="${newQuizForm}" method="post" class="space-y-6">
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Chọn module</label>
+      <select th:field="*{moduleId}" required class="w-full border border-hairline rounded-lg px-3 py-2">
+        <option th:each="m : ${modules}" th:value="${m.id}" th:text="${m.course.title} + ' - ' + ${m.title}"></option>
+      </select>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Số lượng câu hỏi</label>
+      <select th:field="*{questionCount}" class="w-full border border-hairline rounded-lg px-3 py-2">
+        <option value="10">10 câu</option>
+        <option value="20">20 câu</option>
+        <option value="45">45 câu</option>
+      </select>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-2">Chế độ</label>
+      <div class="flex gap-4">
+        <label class="flex items-center gap-2">
+          <input type="radio" th:field="*{mode}" value="PRACTICE"/> Luyện tập (không giới hạn thời gian)
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" th:field="*{mode}" value="TEST"/> Kiểm tra (tính thời gian)
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Bắt đầu</button>
+  </form>
+</section>
+</body>
+</html>

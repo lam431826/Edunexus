@@ -1,0 +1,18 @@
+# Dev/test-only profile: in-memory H2 instead of SQL Server, so the app can be
+# smoke-tested on a machine without a SQL Server instance available.
+# Run with: mvn spring-boot:run -Dspring-boot.run.profiles=h2
+spring:
+  datasource:
+    url: jdbc:h2:mem:edunexus;MODE=MSSQLServer;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true

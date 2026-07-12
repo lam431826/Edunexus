@@ -1,0 +1,252 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Personal Learning Progress Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;600&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "disabled-text": "#BCC0C4",
+                        "background": "#faf8ff",
+                        "tertiary-fixed": "#ffdbcd",
+                        "secondary": "#5e5e5e",
+                        "primary-fixed-dim": "#afc6ff",
+                        "on-tertiary-container": "#ffe7df",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e1e2ec",
+                        "surface-variant": "#e1e2ec",
+                        "surface-container-high": "#e6e7f2",
+                        "attention": "#F2A918",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d8d9e4",
+                        "on-background": "#191b23",
+                        "on-surface": "#191b23",
+                        "primary-fixed": "#d9e2ff",
+                        "canvas": "#FFFFFF",
+                        "ink-deep": "#0A1317",
+                        "on-primary-container": "#e6ebff",
+                        "surface-container": "#ecedf8",
+                        "surface-bright": "#faf8ff",
+                        "on-secondary-fixed-variant": "#474747",
+                        "surface": "#faf8ff",
+                        "critical": "#E41E3F",
+                        "error": "#ba1a1a",
+                        "success": "#31A24C",
+                        "steel": "#5D6C7B",
+                        "on-tertiary-fixed": "#360f00",
+                        "tertiary-container": "#b94500",
+                        "inverse-primary": "#afc6ff",
+                        "on-primary-fixed": "#001944",
+                        "outline": "#727786",
+                        "inverse-on-surface": "#eff0fb",
+                        "tertiary-fixed-dim": "#ffb597",
+                        "tertiary": "#913400",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#2e3038",
+                        "hairline-soft": "#DEE3E9",
+                        "on-secondary-container": "#646464",
+                        "surface-container-low": "#f2f3fe",
+                        "primary-container": "#0064e0",
+                        "surface-soft": "#F1F4F7",
+                        "on-surface-variant": "#424754",
+                        "on-primary-fixed-variant": "#004299",
+                        "on-error": "#ffffff",
+                        "ink": "#1C1E21",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#0059c8",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c2c6d6",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#e2e2e2",
+                        "secondary-container": "#e2e2e2",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "hairline": "#CED0D4",
+                        "primary": "#004db0",
+                        "on-tertiary-fixed-variant": "#7e2c00",
+                        "secondary-fixed-dim": "#c6c6c6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "xxxl": "2rem"
+                    },
+                    "spacing": {
+                        "lg": "20px",
+                        "base": "16px",
+                        "section": "64px",
+                        "xxl": "32px",
+                        "section-lg": "80px",
+                        "xl": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["plusJakartaSans", "sans-serif"],
+                        "display-lg-mobile": ["Montserrat", "sans-serif"],
+                        "body-sm": ["plusJakartaSans", "sans-serif"],
+                        "headline-md": ["Montserrat", "sans-serif"],
+                        "headline-lg": ["Montserrat", "sans-serif"],
+                        "label-md": ["plusJakartaSans", "sans-serif"],
+                        "body-lg": ["plusJakartaSans", "sans-serif"],
+                        "display-lg": ["Montserrat", "sans-serif"],
+                        "code-sm": ["jetbrainsMono", "monospace"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "code-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'plusJakartaSans', sans-serif; }
+        .h-heading-lg { font-size: 36px; line-height: 44px; font-weight: 700; font-family: 'Montserrat', sans-serif; }
+        .h-subtitle-lg { font-size: 20px; line-height: 28px; font-weight: 600; font-family: 'Montserrat', sans-serif; }
+        .h-caption { font-size: 12px; line-height: 16px; font-weight: 400; }
+        .h-caption-bold { font-size: 12px; line-height: 16px; font-weight: 600; }
+        
+        /* Circular Progress Rings */
+        .circular-chart { display: block; margin: 0 auto; max-width: 80%; max-height: 250px; }
+        .circle-bg { fill: none; stroke: #F1F4F7; stroke-width: 3.8; }
+        .circle { fill: none; stroke-width: 2.8; stroke-linecap: round; animation: progress 1s ease-out forwards; }
+        @keyframes progress { 0% { stroke-dasharray: 0 100; } }
+        .percentage { fill: #1C1E21; font-family: 'Montserrat', sans-serif; font-size: 0.5em; text-anchor: middle; font-weight: 700; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-surface dark:bg-on-background flex justify-between items-center w-full px-xxl h-16 border-b border-hairline-soft dark:border-outline-variant flat no shadows docked full-width top-0 z-50">
+<div class="flex items-center gap-base">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">EduNexus</span>
+</div>
+<div class="flex items-center gap-xl font-body-md text-body-md">
+<div class="hidden md:flex items-center gap-xl">
+<span class="text-secondary dark:text-secondary-fixed-dim hover:bg-surface-soft dark:hover:bg-surface-variant transition-colors active:scale-95 duration-150 p-2 rounded-full cursor-pointer">Explore</span>
+<span class="text-primary dark:text-primary-fixed font-bold border-b-2 border-primary hover:bg-surface-soft dark:hover:bg-surface-variant transition-colors active:scale-95 duration-150 p-2 cursor-pointer">Dashboard</span>
+</div>
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-secondary dark:text-secondary-fixed-dim hover:bg-surface-soft cursor-pointer p-2 rounded-full transition-colors active:scale-95 duration-150">notifications</span>
+<span class="material-symbols-outlined text-secondary dark:text-secondary-fixed-dim hover:bg-surface-soft cursor-pointer p-2 rounded-full transition-colors active:scale-95 duration-150">settings</span>
+<img alt="Student profile avatar" class="w-8 h-8 rounded-full border border-hairline object-cover" data-alt="A small circular user profile picture featuring a professional headshot of a student against a clean white background, evenly lit." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-Wh6hB7mruMFqeCfE87yk8R7OyjlKrlE9HfKwGnLxLyeU6aJzHKJMNeFlKI1VHQ3TWQNPzSeDsEaTRsm8b-eAh3hu7ArQj5EX3zmJek1Y_2SY3cTPVzNXJO03MbTE8yRT_zeXOuxW4OWO48QPFQwfukZouR6EXmhAqPiTmxfB7OjoGF9tAlsgpGdLHgQFAO_fVpUO7thOC8SbTZ5dMQpOCXgMIeBTLcj0c4x7oCI4CCM8Xvi0GnAYS7AAXWrIWYmvsQ59snqQRqE">
+</div>
+</div>
+</nav>
+<!-- SideNavBar & Main Content Wrapper -->
+<div class="flex flex-col md:flex-row h-[calc(100vh-64px)] overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col p-base z-40 bg-canvas border-r border-hairline-soft docked left-0 h-screen w-[260px] flex-shrink-0"><div class="mb-section px-2">
+    <span class="font-headline-md text-headline-md font-bold text-primary">EduNexus</span>
+</div>
+<nav class="flex flex-col gap-2 font-label-md text-label-md flex-grow">
+    <div class="flex items-center gap-base bg-ink-deep text-on-primary rounded-full px-base py-3 cursor-pointer transition-all">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+        <span class="">Dashboard</span>
+    </div>
+    <div class="flex items-center gap-base text-secondary px-base py-3 cursor-pointer hover:bg-surface-soft rounded-full transition-all">
+        <span class="material-symbols-outlined">school</span>
+        <span class="">Khóa học</span>
+    </div>
+    <div class="flex items-center gap-base text-secondary px-base py-3 cursor-pointer hover:bg-surface-soft rounded-full transition-all">
+        <span class="material-symbols-outlined">history</span>
+        <span class="">Lịch sử</span>
+    </div>
+    <div class="flex items-center gap-base text-secondary px-base py-3 cursor-pointer hover:bg-surface-soft rounded-full transition-all">
+        <span class="material-symbols-outlined">person</span>
+        <span class="">Hồ sơ</span>
+    </div>
+</nav>
+<div class="mt-auto pt-base border-t border-hairline-soft">
+    <div class="flex items-center gap-base px-2 mb-4">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP7c4Xa48wRk4ZUIwW63WA5vqZPH9IPeolWQWzCYq2B9Ua4-umOucYBHVZpizTcaQOm0ZuzC-8HctfwtTvj3iRaL1y0WKqsMFR5iEA7XGfs-E8e2fq0IpD7TXvROWYId6_73PN6tq_SFyikBmDwrKWTxVbNvb3BXnKmn8Z0np-u6BWH21c1g3GGHEEU60gqPwNIDfGGmfzJBOZLtkiZxb4DLaathhFr6fTpjlkUmQhMPt9f-ECmPmNUsEhICvc9OPFEoOV--HKGPU" alt="User" class="w-10 h-10 rounded-full object-cover">
+        <div class="flex flex-col">
+            <span class="font-label-md text-ink-deep">Alex Johnson</span>
+            <span class="text-body-sm text-secondary cursor-pointer hover:text-critical transition-colors">Đăng xuất</span>
+        </div>
+    </div>
+</div></aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow overflow-y-auto p-base md:p-xxl bg-canvas">
+<div class="max-w-7xl mx-auto space-y-section">
+<header>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-ink-deep mb-2">Learning Progress</h1>
+<p class="font-body-lg text-body-lg text-steel">Track your analytical milestones and academic journey.</p>
+</header>
+<!-- Section 1: Overview Stats Row -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-xl">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-xl border border-hairline-soft flex flex-col items-center justify-center gap-4 text-center">
+<div class="relative w-24 h-24">
+<svg class="circular-chart primary w-full h-full" viewBox="0 0 36 36">
+<path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+<path class="circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" stroke="#004db0" stroke-dasharray="75, 100"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="h-heading-lg text-ink">42</span>
+</div>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-steel">Tổng bài đã học</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-xl border border-hairline-soft flex flex-col items-center justify-center gap-4 text-center">
+<div class="relative w-24 h-24 overflow-hidden">
+<svg class="w-full h-full transform scale-150 translate-y-4" viewBox="0 0 36 18">
+<path class="circle-bg" d="M18 17.5 a 15.9155 15.9155 0 0 1 -15.9155 -15.9155 a 15.9155 15.9155 0 0 1 31.831 0"></path>
+<path class="circle" d="M18 17.5 a 15.9155 15.9155 0 0 1 -15.9155 -15.9155 a 15.9155 15.9155 0 0 1 31.831 0" stroke="#004db0" stroke-dasharray="82, 100"></path>
+</svg>
+<div class="absolute inset-x-0 bottom-0 flex items-center justify-center mb-2">
+<span class="h-heading-lg text-ink">8.5</span>
+</div>
+</div>
+<div class="mt-4">
+<p class="font-body-sm text-body-sm text-steel">Điểm TB kiểm tra</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-xl border border-hairline-soft flex flex-col items-center justify-center gap-4 text-center">
+<div class="relative w-24 h-24">
+<svg class="circular-chart success w-full h-full" viewBox="0 0 36 36">
+<path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+<path class="circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" stroke="#31A24C" stroke-dasharray="90, 100"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="h-heading-lg text-ink">90%</span>
+</div>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-steel">Thẻ đã thuộc</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-xl border border-hairline-soft flex flex-col items-center justify-center gap-4 text-center">
+<div class="relative w-24 h-24 flex items-center justify-center">
+<span class="material-symbols-outlined text-[64px] text-primary opacity-20 absolute">description</span>
+<span class="h-heading-lg text-ink relative z-10">14</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-steel">Bài luận đã nộp</p>
+</div>
+</div>
+</section>
+<!-- More sections would follow here, maintaining the fluid grid and spacing -->
+</div>
+</main>
+</div>
+
+
+</body></html>

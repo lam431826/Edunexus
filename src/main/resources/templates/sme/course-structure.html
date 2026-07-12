@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Cấu trúc khóa học</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-2">
+    <nav class="flex items-center gap-2 font-body-sm text-secondary">
+      <a href="/sme/courses" class="hover:text-ink">Khóa học của tôi</a>
+      <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+      <span class="text-ink font-bold" th:text="${course.title}">Course</span>
+    </nav>
+    <form th:action="@{'/sme/courses/' + ${course.id} + '/publish'}" method="post">
+      <button type="submit" class="px-6 py-2 bg-primary hover:bg-primary-container text-on-primary rounded-full font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">publish</span> Xuất bản
+      </button>
+    </form>
+  </div>
+
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep" th:text="${course.title}">Course title</h1>
+    <p class="text-secondary font-body-sm" th:text="${course.description}">Description</p>
+    <span class="mt-2 inline-block px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase"
+          th:classappend="${course.status.name() == 'PUBLISHED'} ? 'bg-success/10 text-success' : 'bg-attention/10 text-attention'"
+          th:text="${course.status}">DRAFT</span>
+  </div>
+
+  <div class="space-y-4">
+    <div th:each="module : ${modules}" class="rounded-xl border border-hairline-soft bg-canvas">
+      <div class="p-4 flex items-center justify-between border-b border-hairline-soft">
+        <h3 class="font-headline-md text-headline-md text-ink" th:text="${module.title}">Module</h3>
+      </div>
+      <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div>
+          <p class="font-label-md text-secondary mb-2">Bài giảng</p>
+          <ul class="space-y-1 mb-2">
+            <li th:each="lesson : ${lessonsByModule.get(module.id)}">
+              <a th:href="@{'/sme/lessons/' + ${lesson.id}}" class="flex items-center gap-2 text-ink hover:text-primary">
+                <span class="material-symbols-outlined text-[16px]">description</span>
+                <span th:text="${lesson.title}">Lesson</span>
+                <span class="text-[11px] text-secondary" th:text="${lesson.status}">DRAFT</span>
+              </a>
+            </li>
+          </ul>
+          <form th:action="@{'/sme/modules/' + ${module.id} + '/lessons/new'}" method="post">
+            <button type="submit" class="text-[13px] text-primary hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined text-[16px]">add</span> Thêm bài giảng
+            </button>
+          </form>
+        </div>
+        <div>
+          <p class="font-label-md text-secondary mb-2">Bộ thẻ ghi nhớ</p>
+          <ul class="space-y-1 mb-2">
+            <li th:each="deck : ${decksByModule.get(module.id)}">
+              <a th:href="@{'/sme/flashcards/decks/' + ${deck.id}}" class="flex items-center gap-2 text-ink hover:text-primary">
+                <span class="material-symbols-outlined text-[16px]">style</span>
+                <span th:text="${deck.name}">Deck</span>
+              </a>
+            </li>
+          </ul>
+          <form th:action="@{'/sme/modules/' + ${module.id} + '/flashcard-decks/new'}" method="post">
+            <button type="submit" class="text-[13px] text-primary hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined text-[16px]">add</span> Thêm bộ thẻ
+            </button>
+          </form>
+        </div>
+        <div>
+          <p class="font-label-md text-secondary mb-2">Bài tập</p>
+          <ul class="space-y-1 mb-2">
+            <li th:each="assignment : ${assignmentsByModule.get(module.id)}">
+              <a th:href="@{'/sme/assignments/' + ${assignment.id}}" class="flex items-center gap-2 text-ink hover:text-primary">
+                <span class="material-symbols-outlined text-[16px]">assignment</span>
+                <span th:text="${assignment.title}">Assignment</span>
+              </a>
+            </li>
+          </ul>
+          <form th:action="@{'/sme/modules/' + ${module.id} + '/assignments/new'}" method="post">
+            <button type="submit" class="text-[13px] text-primary hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined text-[16px]">add</span> Thêm bài tập
+            </button>
+          </form>
+        </div>
+        <div>
+          <p class="font-label-md text-secondary mb-2">Ngân hàng câu hỏi</p>
+          <p class="text-ink mb-2">
+            <span th:text="${questionCountByModule.get(module.id)} ?: 0">0</span> câu hỏi
+          </p>
+          <a href="/sme/questions" class="text-[13px] text-primary hover:underline flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">library_books</span> Quản lý ngân hàng câu hỏi
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 p-4 rounded-xl border border-dashed border-hairline-soft">
+    <form th:action="@{'/sme/courses/' + ${course.id} + '/modules'}" th:object="${moduleForm}" method="post" class="flex items-end gap-3">
+      <div class="flex-1">
+        <label class="block font-label-md text-label-md mb-1">Tên module mới</label>
+        <input th:field="*{title}" required class="w-full border border-hairline rounded-lg px-3 py-2" placeholder="VD: Chương 1 - Giới thiệu"/>
+      </div>
+      <button type="submit" class="px-5 py-2 rounded-full bg-ink text-white font-label-md">Thêm module</button>
+    </form>
+  </div>
+</section>
+</body>
+</html>

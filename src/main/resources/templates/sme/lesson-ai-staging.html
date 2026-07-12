@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - AI Lesson Staging</title></head>
+<body>
+<section>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1">AI Lesson Staging</h1>
+  <p class="text-secondary font-body-sm mb-6">
+    Xem lại, chỉnh sửa nội dung do AI soạn cho bài giảng <b th:text="${lesson.title}">Lesson</b> trước khi lưu.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="rounded-xl border border-hairline-soft bg-surface-soft p-4">
+      <p class="font-label-md text-secondary mb-2 flex items-center gap-1">
+        <span class="material-symbols-outlined text-[16px]">auto_awesome</span> Nội dung AI đề xuất
+      </p>
+      <pre class="whitespace-pre-wrap font-body-sm text-ink" th:text="${aiDraft}">AI draft...</pre>
+    </div>
+    <form th:action="@{'/sme/lessons/' + ${lesson.id} + '/ai-staging/regenerate'}" method="post" id="regenForm">
+      <label class="font-label-md text-secondary mb-2 flex items-center gap-1">
+        <span class="material-symbols-outlined text-[16px]">edit</span> Chỉnh sửa (sẽ lưu vào bài giảng)
+      </label>
+      <textarea name="editedContent" form="approveForm" rows="12" class="w-full border border-hairline rounded-xl px-4 py-3 font-body-sm mb-3" th:text="${editedContent}"></textarea>
+      <label class="block font-label-md text-label-md mb-1">Yêu cầu chỉnh sửa thêm cho AI</label>
+      <input name="refinePrompt" class="w-full border border-hairline rounded-lg px-3 py-2 mb-3" placeholder="VD: viết ngắn gọn hơn, thêm ví dụ..."/>
+      <button type="submit" class="px-5 py-2 rounded-full border border-primary text-primary font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">refresh</span> Tạo lại
+      </button>
+    </form>
+  </div>
+
+  <form id="approveForm" th:action="@{'/sme/lessons/' + ${lesson.id} + '/ai-staging/approve'}" method="post" class="flex items-center gap-3">
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">check</span> Duyệt &amp; Lưu
+    </button>
+  </form>
+  <form th:action="@{'/sme/lessons/' + ${lesson.id} + '/ai-staging/cancel'}" method="post" class="inline">
+    <button type="submit" class="px-6 py-2 rounded-full border border-hairline font-label-md">Hủy</button>
+  </form>
+</section>
+</body>
+</html>

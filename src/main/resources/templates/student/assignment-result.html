@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Kết quả bài tập</title></head>
+<body>
+<section class="max-w-3xl">
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6" th:text="${assignment.title}">Assignment</h1>
+
+  <div th:if="${submission.status.name() == 'SUBMITTED'}" class="text-center py-16">
+    <span class="material-symbols-outlined text-5xl text-attention mb-3 inline-block">hourglass_top</span>
+    <p class="font-label-md text-ink">AI đang chấm bài của bạn, vui lòng quay lại sau ít phút.</p>
+    <a th:href="@{'/student/assignments/' + ${assignment.id} + '/result'}" class="inline-block mt-4 px-5 py-2 rounded-full border border-hairline">Tải lại</a>
+  </div>
+
+  <div th:if="${submission.status.name() == 'AI_SCORED'}">
+    <div class="flex items-center gap-4 mb-6">
+      <div class="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center">
+        <span class="font-headline-lg text-headline-lg text-primary" th:text="${submission.aiScore} + '/' + ${assignment.maxScore}"></span>
+      </div>
+      <div>
+        <p class="font-label-md text-secondary">Điểm đánh giá bởi AI (sơ bộ)</p>
+        <p class="text-[12px] text-secondary">Đây là điểm do AI chấm tự động, mang tính tham khảo.</p>
+      </div>
+    </div>
+
+    <table class="w-full text-left rounded-xl border border-hairline-soft overflow-hidden mb-6">
+      <thead class="bg-surface-soft font-label-md text-secondary">
+        <tr><th class="p-3">Tiêu chí</th><th class="p-3">Điểm</th><th class="p-3">Nhận xét</th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="rs : ${submission.rubricScores}" class="border-t border-hairline-soft">
+          <td class="p-3" th:text="${rs.criterion.name}">Criterion</td>
+          <td class="p-3" th:text="${rs.score}">0</td>
+          <td class="p-3 text-secondary" th:text="${rs.remark}">-</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="rounded-xl bg-surface-soft p-4 mb-6">
+      <p class="font-label-md text-secondary mb-1">Nhận xét chung từ AI</p>
+      <p class="text-body-sm" th:text="${submission.aiFeedback}">Feedback</p>
+    </div>
+  </div>
+
+  <a href="/student/dashboard" class="inline-block px-6 py-2 rounded-full border border-hairline font-label-md">Về trang chủ</a>
+</section>
+</body>
+</html>

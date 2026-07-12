@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduNexus - Flashcard Practice</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;900&amp;family=Plus+Jakarta+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#0059c8",
+                    "surface-container-high": "#e6e7f2",
+                    "surface-variant": "#e1e2ec",
+                    "surface-container-highest": "#e1e2ec",
+                    "error-container": "#ffdad6",
+                    "critical": "#E41E3F",
+                    "on-error": "#ffffff",
+                    "on-surface": "#191b23",
+                    "on-secondary-fixed": "#1b1b1b",
+                    "surface-soft": "#F1F4F7",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#e2e2e2",
+                    "tertiary-fixed-dim": "#ffb597",
+                    "secondary-fixed-dim": "#c6c6c6",
+                    "primary": "#004db0",
+                    "inverse-primary": "#afc6ff",
+                    "on-tertiary-fixed-variant": "#7e2c00",
+                    "surface-dim": "#d8d9e4",
+                    "success": "#31A24C",
+                    "on-primary-container": "#e6ebff",
+                    "surface": "#faf8ff",
+                    "secondary": "#5e5e5e",
+                    "tertiary-fixed": "#ffdbcd",
+                    "disabled-text": "#BCC0C4",
+                    "inverse-on-surface": "#eff0fb",
+                    "secondary-container": "#e2e2e2",
+                    "on-error-container": "#93000a",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#f2f3fe",
+                    "surface-bright": "#faf8ff",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#0064e0",
+                    "on-tertiary-fixed": "#360f00",
+                    "steel": "#5D6C7B",
+                    "on-primary-fixed-variant": "#004299",
+                    "outline": "#727786",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#c2c6d6",
+                    "tertiary": "#913400",
+                    "attention": "#F2A918",
+                    "primary-fixed": "#d9e2ff",
+                    "on-tertiary-container": "#ffe7df",
+                    "hairline": "#CED0D4",
+                    "background": "#faf8ff",
+                    "on-secondary-fixed-variant": "#474747",
+                    "on-secondary-container": "#646464",
+                    "surface-container": "#ecedf8",
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#b94500",
+                    "hairline-soft": "#DEE3E9",
+                    "inverse-surface": "#2e3038",
+                    "primary-fixed-dim": "#afc6ff",
+                    "canvas": "#FFFFFF",
+                    "ink-deep": "#0A1317",
+                    "ink": "#1C1E21",
+                    "on-primary-fixed": "#001944",
+                    "on-surface-variant": "#424754",
+                    "on-background": "#191b23"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xxl": "32px",
+                    "section": "64px",
+                    "base": "16px",
+                    "section-lg": "80px",
+                    "lg": "20px"
+            },
+            "fontFamily": {
+                    "headline-lg": [
+                            "Montserrat"
+                    ],
+                    "body-sm": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "label-md": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "display-lg": [
+                            "Montserrat"
+                    ],
+                    "body-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "headline-md": [
+                            "Montserrat"
+                    ],
+                    "display-lg-mobile": [
+                            "Montserrat"
+                    ],
+                    "code-sm": [
+                            "JetBrains Mono"
+                    ],
+                    "body-md": [
+                            "Plus Jakarta Sans"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg-mobile": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "code-sm": [
+                            "13px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        .flip-card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-surface dark:bg-background text-on-surface min-h-screen font-body-md antialiased overflow-hidden flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-xxl h-20 sticky top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-hairline-soft dark:border-on-surface-variant/20">
+<div class="flex items-center gap-base">
+<span class="font-headline-md text-headline-md font-black text-primary dark:text-inverse-primary tracking-tight">EduNexus Flashcard Suite</span>
+</div>
+<nav class="hidden md:flex items-center gap-xxl h-full">
+<a class="h-full flex items-center text-on-surface-variant hover:text-on-surface transition-all duration-200 font-label-md text-label-md" href="#">Global Search</a>
+<a class="h-full flex items-center text-on-surface-variant hover:text-on-surface transition-all duration-200 font-label-md text-label-md" href="#">Insights</a>
+<a class="h-full flex items-center text-on-surface-variant hover:text-on-surface transition-all duration-200 font-label-md text-label-md" href="#">Team</a>
+</nav>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-base text-on-surface-variant">
+<button class="hover:text-primary transition-colors p-2 rounded-full hover:bg-surface-soft">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+</button>
+<button class="hover:text-primary transition-colors p-2 rounded-full hover:bg-surface-soft">
+<span class="material-symbols-outlined text-[24px]">dark_mode</span>
+</button>
+</div>
+<div class="h-8 w-px bg-hairline-soft mx-2"></div>
+<button class="hidden md:flex items-center gap-2 font-label-md text-label-md px-4 py-2 text-ink hover:text-primary transition-colors border border-hairline rounded-full hover:border-primary/30">
+                Export
+            </button>
+<button class="hidden md:flex items-center gap-2 font-label-md text-label-md px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-container transition-colors shadow-sm">
+                Invite SME
+            </button>
+<div class="w-10 h-10 rounded-full bg-surface-soft border border-hairline-soft overflow-hidden ml-2 cursor-pointer">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate user looking optimistic. Clean lighting, modern tech office background out of focus. Corporate edtech user persona." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBGut2m6427pja-2Eu8yqIcXq3m9oqbKaXSm9GZNDwD8q9qYNarZMu9tl1mp9Muq8O0wKOfn4mgyR6U2cmsJvgJbPb1SMmg1xUoZRqz0-_0WqjXvgSv8OyZ9nV_wh-gHAxc6qBlDbxg3phgHwaBuI95dEKUl_UAXZiQEIDa3EfuqkxdQqA1S9aQonDhrVUkMe3aBKZ_C5eUidTh3q4RLVHuK7VTFWj0B-wvnZLPFzvCSHxZXpSgMT32FtWq1NF_0IVE-OpA2H5AgU"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="hidden md:flex flex-col w-64 bg-inverse-surface dark:bg-on-surface shadow-md border-r border-hairline-soft h-full z-40 relative">
+<div class="flex flex-col h-full py-base">
+<div class="px-6 py-4 mb-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center overflow-hidden shrink-0">
+<span class="material-symbols-outlined text-white">school</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-white leading-tight">EduNexus</h2>
+<p class="font-body-sm text-body-sm text-white/60">SaaS Flashcard Suite</p>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full font-label-md text-label-md py-3 bg-primary text-white rounded-full shadow-md hover:bg-primary-container transition-colors flex items-center justify-center gap-2 scale-95 active:scale-90 duration-150">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Create New Set
+                    </button>
+</div>
+<nav class="flex-1 overflow-y-auto font-label-md text-label-md flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary-fixed-variant hover:text-white transition-colors hover:bg-on-secondary-fixed-variant/20 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                        Dashboard
+                    </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary-fixed-variant hover:text-white transition-colors hover:bg-on-secondary-fixed-variant/20 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+                        SME Editor
+                    </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary-fixed-variant hover:text-white transition-colors hover:bg-on-secondary-fixed-variant/20 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+                        AI Staging
+                    </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary-fixed-variant hover:text-white transition-colors hover:bg-on-secondary-fixed-variant/20 mx-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">library_books</span>
+                        Library
+                    </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-white rounded-full mx-2 transition-colors scale-95 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">school</span>
+                        Practice
+                    </a>
+</nav>
+<div class="mt-auto px-4 pt-4 border-t border-white/10 flex flex-col gap-1 font-label-md text-label-md">
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary-fixed-variant hover:text-white transition-colors hover:bg-on-secondary-fixed-variant/20 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+                        Settings
+                    </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-secondary-fixed-variant hover:text-white transition-colors hover:bg-on-secondary-fixed-variant/20 rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+                        Support
+                    </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 relative flex flex-col items-center justify-center bg-surface-soft overflow-y-auto">
+<!-- Dimmed Background Overlay specifically for focus -->
+<div class="absolute inset-0 bg-ink-deep/10 backdrop-blur-sm pointer-events-none z-0"></div>
+<!-- Top Progress & Stats Header -->
+<div class="absolute top-0 left-0 w-full p-xxl z-10 flex flex-col gap-4">
+<div class="flex justify-between items-end w-full max-w-4xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-soft transition-colors border border-hairline-soft shadow-sm group">
+<span class="material-symbols-outlined text-[20px] group-hover:-translate-x-1 transition-transform">close</span>
+</button>
+<div>
+<h1 class="font-headline-md text-headline-md text-ink">Cellular Biology 101</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">12 / 50 Cards</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-hairline-soft shadow-sm">
+<div class="w-2 h-2 rounded-full bg-critical"></div>
+<span class="font-label-md text-label-md text-ink">Chưa thuộc: <strong class="text-critical">4</strong></span>
+</div>
+<div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-hairline-soft shadow-sm">
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="font-label-md text-label-md text-ink">Đã thuộc: <strong class="text-success">8</strong></span>
+</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full max-w-4xl mx-auto h-2 bg-hairline-soft rounded-full overflow-hidden">
+<div class="h-full bg-primary transition-all duration-300 rounded-full" style="width: 24%;"></div>
+</div>
+</div>
+<!-- Flashcard Container -->
+<div class="relative z-10 perspective-1000 w-[400px] h-[280px] cursor-pointer group" id="flashcard" onclick="document.getElementById('flashcard').classList.toggle('flipped')">
+<div class="w-full h-full relative transform-style-3d flip-card-inner shadow-lg hover:shadow-xl transition-shadow rounded-[32px]">
+<!-- Front (Term) -->
+<div class="absolute inset-0 w-full h-full bg-white rounded-[32px] backface-hidden flex flex-col items-center justify-center p-xxl border border-hairline-soft text-center">
+<div class="absolute top-6 left-6 flex items-center gap-2 opacity-50">
+<span class="material-symbols-outlined text-[20px] text-primary">visibility</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Term</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-ink">Mitochondria</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-4 opacity-0 group-hover:opacity-100 transition-opacity">Click or press Space to flip</p>
+</div>
+<!-- Back (Definition) -->
+<div class="absolute inset-0 w-full h-full bg-surface-container-low rounded-[32px] backface-hidden rotate-y-180 flex flex-col items-center justify-center p-xxl border border-hairline-soft text-center overflow-y-auto">
+<div class="absolute top-6 left-6 flex items-center gap-2 opacity-50">
+<span class="material-symbols-outlined text-[20px] text-primary">menu_book</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Definition</span>
+</div>
+<p class="font-body-lg text-body-lg text-ink leading-relaxed">
+                            An organelle found in large numbers in most cells, in which the biochemical processes of respiration and energy production occur. It is often referred to as the "powerhouse of the cell".
+                        </p>
+</div>
+</div>
+</div>
+<!-- Action Controls -->
+<div class="z-10 mt-section flex flex-col items-center gap-6">
+<div class="flex gap-4">
+<button class="flex items-center justify-center gap-2 w-40 h-14 rounded-full border-2 border-critical text-critical font-label-md text-label-md hover:bg-error-container transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-critical focus:ring-offset-2">
+<span class="material-symbols-outlined text-[20px]">close</span>
+                        Chưa thuộc
+                    </button>
+<button class="flex items-center justify-center gap-2 w-40 h-14 rounded-full bg-success text-white font-label-md text-label-md hover:bg-success/90 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-success focus:ring-offset-2">
+<span class="material-symbols-outlined text-[20px]">check</span>
+                        Đã thuộc
+                    </button>
+</div>
+<!-- Keyboard Hints -->
+<div class="flex gap-8 font-code-sm text-code-sm text-on-surface-variant/70">
+<div class="flex items-center gap-2">
+<kbd class="px-2 py-1 bg-white border border-hairline-soft rounded text-ink shadow-sm">1</kbd>
+<span>Chưa thuộc</span>
+</div>
+<div class="flex items-center gap-2">
+<kbd class="px-2 py-1 bg-white border border-hairline-soft rounded text-ink shadow-sm">Space</kbd>
+<span>Flip Card</span>
+</div>
+<div class="flex items-center gap-2">
+<kbd class="px-2 py-1 bg-white border border-hairline-soft rounded text-ink shadow-sm">2</kbd>
+<span>Đã thuộc</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

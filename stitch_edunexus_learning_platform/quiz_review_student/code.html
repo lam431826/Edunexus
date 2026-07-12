@@ -1,0 +1,499 @@
+<!DOCTYPE html><html lang="vi"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>EduNexus - Quiz Review</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "hairline-soft": "#DEE3E9",
+                        "background": "#faf8ff",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "ink": "#1C1E21",
+                        "surface-container-highest": "#e1e2ec",
+                        "attention": "#F2A918",
+                        "on-surface-variant": "#424754",
+                        "on-secondary-container": "#646464",
+                        "success": "#31A24C",
+                        "surface-dim": "#d8d9e4",
+                        "surface-container-high": "#e6e7f2",
+                        "tertiary-fixed": "#ffdbcd",
+                        "surface": "#faf8ff",
+                        "on-error": "#ffffff",
+                        "primary": "#004db0",
+                        "on-secondary": "#ffffff",
+                        "disabled-text": "#BCC0C4",
+                        "on-secondary-fixed-variant": "#474747",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#ecedf8",
+                        "inverse-primary": "#afc6ff",
+                        "hairline": "#CED0D4",
+                        "tertiary": "#913400",
+                        "on-primary-fixed-variant": "#004299",
+                        "surface-tint": "#0059c8",
+                        "primary-fixed": "#d9e2ff",
+                        "secondary": "#5e5e5e",
+                        "surface-soft": "#F1F4F7",
+                        "ink-deep": "#0A1317",
+                        "steel": "#5D6C7B",
+                        "on-primary-container": "#e6ebff",
+                        "on-surface": "#191b23",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-tertiary-container": "#ffe7df",
+                        "primary-fixed-dim": "#afc6ff",
+                        "critical": "#E41E3F",
+                        "on-primary-fixed": "#001944",
+                        "tertiary-fixed-dim": "#ffb597",
+                        "primary-container": "#0064e0",
+                        "tertiary-container": "#b94500",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2e3038",
+                        "secondary-container": "#e2e2e2",
+                        "on-background": "#191b23",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "on-tertiary-fixed-variant": "#7e2c00",
+                        "on-error-container": "#93000a",
+                        "canvas": "#FFFFFF",
+                        "outline-variant": "#c2c6d6",
+                        "outline": "#727786",
+                        "inverse-on-surface": "#eff0fb",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#faf8ff",
+                        "surface-container-low": "#f2f3fe",
+                        "surface-variant": "#e1e2ec",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "20px",
+                        "section": "64px",
+                        "base": "16px",
+                        "section-lg": "80px",
+                        "xxl": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "code-sm": ["JetBrains Mono"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Montserrat"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "code-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Smooth scrolling for the whole page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar for better aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #faf8ff; /* surface */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CED0D4; /* hairline */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #BCC0C4; /* disabled-text */
+        }
+        
+        /* Explanation accordion transition */
+        .explanation-content {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .explanation-content.open {
+            max-height: 500px; /* Arbitrary large height to allow content to expand */
+            opacity: 1;
+            padding-top: 16px;
+            padding-bottom: 16px;
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-icon.open {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased overflow-x-hidden">
+<!-- SIDE NAVIGATION (Desktop Only) -->
+<nav class="hidden md:flex h-screen w-[260px] fixed left-0 top-0 bg-canvas border-r border-hairline-soft flex-col py-6 z-50 text-label-md font-label-md">
+  <!-- Brand / Header -->
+  <div class="px-6 mb-8 flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-canvas font-bold text-xl overflow-hidden shrink-0">
+      <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0oFwLv69q30d0QpfDArZrUJxFHo53BA3PdTWY_scopsQ-YB9AcTXN1uCKuLZO9Bd_MWXmf7mW2EWGOCOyxlGbA8U9ea909n7s8n8JNBEjIAs2zTg1-AXKBjAoLG9T9XSaplYiY32ll_JekqD7Jhz-RFoLt-lYSpYkHJKsRqhDw-X4Bs4lfKFumrAFCVZ2nKBMz-BW1mAOOn_1DGt3eAD9bgXkCzdJT6u2oEidg2zYi4gH3cLH4BpF0dNTwp6LeSKZ0G457obhhnc" alt="EduNexus Logo">
+    </div>
+    <h1 class="font-headline-md text-headline-md font-bold text-ink">EduNexus</h1>
+  </div>
+
+  <!-- Main Nav Links -->
+  <div class="flex-1 px-3 space-y-1">
+    <a class="flex items-center gap-3 px-4 py-3 rounded-full transition-colors text-on-surface-variant hover:bg-surface-soft" href="#">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="">Dashboard</span>
+    </a>
+    <a class="flex items-center gap-3 px-4 py-3 rounded-full transition-colors bg-ink-deep text-canvas" href="#">
+      <span class="material-symbols-outlined">school</span>
+      <span class="">Khóa học</span>
+    </a>
+    <a class="flex items-center gap-3 px-4 py-3 rounded-full transition-colors text-on-surface-variant hover:bg-surface-soft" href="#">
+      <span class="material-symbols-outlined">history</span>
+      <span class="">Lịch sử</span>
+    </a>
+    <a class="flex items-center gap-3 px-4 py-3 rounded-full transition-colors text-on-surface-variant hover:bg-surface-soft" href="#">
+      <span class="material-symbols-outlined">person</span>
+      <span class="">Hồ sơ</span>
+    </a>
+  </div>
+
+  <!-- Bottom User Profile -->
+  <div class="mt-auto px-4 py-6 border-t border-hairline-soft">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden">
+        <span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-bold text-ink truncate">Nguyễn Văn A</p>
+        <p class="text-xs text-on-surface-variant truncate">Học viên</p>
+      </div>
+    </div>
+    <button class="w-full flex items-center gap-2 px-4 py-2 text-critical hover:bg-critical/5 rounded-lg transition-colors">
+      <span class="material-symbols-outlined text-[20px]">logout</span>
+      <span class="">Đăng xuất</span>
+    </button>
+  </div>
+</nav>
+<!-- MAIN CONTENT AREA -->
+<div class="min-h-screen flex flex-col bg-surface-soft md:ml-[260px]">
+<!-- TOP APP BAR -->
+<header class="sticky top-0 w-full z-40 bg-surface border-b border-hairline-soft flex justify-between items-center px-xxl py-4">
+<div class="flex items-center gap-4">
+<!-- Mobile Menu Trigger (hidden on desktop) -->
+<button class="md:hidden text-primary p-2 rounded-full hover:bg-surface-soft transition-all opacity-80 active:opacity-100">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary">
+                    Advanced Physics: Kinematics - Quiz Review
+                </div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-primary hover:bg-surface-soft rounded-full transition-all opacity-80 active:opacity-100 flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-primary hover:bg-surface-soft rounded-full transition-all opacity-80 active:opacity-100 flex items-center justify-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- PAGE CONTENT -->
+<main class="flex-1 p-4 md:p-xxl">
+<!-- Bento Layout Wrapper -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- LEFT COLUMN: Main Quiz Review List (Takes up more space) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Top Summary & Filters -->
+<div class="bg-canvas rounded-[32px] p-8 border border-hairline-soft flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Kết quả của bạn</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Điểm: <span class="font-bold text-primary text-xl">8.5/10</span> (Hoàn thành trong 45 phút)</p>
+</div>
+<!-- Filter Tabs -->
+<div class="flex flex-wrap gap-2 bg-surface-soft p-1.5 rounded-full border border-hairline-soft w-full md:w-auto overflow-x-auto hide-scrollbar">
+<button class="filter-tab active bg-canvas text-on-surface font-label-md text-label-md px-6 py-2.5 rounded-full shadow-sm whitespace-nowrap transition-all" data-filter="all">
+                                Tất cả (10)
+                            </button>
+<button class="filter-tab text-on-surface-variant hover:text-on-surface font-label-md text-label-md px-6 py-2.5 rounded-full whitespace-nowrap transition-all flex items-center gap-2" data-filter="correct">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+                                Đúng (8)
+                            </button>
+<button class="filter-tab text-on-surface-variant hover:text-on-surface font-label-md text-label-md px-6 py-2.5 rounded-full whitespace-nowrap transition-all flex items-center gap-2" data-filter="incorrect">
+<span class="w-2 h-2 rounded-full bg-critical"></span>
+                                Sai (2)
+                            </button>
+</div>
+</div>
+<!-- Question List -->
+<div class="flex flex-col gap-6" id="question-list">
+<!-- CORRECT ANSWER CARD -->
+<div class="question-card bg-canvas rounded-[24px] border border-hairline-soft overflow-hidden shadow-sm hover:shadow-md transition-shadow relative" data-status="correct" id="q1">
+<!-- Left Status Accent -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-success"></div>
+<div class="p-6 md:p-8 pl-8 md:pl-10">
+<!-- Question Header -->
+<div class="flex justify-between items-start mb-4 gap-4">
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold text-lg">Câu 1</h3>
+<div class="bg-success/10 text-success font-label-md text-label-md px-3 py-1 rounded-full flex items-center gap-1.5 border border-success/20 shrink-0">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                                        +1 Điểm
+                                    </div>
+</div>
+<!-- Question Content -->
+<p class="font-body-lg text-body-lg text-on-surface mb-6 leading-relaxed">
+                                    Một vật được ném thẳng đứng lên cao với vận tốc ban đầu là 20 m/s. Bỏ qua sức cản của không khí. Lấy g = 10 m/s². Độ cao cực đại mà vật đạt được là bao nhiêu?
+                                </p>
+<!-- Options -->
+<div class="flex flex-col gap-3 mb-6">
+<!-- Selected & Correct Option -->
+<div class="p-4 rounded-xl border border-success bg-success/5 flex items-start gap-4">
+<div class="w-6 h-6 rounded-full bg-success text-canvas flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-md text-sm">A</span>
+</div>
+<div class="flex-1">
+<span class="font-body-md text-body-md text-on-surface font-medium">20 m</span>
+</div>
+<span class="material-symbols-outlined text-success shrink-0">check</span>
+</div>
+<!-- Other Option -->
+<div class="p-4 rounded-xl border border-hairline-soft bg-surface-soft/50 flex items-start gap-4 opacity-70">
+<div class="w-6 h-6 rounded-full border-2 border-outline text-outline flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-md text-sm">B</span>
+</div>
+<div class="flex-1">
+<span class="font-body-md text-body-md text-on-surface-variant">10 m</span>
+</div>
+</div>
+<!-- Other Option -->
+<div class="p-4 rounded-xl border border-hairline-soft bg-surface-soft/50 flex items-start gap-4 opacity-70">
+<div class="w-6 h-6 rounded-full border-2 border-outline text-outline flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-md text-sm">C</span>
+</div>
+<div class="flex-1">
+<span class="font-body-md text-body-md text-on-surface-variant">40 m</span>
+</div>
+</div>
+</div>
+<!-- Explanation Accordion -->
+<div class="mt-4 border-t border-hairline-soft pt-2">
+<button class="accordion-trigger w-full flex items-center justify-between py-3 text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">lightbulb</span>
+                                            Xem giải thích chi tiết
+                                        </span>
+<span class="material-symbols-outlined accordion-icon">expand_more</span>
+</button>
+<div class="explanation-content bg-surface-container-low rounded-xl px-5 text-on-surface-variant font-body-sm text-body-sm">
+<p class="mb-2"><strong>Phương pháp giải:</strong> Áp dụng công thức độc lập với thời gian: <br> <code class="font-code-sm bg-surface-container px-1 py-0.5 rounded text-ink">v² - v₀² = 2as</code></p>
+<p class="">Tại độ cao cực đại, vận tốc của vật v = 0 m/s.<br>
+                                        Gia tốc a = -g = -10 m/s² (do vật chuyển động chậm dần đều ngược chiều dương).<br>
+                                        =&gt; 0² - 20² = 2.(-10).h_max<br>
+                                        =&gt; -400 = -20.h_max<br>
+                                        =&gt; h_max = 20 m.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- INCORRECT ANSWER CARD -->
+<div class="question-card bg-canvas rounded-[24px] border border-hairline-soft overflow-hidden shadow-sm hover:shadow-md transition-shadow relative" data-status="incorrect" id="q2">
+<!-- Left Status Accent -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-critical"></div>
+<div class="p-6 md:p-8 pl-8 md:pl-10">
+<!-- Question Header -->
+<div class="flex justify-between items-start mb-4 gap-4">
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold text-lg">Câu 2</h3>
+<div class="bg-critical/10 text-critical font-label-md text-label-md px-3 py-1 rounded-full flex items-center gap-1.5 border border-critical/20 shrink-0">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+                                        0 Điểm
+                                    </div>
+</div>
+<!-- Question Content -->
+<p class="font-body-lg text-body-lg text-on-surface mb-6 leading-relaxed">
+                                    Gia tốc của chuyển động thẳng chậm dần đều có đặc điểm nào sau đây?
+                                </p>
+<!-- Options -->
+<div class="flex flex-col gap-3 mb-6">
+<!-- Incorrect Option (Selected by student) -->
+<div class="p-4 rounded-xl border border-critical bg-critical/5 flex items-start gap-4">
+<div class="w-6 h-6 rounded-full bg-critical text-canvas flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-md text-sm">A</span>
+</div>
+<div class="flex-1">
+<span class="font-body-md text-body-md text-critical font-medium">Cùng chiều với vận tốc.</span>
+<p class="text-xs text-critical mt-1 font-medium italic">Lựa chọn của bạn</p>
+</div>
+<span class="material-symbols-outlined text-critical shrink-0">close</span>
+</div>
+<!-- Correct Option -->
+<div class="p-4 rounded-xl border border-success bg-success/5 flex items-start gap-4 shadow-sm relative overflow-hidden">
+<!-- Subtle highlight animation for correct answer when wrong -->
+<div class="absolute inset-0 bg-success/10 animate-pulse pointer-events-none opacity-50"></div>
+<div class="w-6 h-6 rounded-full bg-success text-canvas flex items-center justify-center shrink-0 mt-0.5 relative z-10">
+<span class="font-label-md text-sm">B</span>
+</div>
+<div class="flex-1 relative z-10">
+<span class="font-body-md text-body-md text-on-surface font-semibold">Ngược chiều với vận tốc.</span>
+<p class="text-xs text-success mt-1 font-medium">Đáp án đúng</p>
+</div>
+<span class="material-symbols-outlined text-success shrink-0 relative z-10">check_circle</span>
+</div>
+<!-- Other Option -->
+<div class="p-4 rounded-xl border border-hairline-soft bg-surface-soft/50 flex items-start gap-4 opacity-70">
+<div class="w-6 h-6 rounded-full border-2 border-outline text-outline flex items-center justify-center shrink-0 mt-0.5">
+<span class="font-label-md text-sm">C</span>
+</div>
+<div class="flex-1">
+<span class="font-body-md text-body-md text-on-surface-variant">Luôn bằng không.</span>
+</div>
+</div>
+</div>
+<!-- Explanation Accordion (Auto-open for wrong answers is good UX) -->
+<div class="mt-4 border-t border-hairline-soft pt-2">
+<button class="accordion-trigger w-full flex items-center justify-between py-3 text-primary hover:text-primary-container transition-colors font-label-md text-label-md">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">error_outline</span>
+                                            Tại sao bạn sai? (Giải thích)
+                                        </span>
+<span class="material-symbols-outlined accordion-icon open">expand_more</span>
+</button>
+<div class="explanation-content open bg-error-container/30 rounded-xl px-5 text-on-surface-variant font-body-sm text-body-sm border border-critical/10">
+<p class="mb-2"><strong>Lý thuyết cơ bản:</strong> Trong chuyển động thẳng chậm dần đều, độ lớn của vận tốc giảm dần theo thời gian.</p>
+<p class="">Vì vận tốc giảm, gia tốc (sự biến thiên vận tốc) mang dấu âm so với chiều chuyển động. Do đó, vectơ gia tốc phải <strong>ngược chiều</strong> với vectơ vận tốc (a.v &lt; 0).</p>
+<p class="mt-2 text-primary text-xs flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">menu_book</span> Xem lại bài giảng Chương 1, Bài 3: Chuyển động thẳng biến đổi đều.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Sticky Quick Navigation -->
+<div class="lg:col-span-4 hidden lg:block sticky top-28">
+<div class="bg-canvas rounded-[24px] p-6 border border-hairline-soft shadow-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">grid_view</span>
+                            Mục lục câu hỏi
+                        </h3>
+<!-- Status Legend -->
+<div class="flex gap-4 mb-6 text-sm font-label-md">
+<div class="flex items-center gap-1.5 text-success">
+<div class="w-3 h-3 rounded-full bg-success"></div> Đúng
+                            </div>
+<div class="flex items-center gap-1.5 text-critical">
+<div class="w-3 h-3 rounded-full bg-critical"></div> Sai
+                            </div>
+</div>
+<!-- Number Grid -->
+<div class="grid grid-cols-5 gap-3">
+<!-- Correct -->
+<a class="w-10 h-10 rounded-full bg-success/10 border border-success text-success flex items-center justify-center font-label-md hover:bg-success hover:text-canvas transition-colors" href="#q1">1</a>
+<!-- Incorrect -->
+<a class="w-10 h-10 rounded-full bg-critical/10 border border-critical text-critical flex items-center justify-center font-label-md hover:bg-critical hover:text-canvas transition-colors" href="#q2">2</a>
+<!-- Correct -->
+<a class="w-10 h-10 rounded-full bg-success/10 border border-success text-success flex items-center justify-center font-label-md hover:bg-success hover:text-canvas transition-colors" href="#">3</a>
+<a class="w-10 h-10 rounded-full bg-success/10 border border-success text-success flex items-center justify-center font-label-md hover:bg-success hover:text-canvas transition-colors" href="#">4</a>
+<a class="w-10 h-10 rounded-full bg-success/10 border border-success text-success flex items-center justify-center font-label-md hover:bg-success hover:text-canvas transition-colors" href="#">5</a>
+<!-- Incorrect -->
+<a class="w-10 h-10 rounded-full bg-critical/10 border border-critical text-critical flex items-center justify-center font-label-md hover:bg-critical hover:text-canvas transition-colors" href="#">6</a>
+<a class="w-10 h-10 rounded-full bg-success/10 border border-success text-success flex items-center justify-center font-label-md hover:bg-success hover:text-canvas transition-colors" href="#">7</a>
+<a class="w-10 h-10 rounded-full bg-success/10 border border-success text-success flex items-center justify-center font-label-md hover:bg-success hover:text-canvas transition-colors" href="#">8</a>
+<a class="w-10 h-10 rounded-full bg-success/10 border border-success text-success flex items-center justify-center font-label-md hover:bg-success hover:text-canvas transition-colors" href="#">9</a>
+<a class="w-10 h-10 rounded-full bg-success/10 border border-success text-success flex items-center justify-center font-label-md hover:bg-success hover:text-canvas transition-colors" href="#">10</a>
+</div>
+<div class="mt-8 pt-6 border-t border-hairline-soft">
+<button class="w-full bg-ink text-canvas rounded-full py-3 font-label-md hover:bg-ink-deep transition-colors scale-95 active:scale-90">
+                                Quay lại khóa học
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Interactive Scripts -->
+<script>
+        // Filter Logic
+        const filterBtns = document.querySelectorAll('.filter-tab');
+        const questionCards = document.querySelectorAll('.question-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Reset active state
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-canvas', 'shadow-sm');
+                    b.classList.add('text-on-surface-variant');
+                });
+                
+                // Set clicked as active
+                btn.classList.add('active', 'bg-canvas', 'shadow-sm');
+                btn.classList.remove('text-on-surface-variant');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                // Filter cards
+                questionCards.forEach(card => {
+                    if (filterValue === 'all') {
+                        card.style.display = 'block';
+                    } else if (card.getAttribute('data-status') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Accordion Logic
+        const accordions = document.querySelectorAll('.accordion-trigger');
+        accordions.forEach(acc => {
+            acc.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('.accordion-icon');
+                
+                if (content.classList.contains('open')) {
+                    content.classList.remove('open');
+                    icon.classList.remove('open');
+                } else {
+                    content.classList.add('open');
+                    icon.classList.add('open');
+                }
+            });
+        });
+    </script>
+
+
+</body></html>

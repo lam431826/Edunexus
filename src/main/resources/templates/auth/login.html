@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduNexus - Đăng nhập</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script th:replace="~{fragments/head-common :: tailwind-config}"></script>
+</head>
+<body class="bg-canvas font-body-md text-on-surface h-screen overflow-hidden flex">
+<!-- Left Panel: Hero -->
+<div class="hidden lg:flex w-[60%] relative h-full bg-surface-variant flex-col justify-between p-section">
+  <div class="absolute inset-0 z-0">
+    <div class="w-full h-full bg-cover bg-center bg-primary-container"></div>
+    <div class="absolute inset-0 bg-ink-deep/60 backdrop-blur-[2px]"></div>
+  </div>
+  <div class="relative z-10">
+    <h1 class="font-display-lg text-display-lg text-on-primary mb-lg">EduNexus</h1>
+  </div>
+  <div class="relative z-10 max-w-xl">
+    <p class="font-headline-lg text-headline-lg text-on-primary leading-tight">Nền tảng Học tập &amp; Đào tạo Tích hợp AI</p>
+    <p class="font-body-lg text-body-lg text-surface-soft mt-base max-w-md opacity-90">
+      Khơi nguồn tiềm năng, kết nối tri thức. Giải pháp toàn diện cho không gian giáo dục hiện đại.
+    </p>
+  </div>
+</div>
+<!-- Right Panel: Login form -->
+<div class="w-full lg:w-[40%] flex items-center justify-center h-full bg-canvas relative overflow-y-auto">
+  <div class="absolute top-section left-0 w-full flex justify-center lg:hidden">
+    <h1 class="font-headline-md text-headline-md text-primary font-bold">EduNexus</h1>
+  </div>
+  <div class="w-full max-w-md p-xxl">
+    <div class="mb-section text-center lg:text-left">
+      <h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Đăng nhập</h2>
+      <p class="font-body-md text-body-md text-secondary">Chào mừng trở lại! Vui lòng nhập thông tin của bạn.</p>
+    </div>
+
+    <div th:if="${errorMessage}" class="mb-4 px-4 py-3 rounded-lg bg-error-container text-error font-body-sm">
+      <span th:text="${errorMessage}">Error</span>
+    </div>
+    <div th:if="${infoMessage}" class="mb-4 px-4 py-3 rounded-lg bg-success/10 text-success font-body-sm">
+      <span th:text="${infoMessage}">Info</span>
+    </div>
+
+    <form th:action="@{/login}" method="post" class="space-y-lg">
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface-variant mb-2" for="username">Email</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="material-symbols-outlined text-outline">mail</span>
+          </div>
+          <input class="block w-full pl-10 pr-3 py-3 border border-hairline rounded-lg bg-canvas text-on-surface font-body-md placeholder-outline focus:ring-2 focus:ring-primary focus:border-primary transition-shadow duration-200"
+                 id="username" name="username" placeholder="ban@example.com" required type="email"/>
+        </div>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface-variant mb-2" for="password">Mật khẩu</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="material-symbols-outlined text-outline">lock</span>
+          </div>
+          <input class="block w-full pl-10 pr-10 py-3 border border-hairline rounded-lg bg-canvas text-on-surface font-body-md placeholder-outline focus:ring-2 focus:ring-primary focus:border-primary transition-shadow duration-200"
+                 id="password" name="password" placeholder="••••••••" required type="password"/>
+        </div>
+      </div>
+      <div class="flex items-center justify-between mt-4">
+        <div class="flex items-center">
+          <input class="h-4 w-4 text-primary focus:ring-primary border-hairline rounded transition-colors cursor-pointer"
+                 id="remember-me" name="remember-me" type="checkbox"/>
+          <label class="ml-2 block font-body-sm text-body-sm text-on-surface-variant cursor-pointer" for="remember-me">Ghi nhớ tôi</label>
+        </div>
+        <a class="font-label-md text-label-md text-primary hover:text-primary-container transition-colors" href="#">Quên mật khẩu?</a>
+      </div>
+      <div class="pt-base">
+        <button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm font-label-md text-label-md text-white bg-ink hover:bg-ink-deep focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ink transition-colors active:scale-[0.98] duration-150" type="submit">
+          Đăng nhập
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-section relative">
+      <div aria-hidden="true" class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-hairline"></div>
+      </div>
+      <div class="relative flex justify-center">
+        <span class="px-2 bg-canvas font-body-sm text-body-sm text-secondary">Hoặc tiếp tục với</span>
+      </div>
+    </div>
+    <div class="mt-base">
+      <button class="w-full inline-flex justify-center items-center py-3 px-4 border border-hairline rounded-full bg-canvas hover:bg-surface-soft font-label-md text-label-md text-on-surface transition-colors gap-2 opacity-60 cursor-not-allowed"
+              type="button" title="Google OAuth chưa được cấu hình trong bản demo này" disabled>
+        Đăng nhập bằng Google
+      </button>
+    </div>
+    <div class="mt-section text-center">
+      <p class="font-body-sm text-body-sm text-on-surface-variant">
+        Tài khoản demo: sme@edunexus.dev / Password123! (SME) &middot; student1@edunexus.dev / Password123! (Student)
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

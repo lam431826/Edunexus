@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Lịch sử luyện tập</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Lịch sử luyện tập</h1>
+    <a href="/student/quizzes/new" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">add</span> Tạo bài luyện tập mới
+    </a>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 mb-8 max-w-md">
+    <div class="rounded-xl border border-hairline-soft p-5">
+      <p class="text-secondary font-body-sm mb-1">Điểm trung bình</p>
+      <p class="font-headline-md text-headline-md text-ink" th:text="${avgScore} + '%'">0%</p>
+    </div>
+    <div class="rounded-xl border border-hairline-soft p-5">
+      <p class="text-secondary font-body-sm mb-1">Tổng số bài</p>
+      <p class="font-headline-md text-headline-md text-ink" th:text="${#lists.size(attempts)}">0</p>
+    </div>
+  </div>
+
+  <div th:if="${#lists.isEmpty(attempts)}" class="text-center py-16 text-secondary">Bạn chưa làm bài luyện tập nào.</div>
+
+  <table class="w-full text-left rounded-xl border border-hairline-soft overflow-hidden" th:unless="${#lists.isEmpty(attempts)}">
+    <thead class="bg-surface-soft font-label-md text-secondary">
+      <tr><th class="p-3">Module</th><th class="p-3">Ngày</th><th class="p-3">Điểm</th><th class="p-3">Thời gian</th><th class="p-3">Thao tác</th></tr>
+    </thead>
+    <tbody>
+      <tr th:each="a : ${attempts}" class="border-t border-hairline-soft">
+        <td class="p-3" th:text="${a.module.title}">Module</td>
+        <td class="p-3 text-secondary" th:text="${#temporals.format(a.startedAt, 'dd/MM/yyyy HH:mm')}">-</td>
+        <td class="p-3" th:text="${a.score != null} ? (${a.score} + '%') : '-'">-</td>
+        <td class="p-3 text-secondary" th:text="${a.durationSeconds != null} ? (${a.durationSeconds} + 's') : '-'">-</td>
+        <td class="p-3">
+          <a th:if="${a.status.name() == 'SUBMITTED'}" th:href="@{'/student/quizzes/' + ${a.id} + '/review'}" class="text-primary hover:underline">Xem lại</a>
+          <a th:unless="${a.status.name() == 'SUBMITTED'}" th:href="@{'/student/quizzes/' + ${a.id}}" class="text-primary hover:underline">Tiếp tục</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>

@@ -1,0 +1,8 @@
+target/
+.tools/
+app.log
+uploads/
+*.iml
+.idea/
+.vscode/
+*.class

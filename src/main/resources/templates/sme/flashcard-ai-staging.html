@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - AI Flashcard Staging</title></head>
+<body>
+<section>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1">AI Flashcard Staging</h1>
+  <p class="text-secondary font-body-sm mb-6">
+    Tạo thẻ ghi nhớ tự động cho bộ <b th:text="${deck.name}">Deck</b>, chọn thẻ muốn giữ lại trước khi lưu.
+  </p>
+
+  <form th:action="@{'/sme/flashcards/decks/' + ${deck.id} + '/ai-staging/generate'}" method="post" class="flex items-end gap-3 mb-8">
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Số lượng thẻ</label>
+      <input type="range" name="count" min="2" max="20" value="6" class="w-56"/>
+    </div>
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">auto_awesome</span> Tạo thẻ
+    </button>
+  </form>
+
+  <form th:if="${drafts != null}" th:action="@{'/sme/flashcards/decks/' + ${deck.id} + '/ai-staging/approve'}" method="post">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div th:each="d, stat : ${drafts}" class="rounded-xl border border-hairline-soft p-4">
+        <label class="flex items-center gap-2 mb-2">
+          <input type="checkbox" name="selected" th:value="${stat.index}" checked/>
+          <span class="font-label-md text-secondary">Thẻ <span th:text="${stat.index + 1}">1</span></span>
+        </label>
+        <input th:name="'draftFront'" th:value="${d.frontText}" class="w-full border border-hairline rounded-lg px-3 py-2 mb-2"/>
+        <input th:name="'draftBack'" th:value="${d.backText}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+    </div>
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Lưu thẻ đã chọn</button>
+  </form>
+</section>
+</body>
+</html>

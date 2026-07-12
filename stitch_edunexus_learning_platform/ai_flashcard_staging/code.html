@@ -1,0 +1,354 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>EduNexus Flashcard Suite - AI Staging Area</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#0059c8",
+                        "surface-container-high": "#e6e7f2",
+                        "surface-variant": "#e1e2ec",
+                        "surface-container-highest": "#e1e2ec",
+                        "error-container": "#ffdad6",
+                        "critical": "#E41E3F",
+                        "on-error": "#ffffff",
+                        "on-surface": "#191b23",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "surface-soft": "#F1F4F7",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#e2e2e2",
+                        "tertiary-fixed-dim": "#ffb597",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "primary": "#004db0",
+                        "inverse-primary": "#afc6ff",
+                        "on-tertiary-fixed-variant": "#7e2c00",
+                        "surface-dim": "#d8d9e4",
+                        "success": "#31A24C",
+                        "on-primary-container": "#e6ebff",
+                        "surface": "#faf8ff",
+                        "secondary": "#5e5e5e",
+                        "tertiary-fixed": "#ffdbcd",
+                        "disabled-text": "#BCC0C4",
+                        "inverse-on-surface": "#eff0fb",
+                        "secondary-container": "#e2e2e2",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f2f3fe",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#0064e0",
+                        "on-tertiary-fixed": "#360f00",
+                        "steel": "#5D6C7B",
+                        "on-primary-fixed-variant": "#004299",
+                        "outline": "#727786",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c2c6d6",
+                        "tertiary": "#913400",
+                        "attention": "#F2A918",
+                        "primary-fixed": "#d9e2ff",
+                        "on-tertiary-container": "#ffe7df",
+                        "hairline": "#CED0D4",
+                        "background": "#faf8ff",
+                        "on-secondary-fixed-variant": "#474747",
+                        "on-secondary-container": "#646464",
+                        "surface-container": "#ecedf8",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#b94500",
+                        "hairline-soft": "#DEE3E9",
+                        "inverse-surface": "#2e3038",
+                        "primary-fixed-dim": "#afc6ff",
+                        "canvas": "#FFFFFF",
+                        "ink-deep": "#0A1317",
+                        "ink": "#1C1E21",
+                        "on-primary-fixed": "#001944",
+                        "on-surface-variant": "#424754",
+                        "on-background": "#191b23"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "32px",
+                        "section": "64px",
+                        "base": "16px",
+                        "section-lg": "80px",
+                        "lg": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "body-sm": ["plusJakartaSans"],
+                        "label-md": ["plusJakartaSans"],
+                        "display-lg": ["Montserrat"],
+                        "body-lg": ["plusJakartaSans"],
+                        "headline-md": ["Montserrat"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "code-sm": ["jetbrainsMono"],
+                        "body-md": ["plusJakartaSans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "code-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .flip-card {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        /* Custom Scrollbar for Textarea */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: theme('colors.surface-soft');
+            border-radius: 4px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background-color: theme('colors.outline-variant');
+            border-radius: 4px;
+        }
+        
+        /* Range Slider Styling */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: theme('colors.primary');
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: theme('colors.surface-variant');
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="h-screen flex flex-col fixed left-0 top-0 bg-canvas border-r border-hairline-soft z-40 hidden md:flex w-[260px]">
+<div class="flex flex-col h-full py-base">
+<div class="px-6 pb-6 flex flex-col gap-2">
+<span class="font-headline-md text-headline-md font-bold text-primary">EduNexus</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">SaaS Flashcard Suite</span>
+</div>
+
+<div class="flex-1 overflow-y-auto flex flex-col gap-1"><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-soft rounded-full mx-2 transition-colors" href="#"><span class="material-symbols-outlined">dashboard</span><span class="font-label-md">Dashboard</span></a><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-soft rounded-full mx-2 transition-colors" href="#"><span class="material-symbols-outlined">school</span><span class="font-label-md">Khóa học của tôi</span></a><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-soft rounded-full mx-2 transition-colors" href="#"><span class="material-symbols-outlined">library_books</span><span class="font-label-md">Ngân hàng câu hỏi</span></a><a class="flex items-center gap-3 px-4 py-3 bg-ink-deep text-white rounded-full mx-2 shadow-sm" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span><span class="font-label-md">AI Staging</span></a><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-soft rounded-full mx-2 transition-colors" href="#"><span class="material-symbols-outlined">history</span><span class="font-label-md">Lịch sử</span></a><a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-soft rounded-full mx-2 transition-colors" href="#"><span class="material-symbols-outlined">person</span><span class="font-label-md">Hồ sơ</span></a></div>
+<div class="mt-auto border-t border-on-surface-variant/20 pt-4 flex flex-col gap-1"><div class="px-6 py-4 flex items-center gap-3"><img alt="User profile avatar" class="w-10 h-10 rounded-full border border-hairline object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXh_RPZ_WxXGm1B-HbAV6jmUSaGuyILlWOLgPP1ttvix4I4GBGCmbutJExXxYzNniYo8VQjc5kLaawLB1ausUDfbVXR4rWxmR6FN-Pm0Z2RN5YxOQBPXPge80wHqI8RKnhYNPYGPSnQkzS99SVRENaLEoE4ZqQ_dCUccI_Sw7i5CYfSKyS4kctbndOdefbMCbudnN0p2HNgOuDSMNz11ar0UdUIGm5UE0mtAeVIWVQ2vIXWjW_HP6-B--zDgqHzgqu-p-ryNiSvI8"><div class="flex flex-col"><span class="font-label-md text-on-surface">Admin User</span><a href="#" class="text-xs text-error hover:underline">Đăng xuất</a></div></div></div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 relative w-full h-full">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-xxl h-20 sticky top-0 z-30 bg-surface/80 backdrop-blur-md border-b border-hairline-soft">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-black text-primary md:hidden">EduNexus Flashcard Suite</span>
+<div class="hidden md:flex gap-6 h-full items-center">
+<a class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors duration-200" href="#">Global Search</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md transition-all duration-200" href="#">Insights</a>
+<a class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors duration-200" href="#">Team</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden lg:block bg-primary text-white rounded-full px-6 py-2 font-label-md text-label-md hover:bg-primary-container transition-colors">Invite SME</button>
+<button class="hidden lg:block border border-outline text-on-surface rounded-full px-6 py-2 font-label-md text-label-md hover:bg-surface-soft transition-colors">Export</button>
+<div class="flex items-center gap-2 border-l border-hairline pl-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 rounded-full hover:bg-surface-soft">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 rounded-full hover:bg-surface-soft">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<img alt="User avatar" class="w-8 h-8 rounded-full border border-hairline object-cover ml-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADkOASkfhgljgojW61AkkcdvHEvfx7h68W0B_AHdfLi_pi2wiQeZpJ-2fFe5NBGSEWu29zT2Qt89hP3zse5eEj6eVJzkhyR2PyPpRtDSwfui138Z-s_Ua6bvrxsV1EomaFQWIfEdI70JEnflU1VDgWXoXh5_ae-DDdOanY-0DE_ZUVRp3DMFUqyMWxiEkjO-KuzVXg0WeadLStplNx1xSRBLvsrefdBPvSjqNsJ7qCr5E3GRThAyLyJaVBNv2O3bhpK15wx5DVxeQ">
+</div>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<main class="flex-1 overflow-y-auto bg-surface pb-section-lg">
+<!-- Warning Banner -->
+<div class="bg-attention/10 border-l-4 border-attention p-4 mx-xxl mt-lg rounded-r-lg flex items-start gap-3">
+<span class="material-symbols-outlined text-attention mt-0.5" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">AI Content Review Required</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Nội dung được tạo bởi AI cần được kiểm tra kỹ lưỡng về độ chính xác trước khi đưa vào thư viện chính.</p>
+</div>
+</div>
+<div class="p-xxl flex flex-col xl:flex-row gap-lg">
+<!-- Left Column: Input Panel -->
+<div class="w-full xl:w-1/3 flex flex-col gap-lg">
+<div class="bg-canvas border border-hairline-soft rounded-[16px] p-6 shadow-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">document_scanner</span>
+                            Nguồn Dữ Liệu
+                        </h2>
+<div class="flex flex-col gap-4">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="source-text">Văn bản nguồn</label>
+<textarea class="w-full rounded-lg border-hairline bg-surface-soft text-on-surface font-body-sm p-3 focus:ring-2 focus:ring-primary focus:border-primary resize-none" id="source-text" placeholder="Dán văn bản bài giảng hoặc tài liệu vào đây..." rows="8"></textarea>
+</div>
+<div>
+<label class="flex justify-between font-label-md text-label-md text-on-surface mb-2">
+<span class="">Số lượng thẻ mong muốn</span>
+<span class="text-primary font-bold" id="card-count-display">10</span>
+</label>
+<input class="w-full appearance-none bg-transparent" id="card-count-slider" max="50" min="1" type="range" value="10">
+<div class="flex justify-between text-xs text-on-surface-variant mt-1">
+<span class="">1</span>
+<span class="">50</span>
+</div>
+</div>
+<button class="mt-4 w-full bg-surface-tint text-white rounded-full py-3 px-4 font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_fix_high</span>
+                                Tạo thẻ ghi nhớ
+                            </button>
+</div>
+</div>
+</div>
+<!-- Right Column: Staging Area -->
+<div class="w-full xl:w-2/3 flex flex-col">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Thẻ chờ duyệt</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">3 thẻ đang chờ đánh giá</p>
+</div>
+<div class="flex gap-3">
+<button class="border border-error text-error rounded-full px-4 py-2 font-label-md text-label-md hover:bg-error-container/50 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">close</span> Từ chối tất cả
+                            </button>
+<button class="bg-success text-white rounded-full px-4 py-2 font-label-md text-label-md hover:bg-success/90 transition-colors flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm">check</span> Phê duyệt tất cả
+                            </button>
+</div>
+</div>
+<!-- Bento Grid for Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Card 1 -->
+<div class="flex flex-col gap-3">
+<div class="flip-card h-64 w-full cursor-pointer" onclick="this.classList.toggle('flipped')">
+<div class="flip-card-inner h-full w-full rounded-[16px] shadow-sm">
+<!-- Front -->
+<div class="flip-card-front bg-canvas border border-hairline-soft rounded-[16px] p-6 flex flex-col justify-center items-center text-center">
+<div class="absolute top-4 left-4 bg-tertiary-fixed text-on-tertiary-fixed text-xs font-bold px-2 py-1 rounded-full">Khái niệm</div>
+<h3 class="font-body-lg text-body-lg text-on-surface">Cấu trúc dữ liệu nào sử dụng nguyên lý LIFO (Last In, First Out)?</h3>
+<div class="absolute bottom-4 text-on-surface-variant flex items-center gap-1 opacity-50">
+<span class="material-symbols-outlined text-sm">touch_app</span>
+<span class="text-xs">Chạm để lật</span>
+</div>
+</div>
+<!-- Back -->
+<div class="flip-card-back bg-surface-soft border-2 border-primary/20 rounded-[16px] p-6 flex flex-col justify-center items-center text-center">
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Stack (Ngăn xếp)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ví dụ: Nút Back của trình duyệt web hoặc tính năng Undo trong phần mềm soạn thảo.</p>
+</div>
+</div>
+</div>
+<!-- Card Actions -->
+<div class="flex justify-between items-center bg-canvas border border-hairline-soft rounded-full p-2 px-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">edit</span> Chỉnh sửa
+                                </button>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full border border-error text-error flex items-center justify-center hover:bg-error-container/50 transition-colors" title="Từ chối">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-success text-white flex items-center justify-center hover:bg-success/90 transition-colors shadow-sm" title="Phê duyệt">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex flex-col gap-3">
+<div class="flip-card h-64 w-full cursor-pointer" onclick="this.classList.toggle('flipped')">
+<div class="flip-card-inner h-full w-full rounded-[16px] shadow-sm">
+<!-- Front -->
+<div class="flip-card-front bg-canvas border border-hairline-soft rounded-[16px] p-6 flex flex-col justify-center items-center text-center">
+<div class="absolute top-4 left-4 bg-primary-fixed text-on-primary-fixed-variant text-xs font-bold px-2 py-1 rounded-full">Định nghĩa</div>
+<h3 class="font-body-lg text-body-lg text-on-surface">Độ phức tạp thuật toán O(1) mang ý nghĩa gì?</h3>
+<div class="absolute bottom-4 text-on-surface-variant flex items-center gap-1 opacity-50">
+<span class="material-symbols-outlined text-sm">touch_app</span>
+<span class="text-xs">Chạm để lật</span>
+</div>
+</div>
+<!-- Back -->
+<div class="flip-card-back bg-surface-soft border-2 border-primary/20 rounded-[16px] p-6 flex flex-col justify-center items-center text-center">
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Thời gian thực thi hằng số</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Thuật toán mất cùng một khoảng thời gian để thực hiện bất kể kích thước của tập dữ liệu đầu vào.</p>
+</div>
+</div>
+</div>
+<!-- Card Actions -->
+<div class="flex justify-between items-center bg-canvas border border-hairline-soft rounded-full p-2 px-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">edit</span> Chỉnh sửa
+                                </button>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full border border-error text-error flex items-center justify-center hover:bg-error-container/50 transition-colors" title="Từ chối">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-success text-white flex items-center justify-center hover:bg-success/90 transition-colors shadow-sm" title="Phê duyệt">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        // Update slider value display
+        const slider = document.getElementById('card-count-slider');
+        const display = document.getElementById('card-count-display');
+        
+        slider.addEventListener('input', (e) => {
+            display.textContent = e.target.value;
+        });
+    </script>
+
+
+</body></html>

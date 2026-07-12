@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title th:replace="${title}">EduNexus</title>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script th:replace="~{fragments/head-common :: tailwind-config}"></script>
+</head>
+<body class="bg-background text-on-surface font-body-md h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col w-[260px] fixed left-0 top-0 h-full bg-canvas border-r border-hairline-soft py-6 px-4 z-20">
+  <div class="flex items-center gap-2 px-2 mb-8">
+    <div class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center text-on-primary font-headline-md">EN</div>
+    <div>
+      <p class="font-headline-md text-ink leading-none">EduNexus</p>
+      <p class="text-[11px] text-secondary">SME Portal</p>
+    </div>
+  </div>
+  <div class="flex-1 space-y-1">
+    <a href="/sme/courses" class="flex items-center gap-3 px-4 py-3 rounded-full transition-colors"
+       th:classappend="${requestUri.startsWith('/sme/courses')} ? 'bg-ink-deep text-white' : 'text-secondary hover:bg-surface-soft'">
+      <span class="material-symbols-outlined">school</span>
+      <span class="font-label-md">Khóa học của tôi</span>
+    </a>
+    <a href="/sme/questions" class="flex items-center gap-3 px-4 py-3 rounded-full transition-colors"
+       th:classappend="${requestUri.startsWith('/sme/questions')} ? 'bg-ink-deep text-white' : 'text-secondary hover:bg-surface-soft'">
+      <span class="material-symbols-outlined">library_books</span>
+      <span class="font-label-md">Ngân hàng câu hỏi</span>
+    </a>
+    <a href="/sme/assignments" class="flex items-center gap-3 px-4 py-3 rounded-full transition-colors"
+       th:classappend="${requestUri.startsWith('/sme/assignments')} ? 'bg-ink-deep text-white' : 'text-secondary hover:bg-surface-soft'">
+      <span class="material-symbols-outlined">assignment</span>
+      <span class="font-label-md">Bài tập</span>
+    </a>
+  </div>
+  <div class="pt-4 border-t border-hairline-soft">
+    <div class="flex items-center gap-3 px-2 mb-3">
+      <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-secondary">
+        <span class="material-symbols-outlined">person</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="font-label-md text-ink truncate" th:text="${currentUserName}">SME</p>
+        <p class="text-[11px] text-secondary truncate">SME Author</p>
+      </div>
+    </div>
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="w-full py-2 flex items-center justify-center gap-2 text-critical hover:bg-error-container/10 rounded-full font-label-md text-label-md transition-colors">
+        <span class="material-symbols-outlined text-[18px]">logout</span>
+        Đăng xuất
+      </button>
+    </form>
+  </div>
+</nav>
+
+<main class="flex-1 md:ml-[260px] overflow-y-auto h-full">
+  <div class="p-base md:p-xxl max-w-7xl mx-auto">
+    <div th:replace="~{fragments/head-common :: flash-messages}"></div>
+    <div th:replace="${content}"></div>
+  </div>
+</main>
+</body>
+</html>

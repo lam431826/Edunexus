@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Chi tiết câu hỏi</title></head>
+<body>
+<section class="max-w-3xl">
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6">Chi tiết câu hỏi</h1>
+
+  <div th:if="${errorMessage}" class="mb-4 px-4 py-3 rounded-lg bg-error-container text-error font-body-sm" th:text="${errorMessage}"></div>
+
+  <form th:action="${questionId != null} ? @{'/sme/questions/' + ${questionId}} : @{/sme/questions/new}"
+        th:object="${questionForm}" method="post" class="space-y-6">
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Module</label>
+      <select th:field="*{moduleId}" required class="w-full border border-hairline rounded-lg px-3 py-2">
+        <option th:each="m : ${modules}" th:value="${m.id}" th:text="${m.course.title} + ' - ' + ${m.title}"></option>
+      </select>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Nội dung câu hỏi</label>
+      <textarea th:field="*{text}" required rows="3" class="w-full border border-hairline rounded-lg px-3 py-2"></textarea>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Độ khó</label>
+      <select th:field="*{difficulty}" class="w-full border border-hairline rounded-lg px-3 py-2">
+        <option th:each="d : ${T(com.edunexus.domain.enums.Difficulty).values()}" th:value="${d}" th:text="${d}"></option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block font-label-md text-label-md mb-2">Đáp án (chọn nút radio cho đáp án đúng)</label>
+      <div class="space-y-2">
+        <div class="flex items-center gap-3" th:each="o, stat : *{options}">
+          <input type="checkbox" th:field="*{options[__${stat.index}__].correct}" class="w-5 h-5"/>
+          <input th:field="*{options[__${stat.index}__].text}" placeholder="Nội dung đáp án"
+                 class="flex-1 border border-hairline rounded-lg px-3 py-2"/>
+        </div>
+      </div>
+      <p class="text-[12px] text-secondary mt-1">Tick vào ô bên trái mỗi đáp án đúng (tối thiểu 1 đáp án).</p>
+    </div>
+
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Giải thích</label>
+      <textarea th:field="*{explanation}" rows="2" class="w-full border border-hairline rounded-lg px-3 py-2"></textarea>
+    </div>
+
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Lưu câu hỏi</button>
+  </form>
+</section>
+</body>
+</html>

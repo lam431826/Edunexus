@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<script id="tailwind-config" th:fragment="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "on-background": "#191b23", "outline": "#727786", "on-surface": "#191b23",
+                    "steel": "#5D6C7B", "surface-bright": "#faf8ff", "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff", "surface": "#faf8ff", "error": "#ba1a1a",
+                    "outline-variant": "#c2c6d6", "primary": "#004db0", "secondary": "#5e5e5e",
+                    "on-error": "#ffffff", "error-container": "#ffdad6", "hairline-soft": "#DEE3E9",
+                    "inverse-on-surface": "#eff0fb", "hairline": "#CED0D4",
+                    "on-primary-container": "#e6ebff", "canvas": "#FFFFFF",
+                    "surface-variant": "#e1e2ec", "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff", "ink": "#1C1E21",
+                    "surface-soft": "#F1F4F7", "ink-deep": "#0A1317", "disabled-text": "#BCC0C4",
+                    "surface-container-highest": "#e1e2ec", "success": "#31A24C", "critical": "#E41E3F",
+                    "inverse-surface": "#2e3038", "surface-container-high": "#e6e7f2",
+                    "primary-container": "#0064e0", "background": "#faf8ff",
+                    "surface-container": "#ecedf8", "on-surface-variant": "#424754",
+                    "tertiary-container": "#b94500", "tertiary": "#913400",
+                    "inverse-primary": "#afc6ff", "on-secondary-container": "#646464",
+                    "on-error-container": "#93000a", "attention": "#F2A918",
+                    "surface-dim": "#d8d9e4", "surface-container-low": "#f2f3fe"
+                },
+                borderRadius: { DEFAULT: "0.5rem", lg: "0.5rem", xl: "1rem", xxxl: "2rem", full: "9999px" },
+                spacing: { base: "16px", lg: "20px", xxl: "32px", section: "64px", "section-lg": "80px" },
+                fontFamily: {
+                    "headline-md": ["Montserrat"], "body-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"], "display-lg": ["Montserrat"],
+                    "body-md": ["Plus Jakarta Sans"], "code-sm": ["JetBrains Mono"],
+                    "body-sm": ["Plus Jakarta Sans"], "headline-lg": ["Montserrat"]
+                },
+                fontSize: {
+                    "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                    "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                    "label-md": ["14px", { lineHeight: "16px", letterSpacing: "0.01em", fontWeight: "600" }],
+                    "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                    "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                    "code-sm": ["13px", { lineHeight: "20px", fontWeight: "400" }],
+                    "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                    "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }]
+                }
+            }
+        }
+    }
+</script>
+
+<div th:fragment="flash-messages">
+    <div th:if="${infoMessage}" class="mb-4 px-4 py-3 rounded-lg bg-success/10 text-success font-body-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">check_circle</span>
+        <span th:text="${infoMessage}">Info</span>
+    </div>
+    <div th:if="${errorMessage}" class="mb-4 px-4 py-3 rounded-lg bg-error-container text-error font-body-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">error</span>
+        <span th:text="${errorMessage}">Error</span>
+    </div>
+</div>
+
+</body>
+</html>

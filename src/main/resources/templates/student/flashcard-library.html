@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Thư viện thẻ ghi nhớ</title></head>
+<body>
+<section>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6">Thư viện thẻ ghi nhớ</h1>
+
+  <div th:if="${#lists.isEmpty(decks)}" class="text-center py-20 text-secondary">Chưa có bộ thẻ nào cho khóa học của bạn.</div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div th:each="deck : ${decks}" class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+      <h3 class="font-headline-md text-headline-md text-ink mb-1" th:text="${deck.name}">Deck</h3>
+      <p class="text-secondary font-body-sm mb-4 line-clamp-2" th:text="${deck.description}">Description</p>
+      <div class="mb-4" th:with="stats=${deckStats.get(deck)}">
+        <div class="flex justify-between text-[12px] text-secondary mb-1">
+          <span th:text="${stats[0]} + '/' + ${stats[1]} + ' đã thuộc'">0/0</span>
+        </div>
+        <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+          <div class="h-full bg-success" th:style="'width:' + (${stats[1] == 0} ? 0 : (${stats[0]} * 100 / ${stats[1]})) + '%'"></div>
+        </div>
+      </div>
+      <a th:href="@{'/student/flashcards/decks/' + ${deck.id} + '/practice'}"
+         class="w-full inline-flex justify-center py-2 rounded-full bg-primary text-on-primary font-label-md">
+        Luyện tập ngay
+      </a>
+    </div>
+  </div>
+</section>
+</body>
+</html>

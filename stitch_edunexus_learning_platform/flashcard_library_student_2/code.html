@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Thẻ ghi nhớ - Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;600&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#0059c8",
+                        "surface-container-high": "#e6e7f2",
+                        "surface-variant": "#e1e2ec",
+                        "surface-container-highest": "#e1e2ec",
+                        "error-container": "#ffdad6",
+                        "critical": "#E41E3F",
+                        "on-error": "#ffffff",
+                        "on-surface": "#191b23",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "surface-soft": "#F1F4F7",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#e2e2e2",
+                        "tertiary-fixed-dim": "#ffb597",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "primary": "#004db0",
+                        "inverse-primary": "#afc6ff",
+                        "on-tertiary-fixed-variant": "#7e2c00",
+                        "surface-dim": "#d8d9e4",
+                        "success": "#31A24C",
+                        "on-primary-container": "#e6ebff",
+                        "surface": "#faf8ff",
+                        "secondary": "#5e5e5e",
+                        "tertiary-fixed": "#ffdbcd",
+                        "disabled-text": "#BCC0C4",
+                        "inverse-on-surface": "#eff0fb",
+                        "secondary-container": "#e2e2e2",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f2f3fe",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#0064e0",
+                        "on-tertiary-fixed": "#360f00",
+                        "steel": "#5D6C7B",
+                        "on-primary-fixed-variant": "#004299",
+                        "outline": "#727786",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c2c6d6",
+                        "tertiary": "#913400",
+                        "attention": "#F2A918",
+                        "primary-fixed": "#d9e2ff",
+                        "on-tertiary-container": "#ffe7df",
+                        "hairline": "#CED0D4",
+                        "background": "#faf8ff",
+                        "on-secondary-fixed-variant": "#474747",
+                        "on-secondary-container": "#646464",
+                        "surface-container": "#ecedf8",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#b94500",
+                        "hairline-soft": "#DEE3E9",
+                        "inverse-surface": "#2e3038",
+                        "primary-fixed-dim": "#afc6ff",
+                        "canvas": "#FFFFFF",
+                        "ink-deep": "#0A1317",
+                        "ink": "#1C1E21",
+                        "on-primary-fixed": "#001944",
+                        "on-surface-variant": "#424754",
+                        "on-background": "#191b23"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "32px",
+                        "section": "64px",
+                        "base": "16px",
+                        "section-lg": "80px",
+                        "lg": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "body-sm": ["plusJakartaSans"],
+                        "label-md": ["plusJakartaSans"],
+                        "display-lg": ["Montserrat"],
+                        "body-lg": ["plusJakartaSans"],
+                        "headline-md": ["Montserrat"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "code-sm": ["jetbrainsMono"],
+                        "body-md": ["plusJakartaSans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "code-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-[260px] fixed left-0 top-0 bg-canvas border-r border-hairline-soft py-base z-50">
+  <div class="px-lg pb-lg mb-base border-b border-hairline-soft flex flex-col items-center">
+    <div class="w-16 h-16 rounded-full bg-surface-soft mb-3 flex items-center justify-center overflow-hidden">
+      <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOeDiIhfEg649PgyYSieEWBNO4uKUqfLah0b2LvhNilvrWgJfCZ4eIgifNHucZv_UcsGNGSO7Q2TTuvi0M9bwn_HHs4vWmmefzkhewVi0KwY7EzEZ_2f21abCbA5jgYecy2hclXRLAjL0HMrVL8E6J6rXgNaQ1Ka1D-u-IqagGIxtMlxArvq76IbTqeOTEjRg58QLrtHtnCZvraFX4iuRY9LOYb7lnHq5AEWw9ccLfNC9qesbC6AYQv0f6WEs61k5zzxteaI2sTlo" alt="EduNexus Logo">
+    </div>
+    <div class="font-headline-md text-headline-md font-bold text-ink text-center">EduNexus</div>
+    <div class="font-body-sm text-body-sm text-secondary mt-1">SaaS Flashcard Suite</div>
+  </div>
+  <div class="flex-1 overflow-y-auto px-4 space-y-2">
+    <a class="flex items-center gap-3 px-4 py-3 text-secondary hover:text-ink transition-colors rounded-full" href="#">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="font-label-md text-label-md">Dashboard</span>
+    </a>
+    <a class="flex items-center gap-3 px-4 py-3 bg-ink-deep text-white rounded-full" href="#">
+      <span class="material-symbols-outlined">school</span>
+      <span class="font-label-md text-label-md">Khóa học</span>
+    </a>
+    <a class="flex items-center gap-3 px-4 py-3 text-secondary hover:text-ink transition-colors rounded-full" href="#">
+      <span class="material-symbols-outlined">history</span>
+      <span class="font-label-md text-label-md">Lịch sử</span>
+    </a>
+    <a class="flex items-center gap-3 px-4 py-3 text-secondary hover:text-ink transition-colors rounded-full" href="#">
+      <span class="material-symbols-outlined">person</span>
+      <span class="font-label-md text-label-md">Hồ sơ</span>
+    </a>
+  </div>
+  <div class="mt-auto border-t border-hairline-soft pt-lg px-4">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 rounded-full bg-surface-soft overflow-hidden border border-hairline">
+        <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdzGGQS9Fq4XiiVUBja9kHZxEKB6YWc_RphobufcekeCJevYOqzRqlSGNJ3AOHmy9w81ZDHKiw5m1r31_qTi7bSbotC9Sre8vkF9oIYB8A2qLcfFZb2KFxzfxf_EET_PmB49Zh7YgT-cJYSs2l9JBHc76FKjrDPMBH0OVpC3Pm-GQ0D9tt7xCNbdgSBwLLceCTQZPyWdrJObUcpBOSm263PwpJF3zqKs3tBwg-ufbHcyBa1nqtN7KESvdPc0Gu83GMXgu7YeVyXJQ" alt="User Avatar">
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-label-md font-label-md text-ink truncate">Alex Nguyen</p>
+        <a href="#" class="text-body-sm text-critical hover:underline">Đăng xuất</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-0 md:ml-[260px] flex flex-col h-screen overflow-hidden bg-background">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-xxl h-20 sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-hairline-soft transition-all duration-200">
+<div class="flex items-center gap-lg hidden lg:flex">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Global Search</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Insights</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Team</a>
+</div>
+<div class="flex-1 lg:hidden">
+<div class="font-headline-md text-headline-md font-black text-primary">EduNexus Flashcard Suite</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">dark_mode</span></button>
+</div>
+<div class="h-6 w-px bg-hairline-soft mx-2"></div>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors hidden sm:block">Export</button>
+<button class="bg-primary text-white px-4 py-2 rounded-full font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors hidden sm:block">Invite SME</button>
+<div class="w-10 h-10 rounded-full bg-surface-soft overflow-hidden ml-2 border border-hairline cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist portrait of a user avatar. Soft, optimistic lighting, corporate SaaS aesthetic, solid light blue background, sharp vector illustration style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdzGGQS9Fq4XiiVUBja9kHZxEKB6YWc_RphobufcekeCJevYOqzRqlSGNJ3AOHmy9w81ZDHKiw5m1r31_qTi7bSbotC9Sre8vkF9oIYB8A2qLcfFZb2KFxzfxf_EET_PmB49Zh7YgT-cJYSs2l9JBHc76FKjrDPMBH0OVpC3Pm-GQ0D9tt7xCNbdgSBwLLceCTQZPyWdrJObUcpBOSm263PwpJF3zqKs3tBwg-ufbHcyBa1nqtN7KESvdPc0Gu83GMXgu7YeVyXJQ">
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-4 md:p-xxl">
+<!-- Page Header & Actions -->
+<div class="flex flex-col xl:flex-row xl:items-end justify-between gap-lg mb-section">
+<div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-6">Thẻ ghi nhớ</h1>
+<!-- Pill-Tab Module Filters -->
+<div class="flex flex-wrap items-center gap-3">
+<button class="px-5 py-2 rounded-full bg-primary text-white font-label-md text-label-md shadow-sm border border-transparent transition-all">Tất cả module</button>
+<button class="px-5 py-2 rounded-full bg-surface text-on-surface-variant font-label-md text-label-md border border-hairline-soft hover:border-primary hover:text-primary transition-all">Module 1: Giải phẫu</button>
+<button class="px-5 py-2 rounded-full bg-surface text-on-surface-variant font-label-md text-label-md border border-hairline-soft hover:border-primary hover:text-primary transition-all">Module 2: Sinh lý</button>
+<button class="px-5 py-2 rounded-full bg-surface text-on-surface-variant font-label-md text-label-md border border-hairline-soft hover:border-primary hover:text-primary transition-all">Module 3: Dược lý</button>
+</div>
+</div>
+<!-- Large Top Action -->
+<button class="flex items-center gap-2 bg-ink text-canvas px-8 py-4 rounded-full font-label-md text-label-md hover:bg-ink-deep transition-colors shadow-sm self-start xl:self-auto shrink-0 mt-6 xl:mt-0">
+<span class="material-symbols-outlined">psychology</span>
+                    Học tất cả thẻ trong module
+                </button>
+</div>
+<!-- Grid of Cards -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-lg">
+<!-- Card 1 -->
+<div class="bg-surface rounded-[16px] border border-hairline-soft p-lg flex flex-col gap-6 hover:shadow-md transition-shadow duration-300">
+<div class="flex justify-between items-start gap-4">
+<div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm text-code-sm mb-3">
+<span class="material-symbols-outlined text-[16px]">folder</span> Module 1
+                            </div>
+<h3 class="font-headline-md text-headline-md text-on-surface line-clamp-2">Hệ Thần Kinh Trung Ương</h3>
+<p class="font-body-md text-body-md text-secondary mt-1">120 thẻ ghi nhớ</p>
+</div>
+<!-- Mastery Ring -->
+<div class="relative w-16 h-16 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-success" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="75, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-md text-label-md text-on-surface">75%</div>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-hairline-soft flex flex-wrap gap-3">
+<button class="flex-1 bg-primary text-white px-4 py-2.5 rounded-full font-label-md text-label-md text-center hover:bg-surface-tint transition-colors">Bắt đầu ôn</button>
+<button class="flex-1 bg-transparent text-primary border border-primary px-4 py-2.5 rounded-full font-label-md text-label-md text-center hover:bg-primary/5 transition-colors">Ôn lại chưa thuộc</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface rounded-[16px] border border-hairline-soft p-lg flex flex-col gap-6 hover:shadow-md transition-shadow duration-300">
+<div class="flex justify-between items-start gap-4">
+<div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm text-code-sm mb-3">
+<span class="material-symbols-outlined text-[16px]">folder</span> Module 1
+                            </div>
+<h3 class="font-headline-md text-headline-md text-on-surface line-clamp-2">Hệ Tuần Hoàn &amp; Tim Mạch</h3>
+<p class="font-body-md text-body-md text-secondary mt-1">85 thẻ ghi nhớ</p>
+</div>
+<!-- Mastery Ring -->
+<div class="relative w-16 h-16 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-success" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="40, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-md text-label-md text-on-surface">40%</div>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-hairline-soft flex flex-wrap gap-3">
+<button class="flex-1 bg-primary text-white px-4 py-2.5 rounded-full font-label-md text-label-md text-center hover:bg-surface-tint transition-colors">Bắt đầu ôn</button>
+<button class="flex-1 bg-transparent text-primary border border-primary px-4 py-2.5 rounded-full font-label-md text-label-md text-center hover:bg-primary/5 transition-colors">Ôn lại chưa thuộc</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface rounded-[16px] border border-hairline-soft p-lg flex flex-col gap-6 hover:shadow-md transition-shadow duration-300">
+<div class="flex justify-between items-start gap-4">
+<div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm text-code-sm mb-3">
+<span class="material-symbols-outlined text-[16px]">folder</span> Module 2
+                            </div>
+<h3 class="font-headline-md text-headline-md text-on-surface line-clamp-2">Sinh Lý Hô Hấp Cơ Bản</h3>
+<p class="font-body-md text-body-md text-secondary mt-1">42 thẻ ghi nhớ</p>
+</div>
+<!-- Mastery Ring -->
+<div class="relative w-16 h-16 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-success" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="100, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-md text-label-md text-on-surface">100%</div>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-hairline-soft flex flex-wrap gap-3">
+<button class="flex-1 bg-surface-soft text-disabled-text px-4 py-2.5 rounded-full font-label-md text-label-md text-center cursor-not-allowed">Đã hoàn thành</button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface rounded-[16px] border border-hairline-soft p-lg flex flex-col gap-6 hover:shadow-md transition-shadow duration-300">
+<div class="flex justify-between items-start gap-4">
+<div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm text-code-sm mb-3">
+<span class="material-symbols-outlined text-[16px]">folder</span> Module 3
+                            </div>
+<h3 class="font-headline-md text-headline-md text-on-surface line-clamp-2">Kháng Sinh Thuốc Kháng Virus</h3>
+<p class="font-body-md text-body-md text-secondary mt-1">210 thẻ ghi nhớ</p>
+</div>
+<!-- Mastery Ring -->
+<div class="relative w-16 h-16 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-success" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="15, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-md text-label-md text-on-surface">15%</div>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-hairline-soft flex flex-wrap gap-3">
+<button class="flex-1 bg-primary text-white px-4 py-2.5 rounded-full font-label-md text-label-md text-center hover:bg-surface-tint transition-colors">Bắt đầu ôn</button>
+<button class="flex-1 bg-transparent text-primary border border-primary px-4 py-2.5 rounded-full font-label-md text-label-md text-center hover:bg-primary/5 transition-colors">Ôn lại chưa thuộc</button>
+</div>
+</div>
+</div>
+<!-- Padding at bottom to breathe -->
+<div class="h-section"></div>
+</main>
+</div>
+
+
+</body></html>

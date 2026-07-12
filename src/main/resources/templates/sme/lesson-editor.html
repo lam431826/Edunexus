@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Soạn bài giảng</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-6">
+    <a th:href="@{'/sme/courses/' + ${lesson.module.course.id}}" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về cấu trúc khóa học
+    </a>
+    <a th:href="@{'/sme/lessons/' + ${lesson.id} + '/extract'}" class="text-primary font-label-md text-label-md flex items-center gap-1">
+      <span class="material-symbols-outlined text-[18px]">smart_display</span> Trích xuất từ YouTube
+    </a>
+  </div>
+
+  <form th:action="@{'/sme/lessons/' + ${lesson.id}}" th:object="${lessonForm}" method="post" enctype="multipart/form-data" class="space-y-6">
+    <input th:field="*{title}" required
+           class="w-full bg-transparent border-none p-0 font-display-lg text-headline-lg text-ink focus:ring-0 outline-none"
+           placeholder="Tên bài giảng"/>
+
+    <div>
+      <label class="block font-label-md text-label-md text-on-surface-variant mb-2">Video URL (YouTube, Vimeo)</label>
+      <input th:field="*{videoUrl}" class="w-full border border-hairline rounded-lg px-3 py-2" placeholder="https://youtube.com/watch?v=..."/>
+    </div>
+
+    <div>
+      <label class="block font-label-md text-label-md text-on-surface-variant mb-2">Nội dung (Markdown)</label>
+      <textarea th:field="*{bodyMarkdown}" rows="14"
+                class="w-full border border-hairline rounded-xl px-4 py-3 font-code-sm text-code-sm"
+                placeholder="## Tiêu đề&#10;Nội dung bài giảng..."></textarea>
+    </div>
+
+    <div>
+      <label class="block font-label-md text-label-md text-on-surface-variant mb-2">Tệp đính kèm</label>
+      <input type="file" name="attachment" class="w-full border border-dashed border-hairline rounded-lg px-3 py-2"/>
+      <p th:if="${lesson.attachmentPaths}" class="text-[12px] text-secondary mt-1">
+        Đã có tệp: <span th:text="${lesson.attachmentPaths}"></span>
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3 pt-4">
+      <button type="submit" name="action" value="draft" class="px-6 py-2 rounded-full border border-hairline hover:border-outline font-label-md">
+        Lưu nháp
+      </button>
+      <button type="submit" name="action" value="publish" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">publish</span> Xuất bản
+      </button>
+      <a th:href="@{'/sme/lessons/' + ${lesson.id} + '/ai-staging'}" class="ml-auto px-6 py-2 rounded-full border border-primary text-primary font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">auto_awesome</span> Soạn bằng AI
+      </a>
+    </div>
+  </form>
+</section>
+</body>
+</html>

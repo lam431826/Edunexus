@@ -1,0 +1,119 @@
+=== PARAGRAPHS ===
+Para 0: PROJECT ASSIGNMENT/LAB
+Para 1: AI for sdlc - Usage report
+Para 2: – Hanoi, July 2026 –
+Para 3: Table of Contents
+Para 4: Table of Contents2
+Para 5: Record of Changes3
+Para 6: Mục đích của báo cáo4
+Para 7: Phần 1 - Thông Tin Chung4
+Para 8: Phần 2 - Báo Cáo Theo Từng Giai Đoạn4
+Para 9: 1. Phase 1 – Phân tích Yêu cầu5
+Para 10: 1.1 - Bảng Phân Công AI ↔ Sinh Viên (Contribution Map)5
+Para 11: 1.2 - Ví Dụ Prompt Tiêu Biểu5
+Para 12: 1.3 - Thay Đổi So Với Output AI & Lý Do5
+Para 13: 1.4 - Vấn Đề / Sai Sót Của AI Đã Phát Hiện6
+Para 14: 1.5 - Tự Đánh Giá Hiểu Bài (Self-Check)6
+Para 15: 2. Phase 2 - Thiết kế hệ thống7
+Para 16: Phần 3 - Phản Tư (Reflection)7
+Para 17: Phụ Lục - AI Conversation Log7
+Para 18: Record of Changes
+Para 19: Date
+Para 20: A/M/D*
+Para 21: Description
+Para 22: *A - Added M - Modified D - Deleted
+Para 23: Mục đích của báo cáo
+Para 24: Báo cáo này KHÔNG nhằm kiểm tra "có dùng AI hay không" (việc dùng AI được khuyến khích), mà nhằm trả lời 3 câu hỏi:
+Para 25: AI đã làm gì, bạn đã làm gì - ranh giới đóng góp rõ ràng đến mức nào?
+Para 26: Bạn có PHẢN BIỆN/SỬA output của AI không, và sửa dựa trên lý do gì (hiểu domain, hiểu kỹ thuật, hay chỉ "thấy sai thì sửa cho chạy")?
+Para 27: Bạn có HIỂU sản phẩm cuối cùng đủ để giải thích, bảo vệ, và mở rộng nó không - bất kể phần nào do AI viết?
+Para 28: Báo cáo càng cụ thể (trích dẫn prompt/output thật, dẫn chứng số liệu) thì càng dễ được đánh giá công bằng. Báo cáo chung chung ("tôi dùng ChatGPT để viết UCS, sau đó chỉnh sửa cho phù hợp") sẽ bị coi là không đủ minh chứng.
+Para 29: Mỗi cá nhân nộp 1 báo cáo kèm sản phẩm (tài liệu + code + test) cuối mỗi giai đoạn, hoặc 1 báo cáo tổng hợp cuối kỳ - theo quy định của giảng viên.
+Para 30: Phần 1 - Thông Tin Chung
+Para 31: Mục
+Para 32: Nội dung cần điền
+Para 33: Nhóm / sinh viên
+Para 34: [Tên, MSSV]
+Para 35: Công cụ AI đã dùng
+Para 36: [Tên + phiên bản/model, ví dụ: Claude Sonnet 4.6 (chat), GitHub Copilot (VS Code), ChatGPT-4o; nếu dùng các AI các nhau cho các output khác nhau thì cũng đề cập cụ thể dùng AI nào cho output gì]
+Para 37: Phạm vi báo cáo
+Para 38: [Toàn bộ project / Giai đoạn cụ thể]
+Para 39: Hình thức lưu log
+Para 40: [Export conversation / file ai-log.md / screenshot - đính kèm hoặc link]
+Para 41: Chiến lược tổng thể
+Para 42: [Mô tả ngắn: có dùng AI Project/workspace để giữ context xuyên suốt? Có 1 hay nhiều phiên AI riêng cho mỗi giai đoạn?]
+Para 43: 📘 Log AI conversation: Khuyến khích export toàn bộ hoặc các đoạn quan trọng của conversation (Claude/ChatGPT có chức năng export/share link). Nếu dùng Copilot hoặc Claude Code trong IDE, ghi chú lại các lệnh/prompt chính trong ai-log.md kèm timestamp hoặc commit hash. Log không cần "sạch đẹp" - log thô là minh chứng tốt nhất.
+Para 44: Phần 2 - Báo Cáo Theo Từng Giai Đoạn
+Para 45: Lặp lại cấu trúc dưới đây cho mỗi giai đoạn (1_Phân tích Yêu cầu, 2_Thiết kế, 3_Triển khai, 4_Kiểm thử). Nếu một giai đoạn không dùng AI, ghi rõ "Không dùng AI ở giai đoạn này" và giải thích ngắn vì sao (đây cũng là thông tin hữu ích, không bị trừ điểm).
+Para 46: 1. Phase 1 – Phân tích Yêu cầu
+Para 47: 1.1 - Bảng Phân Công AI ↔ Sinh Viên (Contribution Map)
+Para 48: Đây là bảng QUAN TRỌNG NHẤT của báo cáo. Với mỗi artifact (tài liệu / module code / bộ test) được tạo ra trong giai đoạn, phân loại mức độ tham gia của AI theo 4 mức:
+Para 49: Mức
+Para 50: Ý nghĩa
+Para 51: A - AI tạo, SV giữ nguyên
+Para 52: AI tạo ra gần như hoàn chỉnh, SV review và chấp nhận không sửa nội dung (chỉ format).
+Para 53: B - AI tạo khung, SV chỉnh nội dung
+Para 54: AI tạo cấu trúc/khung ban đầu, SV sửa đổi đáng kể nội dung (business logic, số liệu, quyết định thiết kế).
+Para 55: C - SV tạo, AI hỗ trợ hoàn thiện
+Para 56: SV tự viết ý tưởng/bản thảo trước, AI giúp diễn đạt/format/bổ sung chi tiết.
+Para 57: D - SV tự làm hoàn toàn
+Para 58: Không dùng AI cho phần này.
+Para 59: Artifact / Mục
+Para 60: Mức*
+Para 61: Tóm tắt phần SV đã sửa/thêm (nếu mức độ tham gia chọn là B hoặc C)
+Para 62: [ví dụ: UCS / UC-05 Submit Application]
+Para 63: [B]
+Para 64: [Sửa lại Alternative Flow AF-03 vì AI bỏ sót case "đã nộp đơn rồi"; thêm BR-02 giới hạn 5MB theo đề bài]
+Para 65: [ví dụ: TDS / 3.Data Model]
+Para 66: [A]
+Para 67: -
+Para 68: [ví dụ: Service ApplicationService]
+Para 69: [C]
+Para 70: [SV viết khung method + logic chính, AI hỗ trợ viết Javadoc và xử lý exception]
+Para 71: [Thêm dòng cho mỗi artifact chính của giai đoạn]
+Para 72: *Mức = Mức độ tham gia: chọn [A], [B], [C], hoặc [D]
+Para 73: 1.2 - Ví Dụ Prompt Tiêu Biểu
+Para 74: Trích 1–2 prompt quan trọng nhất của giai đoạn (không cần toàn bộ), kèm output AI gốc (rút gọn nếu dài) và nhận xét.
+Para 75: [Prompt đã dùng: nguyên văn]
+Para 76: [Output AI trả về: nguyên văn hoặc rút gọn, ghi rõ "...(cắt bớt)..." nếu dài]
+Para 77: Nhận xét: [AI có hiểu đúng yêu cầu không? Có cần hỏi lại/làm rõ thêm không? Output này sau đó được dùng như thế nào - giữ nguyên, sửa, hay bỏ?]
+Para 78: 1.3 - Thay Đổi So Với Output AI & Lý Do
+Para 79: Với MỖI artifact ở mức B hoặc C trong bảng 1.1, trả lời:
+Para 80: Đã thay đổi gì? [Mô tả cụ thể - thêm/xóa/sửa phần nào]
+Para 81: Vì sao thay đổi? Chọn 1 hoặc nhiều lý do và giải thích:
+Para 82: ☐ AI sai/thiếu so với đề bài hoặc tài liệu giai đoạn trước (nêu rõ tài liệu/dòng nào)
+Para 83: ☐ AI đúng về kỹ thuật nhưng không phù hợp domain (giải thích vì sao lại không)
+Para 84: ☐ AI viết quá phức tạp/quá đơn giản so với scope môn học
+Para 85: ☐ AI vi phạm convention/template đã định
+Para 86: ☐ Khác: [ghi rõ]
+Para 87: 📘 Đây là phần thể hiện critical thinking rõ nhất. "Sửa vì AI sai" mà không nói rõ SAI Ở ĐÂU, SO VỚI CÁI GÌ sẽ không được tính là minh chứng hợp lệ.
+Para 88: 1.4 - Vấn Đề / Sai Sót Của AI Đã Phát Hiện
+Para 89: Liệt kê các trường hợp AI đưa ra kết quả sai, thiếu, hoặc gây hiểu lầm mà nhóm đã phát hiện (không liên quan đến 1.3 nếu đã ghi ở đó - phần này dành cho lỗi KHÔNG dẫn đến thay đổi artifact, ví dụ: AI gợi ý sai nhưng nhóm phát hiện và không dùng từ đầu).
+Para 90: Tình huống
+Para 91: AI đã làm/đề xuất gì
+Para 92: Vì sao sai/không phù hợp
+Para 93: Nhóm đã làm gì
+Para 94: [ví dụ: sinh UC Index]
+Para 95: [AI thêm Actor "Recruiter" không có trong đề bài]
+Para 96: [Đề bài chỉ có 4 actor: Candidate/HR/Interviewer/Admin]
+Para 97: [Yêu cầu AI loại bỏ, không thêm UC liên quan]
+Para 98: Nếu không phát hiện vấn đề nào, ghi rõ: "Không phát hiện vấn đề ở giai đoạn này".
+Para 99: 1.5 - Tự Đánh Giá Hiểu Bài (Self-Check)
+Para 100: Trả lời KHÔNG nhìn tài liệu, bằng lời của chính mình (không paste lại từ AI):
+Para 101: [Câu hỏi 1 - ví dụ: "Giải thích Business Rule quan trọng nhất của UC-05 và vì sao nó cần thiết với đề bài này"]
+Para 102: [Câu hỏi 2 - ví dụ: "Vì sao Entity X có quan hệ N-N với Entity Y? Nếu bỏ bảng trung gian thì hệ thống gặp vấn đề gì?"]
+Para 103: [Câu hỏi 3 - theo gợi ý/giao của giảng viên cho từng giai đoạn]
+Para 104: 📘 Nếu giảng viên không giao câu hỏi cụ thể, hãy tự đặt 2-3 câu hỏi mà bạn nghĩ một người phản biện (reviewer) sẽ hỏi về artifact quan trọng nhất của giai đoạn này, rồi tự trả lời.
+Para 105: 2. Phase 2 - Thiết kế hệ thống
+Para 106: …
+Para 107: Phần 3 - Phản Tư (Reflection)
+Para 108: Trả lời ngắn gọn (3–6 câu mỗi mục):
+Para 109: Việc nào AI làm tốt hơn nhóm tự làm? Vì sao?
+Para 110: Việc nào nhóm làm tốt hơn AI / AI không thể làm tốt? Vì sao (kiến thức domain, ràng buộc đề bài, kinh nghiệm thực tế...)?
+Para 111: Rủi ro lớn nhất nếu KHÔNG review kỹ output của AI trong project này là gì? Cho 1 ví dụ cụ thể đã/suýt xảy ra.
+Para 112: Nếu làm lại từ đầu, nhóm sẽ thay đổi gì trong cách dùng AI (ví dụ: prompt khác, thứ tự khác, công cụ khác)?
+Para 113: Phụ Lục - AI Conversation Log
+Para 114: Đính kèm hoặc link tới:
+Para 115: File export conversation đầy đủ (Claude/ChatGPT share link hoặc file .json/.md export), HOẶC
+Para 116: File ai-log.md ghi các prompt/lệnh chính theo timeline, kèm timestamp/commit hash tương ứng.
+Para 117: Log không cần biên tập - mục đích là cho phép giảng viên TRA NGƯỢC một artifact trong báo cáo về đúng đoạn conversation đã sinh ra nó, nếu cần.

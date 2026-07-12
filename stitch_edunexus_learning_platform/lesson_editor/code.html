@@ -1,0 +1,363 @@
+<!DOCTYPE html><html class="light" lang="vi"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>EduNexus - Lesson Editor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#e1e2ec",
+                      "background": "#faf8ff",
+                      "success": "#31A24C",
+                      "secondary-fixed": "#e2e2e2",
+                      "disabled-text": "#BCC0C4",
+                      "outline": "#727786",
+                      "on-error": "#ffffff",
+                      "ink": "#1C1E21",
+                      "secondary-container": "#e2e2e2",
+                      "surface-tint": "#0059c8",
+                      "primary-fixed-dim": "#afc6ff",
+                      "hairline": "#CED0D4",
+                      "ink-deep": "#0A1317",
+                      "tertiary-fixed-dim": "#ffb597",
+                      "on-surface-variant": "#424754",
+                      "on-primary-container": "#e6ebff",
+                      "surface-variant": "#e1e2ec",
+                      "inverse-on-surface": "#eff0fb",
+                      "primary-container": "#0064e0",
+                      "on-secondary-fixed": "#1b1b1b",
+                      "on-primary-fixed-variant": "#004299",
+                      "surface-soft": "#F1F4F7",
+                      "surface-container-low": "#f2f3fe",
+                      "surface": "#faf8ff",
+                      "secondary": "#5e5e5e",
+                      "tertiary-container": "#b94500",
+                      "surface-container-high": "#e6e7f2",
+                      "secondary-fixed-dim": "#c6c6c6",
+                      "inverse-primary": "#afc6ff",
+                      "on-tertiary-fixed-variant": "#7e2c00",
+                      "steel": "#5D6C7B",
+                      "on-secondary-container": "#646464",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed-variant": "#474747",
+                      "attention": "#F2A918",
+                      "hairline-soft": "#DEE3E9",
+                      "on-error-container": "#93000a",
+                      "surface-bright": "#faf8ff",
+                      "on-surface": "#191b23",
+                      "tertiary-fixed": "#ffdbcd",
+                      "primary": "#004db0",
+                      "critical": "#E41E3F",
+                      "outline-variant": "#c2c6d6",
+                      "on-primary-fixed": "#001944",
+                      "error": "#ba1a1a",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed": "#d9e2ff",
+                      "inverse-surface": "#2e3038",
+                      "on-tertiary-container": "#ffe7df",
+                      "on-tertiary-fixed": "#360f00",
+                      "on-tertiary": "#ffffff",
+                      "tertiary": "#913400",
+                      "on-secondary": "#ffffff",
+                      "surface-dim": "#d8d9e4",
+                      "on-background": "#191b23",
+                      "surface-container": "#ecedf8",
+                      "error-container": "#ffdad6",
+                      "canvas": "#FFFFFF"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "16px",
+                      "section-lg": "80px",
+                      "xxl": "32px",
+                      "section": "64px",
+                      "lg": "20px"
+              },
+              "fontFamily": {
+                      "body-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Montserrat"
+                      ],
+                      "code-sm": [
+                              "jetbrainsMono"
+                      ],
+                      "headline-md": [
+                              "Montserrat"
+                      ],
+                      "display-lg-mobile": [
+                              "Montserrat"
+                      ],
+                      "display-lg": [
+                              "Montserrat"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "code-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-headline-lg, .font-headline-md, .font-display-lg, .font-display-lg-mobile { font-family: 'Montserrat', sans-serif; }
+      </style>
+</head>
+<body class="bg-canvas text-on-surface h-screen flex flex-col overflow-hidden">
+<!-- TopNavBar (Shared Component style execution) -->
+<header class="bg-surface dark:bg-on-background flex justify-between items-center w-full px-xxl h-16 border-b border-hairline-soft dark:border-outline-variant docked full-width top-0 z-50 shrink-0">
+<div class="flex items-center gap-base">
+
+<nav class="flex items-center text-body-sm font-body-sm text-secondary gap-2">
+<a class="hover:text-primary transition-colors" href="#">Khóa học</a>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right" style="font-size: 16px;">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Module 1</a>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right" style="font-size: 16px;">chevron_right</span>
+<span class="text-on-surface font-medium">Bài 1: Tổng quan về UI/UX</span>
+</nav>
+</div>
+<div class="flex items-center gap-base">
+<span class="text-body-sm font-body-sm text-secondary mr-2">Đã lưu lúc 14:20</span>
+<button class="bg-ink text-white font-label-md text-label-md py-2 px-4 rounded-full hover:bg-ink-deep transition-colors">Lưu</button>
+<button class="bg-surface-soft text-on-surface border border-hairline-soft font-label-md text-label-md py-2 px-4 rounded-full hover:bg-hairline-soft transition-colors">Xem trước</button>
+<button class="bg-primary text-white font-label-md text-label-md py-2 px-4 rounded-full hover:bg-on-primary-fixed-variant transition-colors flex items-center gap-2">
+                Xuất bản
+                <span class="material-symbols-outlined" data-icon="publish" style="font-size: 18px;">publish</span>
+</button>
+<div class="w-px h-6 bg-hairline mx-2"></div>
+<button class="text-secondary dark:text-secondary-fixed-dim hover:bg-surface-soft dark:hover:bg-surface-variant transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-secondary dark:text-secondary-fixed-dim hover:bg-surface-soft dark:hover:bg-surface-variant transition-colors active:scale-95 duration-150 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-hairline ml-2">
+<img alt="Student profile avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a diverse student avatar smiling in a bright modern educational setting. The lighting is soft and flattering, creating a welcoming and optimistic vibe consistent with a modern EdTech platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcHkQ6mep7VtTg1RRC5I3mA8Si1d8Ygr-2WxfUPN9d4VQPkR2SGRGLdncnSvIH-aNVAdMgTqse4YMOWatfhU6f1pRo9z8unbqi7pWH9Eg_MJ3l1kh-zopJlJj_A6nvZdWuJTlZwe5G2kwidWnOi2BYxVUVm6SGJoClJusdM7t_UEGgyJIR9WrQ6T11ulra4_uB6-SB_hn1tMy6Yl8O1DjtUUS2_DpVi7Q3NyoZUn99eQKuIevtwtHTvPjmEPEMS0P9vnw2DflVO94">
+</div>
+</div>
+</header>
+<!-- Split Pane Layout -->
+<main class="flex-1 flex overflow-hidden"><aside class="w-[260px] h-full bg-canvas border-r border-hairline-soft flex flex-col shrink-0">
+  <div class="p-base flex flex-col h-full">
+    <nav class="flex-1 space-y-2">
+      <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-full text-secondary hover:bg-surface-soft transition-colors">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="font-label-md">Dashboard</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-full bg-ink-deep text-white">
+        <span class="material-symbols-outlined">school</span>
+        <span class="font-label-md">Khóa học của tôi</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-full text-secondary hover:bg-surface-soft transition-colors">
+        <span class="material-symbols-outlined">library_books</span>
+        <span class="font-label-md">Ngân hàng câu hỏi</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-full text-secondary hover:bg-surface-soft transition-colors">
+        <span class="material-symbols-outlined">history</span>
+        <span class="font-label-md">Lịch sử</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-full text-secondary hover:bg-surface-soft transition-colors">
+        <span class="material-symbols-outlined">person</span>
+        <span class="font-label-md">Hồ sơ</span>
+      </a>
+    </nav>
+    <div class="pt-4 border-t border-hairline-soft">
+      <div class="flex items-center gap-3 px-2 mb-4">
+        <div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-hairline">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcHkQ6mep7VtTg1RRC5I3mA8Si1d8Ygr-2WxfUPN9d4VQPkR2SGRGLdncnSvIH-aNVAdMgTqse4YMOWatfhU6f1pRo9z8unbqi7pWH9Eg_MJ3l1kh-zopJlJj_A6nvZdWuJTlZwe5G2kwidWnOi2BYxVUVm6SGJoClJusdM7t_UEGgyJIR9WrQ6T11ulra4_uB6-SB_hn1tMy6Yl8O1DjtUUS2_DpVi7Q3NyoZUn99eQKuIevtwtHTvPjmEPEMS0P9vnw2DflVO94" alt="User" class="w-full h-full object-cover">
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium text-ink truncate">Giảng viên</p>
+        </div>
+      </div>
+      <button class="flex items-center gap-3 px-4 py-2 w-full text-secondary hover:text-critical transition-colors">
+        <span class="material-symbols-outlined">logout</span>
+        <span class="font-label-md">Đăng xuất</span>
+      </button>
+    </div>
+  </div>
+</aside>
+<!-- Editor Pane (Left 50%) -->
+<section class="flex flex-col border-r border-hairline-soft bg-canvas overflow-y-auto flex-1">
+<div class="p-xxl flex-1 flex flex-col">
+<!-- Lesson Title -->
+<input class="w-full font-headline-lg text-headline-lg border-none outline-none bg-transparent placeholder-disabled-text mb-lg focus:ring-0 p-0 text-ink" placeholder="Nhập tiêu đề bài học..." type="text" value="Bài 1: Tổng quan về UI/UX">
+<!-- Tabs -->
+<div class="flex gap-2 mb-lg border-b border-hairline-soft pb-4">
+<button class="bg-surface-soft text-ink font-label-md text-label-md py-2 px-4 rounded-full">Văn bản</button>
+<button class="text-secondary font-label-md text-label-md py-2 px-4 rounded-full hover:bg-surface-soft transition-colors">Video YouTube</button>
+<button class="text-secondary font-label-md text-label-md py-2 px-4 rounded-full hover:bg-surface-soft transition-colors">Tệp đính kèm</button>
+</div>
+<!-- AI Assist Button -->
+<div class="flex justify-end mb-4">
+<button class="text-primary bg-primary-fixed text-label-md font-label-md py-2 px-4 rounded-full flex items-center gap-2 hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="auto_awesome" data-weight="fill">auto_awesome</span>
+                        AI Hỗ trợ soạn
+                    </button>
+</div>
+<!-- Markdown Editor Toolbar -->
+<div class="border border-hairline-soft rounded-t-lg bg-surface flex items-center p-2 gap-1 overflow-x-auto">
+<button class="p-1.5 rounded hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="format_bold">format_bold</span></button>
+<button class="p-1.5 rounded hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="format_italic">format_italic</span></button>
+<button class="p-1.5 rounded hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="format_underlined">format_underlined</span></button>
+<div class="w-px h-5 bg-hairline mx-1"></div>
+<button class="p-1.5 rounded hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="format_list_bulleted">format_list_bulleted</span></button>
+<button class="p-1.5 rounded hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="format_list_numbered">format_list_numbered</span></button>
+<div class="w-px h-5 bg-hairline mx-1"></div>
+<button class="p-1.5 rounded hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="link">link</span></button>
+<button class="p-1.5 rounded hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="image">image</span></button>
+<button class="p-1.5 rounded hover:bg-surface-container-high text-secondary transition-colors"><span class="material-symbols-outlined" data-icon="code">code</span></button>
+</div>
+<!-- Editor Textarea -->
+<textarea class="flex-1 w-full border border-t-0 border-hairline-soft rounded-b-lg p-base font-body-md text-body-md resize-none focus:ring-1 focus:ring-primary focus:border-primary outline-none" placeholder="Bắt đầu viết nội dung bài học ở đây..."># Chào mừng đến với Khóa học UI/UX
+
+Trong bài học đầu tiên này, chúng ta sẽ tìm hiểu về các khái niệm cơ bản nhất của User Interface (UI) và User Experience (UX).
+
+## 1. UI (User Interface) là gì?
+UI là giao diện người dùng, bao gồm tất cả những gì người dùng có thể nhìn thấy và tương tác trực tiếp trên một sản phẩm kỹ thuật số.
+
+*   Màu sắc (Colors)
+*   Kiểu chữ (Typography)
+*   Bố cục (Layout)
+
+## 2. UX (User Experience) là gì?
+UX là trải nghiệm người dùng, là cảm giác, suy nghĩ và phản ứng của người dùng khi sử dụng sản phẩm.
+
+&gt; "Thiết kế không chỉ là trông nó như thế nào hay cảm giác ra sao. Thiết kế là cách nó hoạt động." - Steve Jobs
+                </textarea>
+</div>
+</section>
+<!-- Preview Pane (Right 50%) -->
+<section class="bg-surface-soft overflow-y-auto p-xxl relative flex-1">
+<div class="absolute top-4 right-4 bg-canvas text-secondary font-label-md text-label-md py-1 px-3 rounded-full border border-hairline-soft shadow-sm pointer-events-none">
+                Live Preview
+            </div>
+<!-- Rendered Content Card -->
+<article class="bg-canvas rounded-xl p-xxl border border-hairline-soft shadow-sm max-w-3xl mx-auto">
+<h1 class="font-headline-lg text-headline-lg text-ink mb-6">Bài 1: Tổng quan về UI/UX</h1>
+<!-- 16:9 Media Placeholder -->
+<div class="w-full aspect-video bg-surface-container-high rounded-lg mb-8 flex items-center justify-center border border-hairline-soft relative overflow-hidden group">
+<img alt="Video cover" class="absolute inset-0 w-full h-full object-cover opacity-80" data-alt="A clean, modern geometric 3D illustration representing UI/UX design concepts, featuring floating screens, wireframes, and colorful abstract shapes in a bright, optimistic studio lighting setting. Dominant colors are cobalt blue and white." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBORGfM2b22tYRB5fk5cgNNux7CGsodhJTxBo_wbr5yj3HdAjsuM7JiSM22f8xFonQbLSknfVz25uf7VYq97B5r6jRiANMWLCpbaVtOX7xpqxNeLO8hg5NLD95tQvNLYFXJ-W80_ZW0XrS5MmMbP0JjUTyt4f9WSw_17TZX0jVWqvzZiS3rKqqLdtX-l5L2oblMEylKK9J1vk-JN2pz4F6rB-kztctMKwRPvYsCIl_lQ1F3KN_GOGBuxxGm1cj7q05Q5-Fh17Teg0s">
+<div class="absolute inset-0 bg-ink/20 group-hover:bg-ink/30 transition-colors flex items-center justify-center">
+<button class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-primary shadow-lg hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" data-icon="play_arrow" data-weight="fill" style="font-size: 32px;">play_arrow</span>
+</button>
+</div>
+</div>
+<div class="prose prose-blue max-w-none">
+<h2 class="font-headline-md text-headline-md text-ink mt-8 mb-4">Chào mừng đến với Khóa học UI/UX</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 leading-relaxed">
+                        Trong bài học đầu tiên này, chúng ta sẽ tìm hiểu về các khái niệm cơ bản nhất của User Interface (UI) và User Experience (UX).
+                    </p>
+<h3 class="font-headline-md text-lg font-bold text-ink mt-6 mb-3">1. UI (User Interface) là gì?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 leading-relaxed">
+                        UI là giao diện người dùng, bao gồm tất cả những gì người dùng có thể nhìn thấy và tương tác trực tiếp trên một sản phẩm kỹ thuật số.
+                    </p>
+<ul class="list-disc pl-6 mb-6 font-body-md text-body-md text-on-surface-variant space-y-2">
+<li class="">Màu sắc (Colors)</li>
+<li class="">Kiểu chữ (Typography)</li>
+<li class="">Bố cục (Layout)</li>
+</ul>
+<h3 class="font-headline-md text-lg font-bold text-ink mt-6 mb-3">2. UX (User Experience) là gì?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 leading-relaxed">
+                        UX là trải nghiệm người dùng, là cảm giác, suy nghĩ và phản ứng của người dùng khi sử dụng sản phẩm.
+                    </p>
+<blockquote class="border-l-4 border-primary pl-4 py-2 my-6 bg-surface-container-low rounded-r-lg italic font-body-md text-body-md text-on-surface-variant">
+                        "Thiết kế không chỉ là trông nó như thế nào hay cảm giác ra sao. Thiết kế là cách nó hoạt động." - Steve Jobs
+                    </blockquote>
+</div>
+</article>
+</section>
+</main>
+
+
+</body></html>

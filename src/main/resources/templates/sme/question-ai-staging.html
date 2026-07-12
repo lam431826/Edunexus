@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - AI Question Staging</title></head>
+<body>
+<section>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1">AI Question Staging</h1>
+  <p class="text-secondary font-body-sm mb-6">Chọn module nguồn, tạo câu hỏi trắc nghiệm bằng AI, chỉnh sửa rồi duyệt vào ngân hàng.</p>
+
+  <form th:action="@{/sme/questions/ai-staging/generate}" method="post" class="flex items-end gap-3 mb-8">
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Module nguồn</label>
+      <select name="moduleId" required class="border border-hairline rounded-lg px-3 py-2 min-w-[280px]">
+        <option th:each="m : ${modules}" th:value="${m.id}"
+                th:selected="${selectedModuleId != null and selectedModuleId == m.id}"
+                th:text="${m.course.title} + ' - ' + ${m.title}"></option>
+      </select>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Số câu hỏi</label>
+      <input type="number" name="count" value="5" min="1" max="20" class="w-24 border border-hairline rounded-lg px-3 py-2"/>
+    </div>
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">auto_awesome</span> Tạo câu hỏi
+    </button>
+  </form>
+
+  <form th:if="${drafts != null}" th:action="@{/sme/questions/ai-staging/approve}" method="post" class="space-y-4">
+    <input type="hidden" name="moduleId" th:value="${selectedModuleId}"/>
+    <div th:each="d, stat : ${drafts}" class="rounded-xl border border-hairline-soft p-4">
+      <label class="flex items-center gap-2 mb-2">
+        <input type="checkbox" name="selected" th:value="${stat.index}" checked/>
+        <span class="font-label-md text-secondary">Câu <span th:text="${stat.index + 1}"></span></span>
+      </label>
+      <textarea name="draftText" class="w-full border border-hairline rounded-lg px-3 py-2 mb-2" rows="2" th:text="${d.text}"></textarea>
+      <input type="hidden" name="draftDifficulty" th:value="${d.difficulty}"/>
+      <input type="hidden" name="draftOptions" th:value="${#strings.listJoin(d.options, '|')}"/>
+      <input type="hidden" name="draftCorrectIndex" th:value="${d.correctIndex}"/>
+      <div class="grid grid-cols-2 gap-2 mb-2">
+        <div th:each="opt, ostat : ${d.options}"
+             th:classappend="${ostat.index == d.correctIndex} ? 'border-success text-success' : 'border-hairline'"
+             class="border rounded-lg px-3 py-2 text-[13px]" th:text="${opt}"></div>
+      </div>
+      <textarea name="draftExplanation" class="w-full border border-hairline rounded-lg px-3 py-2 text-[13px]" rows="2" th:text="${d.explanation}"></textarea>
+    </div>
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Duyệt &amp; Lưu vào ngân hàng</button>
+  </form>
+</section>
+</body>
+</html>

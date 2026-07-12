@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: edunexus
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=edunexus;encrypt=true;trustServerCertificate=true
+    username: sa
+    password: 123
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.SQLServerDialect
+  thymeleaf:
+    cache: false
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+app:
+  upload-dir: uploads

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Nhập câu hỏi</title></head>
+<body>
+<section class="max-w-3xl">
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1">Nhập câu hỏi từ tệp Excel</h1>
+  <p class="text-secondary font-body-sm mb-6">
+    Cột yêu cầu: Question | Difficulty | Option1..4 | CorrectIndex(1-4) | Explanation
+  </p>
+
+  <form th:action="@{/sme/questions/import}" method="post" enctype="multipart/form-data" class="space-y-4 mb-8">
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Module đích</label>
+      <select name="moduleId" required class="w-full border border-hairline rounded-lg px-3 py-2">
+        <option th:each="m : ${modules}" th:value="${m.id}"
+                th:selected="${selectedModuleId != null and selectedModuleId == m.id}"
+                th:text="${m.course.title} + ' - ' + ${m.title}"></option>
+      </select>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Tệp Excel (.xlsx)</label>
+      <input type="file" name="file" accept=".xlsx,.xls" required class="w-full border border-dashed border-hairline rounded-lg px-3 py-2"/>
+    </div>
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">upload_file</span> Xem trước &amp; Nhập
+    </button>
+  </form>
+
+  <div th:if="${result != null}">
+    <h2 class="font-headline-md text-headline-md mb-3">
+      Kết quả: <span class="text-success" th:text="${result.successCount} + ' thành công'"></span>,
+      <span class="text-critical" th:text="${result.failureCount} + ' lỗi'"></span>
+    </h2>
+    <table class="w-full text-left rounded-xl border border-hairline-soft overflow-hidden">
+      <thead class="bg-surface-soft font-label-md text-secondary">
+        <tr><th class="p-3">Dòng</th><th class="p-3">Kết quả</th><th class="p-3">Ghi chú</th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="row : ${result.rows}" class="border-t border-hairline-soft">
+          <td class="p-3" th:text="${row.rowNumber}">2</td>
+          <td class="p-3" th:classappend="${row.success} ? 'text-success' : 'text-critical'" th:text="${row.success} ? 'OK' : 'Lỗi'">OK</td>
+          <td class="p-3 text-secondary" th:text="${row.message}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>

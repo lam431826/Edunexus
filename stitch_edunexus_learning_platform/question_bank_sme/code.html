@@ -1,0 +1,296 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Ngân hàng câu hỏi - SME</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#360f00",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e6e7f2",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#e2e2e2",
+                        "primary-container": "#0064e0",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffdbcd",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#727786",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e1e2ec",
+                        "tertiary-fixed-dim": "#ffb597",
+                        "hairline-soft": "#DEE3E9",
+                        "on-surface-variant": "#424754",
+                        "surface-dim": "#d8d9e4",
+                        "tertiary": "#913400",
+                        "on-tertiary": "#ffffff",
+                        "ink": "#1C1E21",
+                        "surface-bright": "#faf8ff",
+                        "primary": "#004db0",
+                        "surface-soft": "#F1F4F7",
+                        "on-background": "#191b23",
+                        "canvas": "#FFFFFF",
+                        "disabled-text": "#BCC0C4",
+                        "surface-container": "#ecedf8",
+                        "surface-container-low": "#f2f3fe",
+                        "critical": "#E41E3F",
+                        "on-primary-fixed": "#001944",
+                        "on-secondary-container": "#646464",
+                        "inverse-on-surface": "#eff0fb",
+                        "secondary-container": "#e2e2e2",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#ffe7df",
+                        "tertiary-container": "#b94500",
+                        "surface-tint": "#0059c8",
+                        "on-secondary-fixed-variant": "#474747",
+                        "surface": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#7e2c00",
+                        "on-primary-fixed-variant": "#004299",
+                        "inverse-primary": "#afc6ff",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#e6ebff",
+                        "ink-deep": "#0A1317",
+                        "outline-variant": "#c2c6d6",
+                        "inverse-surface": "#2e3038",
+                        "attention": "#F2A918",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "steel": "#5D6C7B",
+                        "background": "#faf8ff",
+                        "secondary": "#5e5e5e",
+                        "primary-fixed": "#d9e2ff",
+                        "success": "#31A24C",
+                        "primary-fixed-dim": "#afc6ff",
+                        "surface-variant": "#e1e2ec",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "hairline": "#CED0D4",
+                        "on-surface": "#191b23"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "20px",
+                        "section": "64px",
+                        "base": "16px",
+                        "xxl": "32px",
+                        "section-lg": "80px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Montserrat"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Montserrat"],
+                        "display-lg-mobile": ["Montserrat"],
+                        "code-sm": ["JetBrains Mono"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Montserrat"],
+                        "body-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "code-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FFFFFF; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+    </style>
+</head>
+<body class="bg-canvas text-on-surface antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="docked left-0 h-screen w-[260px] bg-canvas border-r border-hairline-soft flex flex-col p-base z-40">
+<div class="mb-section">
+<h1 class="font-headline-md text-headline-md text-ink-deep">EduNexus</h1>
+<p class="font-label-md text-label-md text-secondary">SME Portal</p>
+</div>
+<nav class="flex-1 space-y-2"><a class="flex items-center gap-base text-secondary px-base py-3 rounded-full hover:bg-surface-soft transition-all cursor-pointer" href="#"><span class="material-symbols-outlined">dashboard</span><span class="font-label-md text-label-md">Dashboard</span></a><a class="flex items-center gap-base text-secondary px-base py-3 rounded-full hover:bg-surface-soft transition-all cursor-pointer" href="#"><span class="material-symbols-outlined">school</span><span class="font-label-md text-label-md">Khóa học của tôi</span></a><a class="flex items-center gap-base bg-ink-deep text-on-primary rounded-full px-base py-3 cursor-pointer" href="#"><span class="material-symbols-outlined">library_books</span><span class="font-label-md text-label-md">Ngân hàng câu hỏi</span></a><a class="flex items-center gap-base text-secondary px-base py-3 rounded-full hover:bg-surface-soft transition-all cursor-pointer" href="#"><span class="material-symbols-outlined">history</span><span class="font-label-md text-label-md">Lịch sử</span></a><a class="flex items-center gap-base text-secondary px-base py-3 rounded-full hover:bg-surface-soft transition-all cursor-pointer" href="#"><span class="material-symbols-outlined">person</span><span class="font-label-md text-label-md">Hồ sơ</span></a></nav>
+<div class="mt-auto pt-4 border-t border-hairline-soft"><div class="flex items-center gap-3 px-base py-3 mb-2"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvCSL2YG_3zynfPg0gYd2pa12CgEDk1SBjq5iin3iccovp8epBf59wD51_K20crnnhr0r2ssUhO_Lk_y5vTs3cOTrm6CrZ3gsn6UkDmmwscCWQ9B0Rez6UztirL2nmGXE9SsbJPzCJ7QzEnPnQs7l_bRDdlIyTrbM5iaI93l64ZpI89nuXpBolCsgqMHus5q8V-IfallAsH2eA1ilV-hwA96UXYbInHKD5JW46OtoG_kdMNsOTYqN8H0h1V07ZNCOMNAblzkVHAFA" class="w-8 h-8 rounded-full object-cover border border-hairline-soft"><div class="flex flex-col"><span class="font-label-md text-label-md text-ink-deep">Admin User</span><span class="text-[12px] text-secondary">SME Manager</span></div></div><a class="flex items-center gap-base text-critical px-base py-3 rounded-full hover:bg-error-container transition-all" href="#"><span class="material-symbols-outlined">logout</span><span class="font-label-md text-label-md">Đăng xuất</span></a></div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-surface-soft">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-xxl h-16 bg-surface border-b border-hairline-soft flat no shadows">
+<div class="flex items-center gap-4">
+<!-- Header title could go here if needed, but search is on left per prompt request -> mapped to toolbar -->
+</div>
+<div class="flex items-center gap-4">
+<button class="text-secondary hover:bg-surface-soft transition-colors active:scale-95 duration-150 p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-secondary hover:bg-surface-soft transition-colors active:scale-95 duration-150 p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="Student profile avatar" class="w-8 h-8 rounded-full border border-hairline object-cover" data-alt="A small circular profile avatar of a student looking professional in a clean, modern studio setting with bright, high-key lighting. The background is a soft, solid neutral tone. The color palette emphasizes cobalt blue accents, fitting a modern corporate educational platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvCSL2YG_3zynfPg0gYd2pa12CgEDk1SBjq5iin3iccovp8epBf59wD51_K20crnnhr0r2ssUhO_Lk_y5vTs3cOTrm6CrZ3gsn6UkDmmwscCWQ9B0Rez6UztirL2nmGXE9SsbJPzCJ7QzEnPnQs7l_bRDdlIyTrbM5iaI93l64ZpI89nuXpBolCsgqMHus5q8V-IfallAsH2eA1ilV-hwA96UXYbInHKD5JW46OtoG_kdMNsOTYqN8H0h1V07ZNCOMNAblzkVHAFA">
+</div>
+</header>
+<!-- Page Content Container -->
+<div class="flex-1 overflow-y-auto p-xxl">
+<div class="flex flex-col gap-6 max-w-7xl mx-auto">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Quản lý câu hỏi</h2>
+</div>
+<!-- Toolbar -->
+<div class="bg-canvas p-xl rounded-lg shadow-sm border border-hairline-soft flex flex-wrap gap-4 items-center justify-between">
+<div class="flex flex-wrap items-center gap-4 flex-1">
+<!-- Search -->
+<div class="relative max-w-sm w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-soft border border-hairline rounded-full font-body-md text-body-md focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim transition-all" placeholder="Tìm kiếm câu hỏi..." type="text">
+</div>
+<!-- Filters -->
+<div class="flex items-center gap-2 bg-surface-soft p-1 rounded-full border border-hairline-soft">
+<select class="bg-transparent border-none py-1.5 pl-4 pr-8 font-label-md text-label-md text-on-surface focus:ring-0 cursor-pointer">
+<option>Tất cả Module</option>
+<option>Toán cao cấp</option>
+<option>Lập trình web</option>
+</select>
+<div class="w-px h-6 bg-hairline"></div>
+<div class="flex rounded-full overflow-hidden">
+<button class="px-3 py-1.5 font-label-md text-label-md bg-canvas shadow-sm rounded-full">Tất cả</button>
+<button class="px-3 py-1.5 font-label-md text-label-md text-secondary hover:text-on-surface">Dễ</button>
+<button class="px-3 py-1.5 font-label-md text-label-md text-secondary hover:text-on-surface">TB</button>
+<button class="px-3 py-1.5 font-label-md text-label-md text-secondary hover:text-on-surface">Khó</button>
+</div>
+<div class="w-px h-6 bg-hairline"></div>
+<div class="flex rounded-full overflow-hidden pr-2">
+<button class="px-3 py-1.5 font-label-md text-label-md bg-canvas shadow-sm rounded-full">Đang dùng</button>
+<button class="px-3 py-1.5 font-label-md text-label-md text-secondary hover:text-on-surface">Chờ duyệt</button>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 bg-surface-soft border border-primary text-primary px-4 py-2 rounded-full font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+                            AI Gợi ý
+                        </button>
+<button class="flex items-center gap-2 bg-ink text-on-primary px-4 py-2 rounded-full font-label-md text-label-md hover:bg-ink-deep transition-colors">
+                            Nhập Excel
+                        </button>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-full font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                            Tạo
+                        </button>
+</div>
+</div>
+<!-- Question List (Table Style) -->
+<div class="bg-canvas rounded-lg border border-hairline-soft overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-soft border-b border-hairline-soft font-label-md text-label-md text-secondary uppercase tracking-wider">
+<th class="px-6 py-4">Câu hỏi</th>
+<th class="px-6 py-4">Module</th>
+<th class="px-6 py-4">Độ khó</th>
+<th class="px-6 py-4 text-center">Đáp án</th>
+<th class="px-6 py-4 text-right">Thao tác</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-hairline-soft font-body-sm text-body-sm text-on-surface">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-4 max-w-md truncate" title="Trong mô hình OSI, tầng nào chịu trách nhiệm định tuyến các gói tin?">
+                                    Trong mô hình OSI, tầng nào chịu trách nhiệm định tuyến các gói tin?
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-md text-[12px]">Mạng máy tính</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-md text-[12px]">Trung bình</span>
+</td>
+<td class="px-6 py-4 text-center">4</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-secondary hover:text-primary hover:bg-surface-soft rounded-full transition-colors" title="Edit">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+<button class="p-1.5 text-secondary hover:text-critical hover:bg-error-container rounded-full transition-colors" title="Delete">
+<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-4 max-w-md truncate" title="Đạo hàm của hàm số f(x) = x^3 - 3x + 2 là gì?">
+                                    Đạo hàm của hàm số f(x) = x^3 - 3x + 2 là gì?
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-md text-[12px]">Toán cao cấp</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-soft text-on-surface font-label-md text-[12px]">Dễ</span>
+</td>
+<td class="px-6 py-4 text-center">4</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-secondary hover:text-primary hover:bg-surface-soft rounded-full transition-colors" title="Edit">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+<button class="p-1.5 text-secondary hover:text-critical hover:bg-error-container rounded-full transition-colors" title="Delete">
+<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-4 max-w-md truncate" title="Giải thuật Dijkstra được sử dụng để giải quyết bài toán nào trong đồ thị?">
+                                    Giải thuật Dijkstra được sử dụng để giải quyết bài toán nào trong đồ thị?
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-md text-[12px]">Cấu trúc dữ liệu</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-[12px]">Khó</span>
+</td>
+<td class="px-6 py-4 text-center">4</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-secondary hover:text-primary hover:bg-surface-soft rounded-full transition-colors" title="Edit">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+<button class="p-1.5 text-secondary hover:text-critical hover:bg-error-container rounded-full transition-colors" title="Delete">
+<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Stats Bar -->
+<div class="flex items-center justify-between font-body-sm text-body-sm text-steel mt-4 px-2">
+<p class="">Tổng số: 1,245 câu hỏi</p>
+<div class="flex gap-4">
+<span class="">Dễ: 450</span>
+<span class="w-px h-4 bg-hairline my-auto"></span>
+<span class="">Trung bình: 600</span>
+<span class="w-px h-4 bg-hairline my-auto"></span>
+<span class="">Khó: 195</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+
+</body></html>

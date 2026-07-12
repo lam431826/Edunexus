@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-sme :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Trích xuất từ YouTube</title></head>
+<body>
+<section class="max-w-2xl">
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1">Trích xuất nội dung từ YouTube</h1>
+  <p class="text-secondary font-body-sm mb-6">
+    Dán liên kết video cho bài giảng <b th:text="${lesson.title}">Lesson</b>, hệ thống sẽ lấy transcript và tạo tóm tắt bằng AI.
+  </p>
+
+  <div th:if="${errorMessage}" class="mb-4 px-4 py-3 rounded-lg bg-error-container text-error font-body-sm" th:text="${errorMessage}"></div>
+
+  <form th:action="@{'/sme/lessons/' + ${lesson.id} + '/extract'}" method="post" class="space-y-4">
+    <div>
+      <label class="block font-label-md text-label-md mb-1">YouTube URL</label>
+      <input name="youtubeUrl" required class="w-full border border-hairline rounded-lg px-3 py-2" placeholder="https://www.youtube.com/watch?v=..."/>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Ngôn ngữ đầu ra</label>
+        <select name="language" class="w-full border border-hairline rounded-lg px-3 py-2">
+          <option value="vi">Tiếng Việt</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Kiểu tóm tắt</label>
+        <select name="template" class="w-full border border-hairline rounded-lg px-3 py-2">
+          <option value="concise">Ngắn gọn</option>
+          <option value="detailed">Chi tiết</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">smart_display</span> Trích xuất &amp; Tạo nội dung
+    </button>
+  </form>
+</section>
+</body>
+</html>

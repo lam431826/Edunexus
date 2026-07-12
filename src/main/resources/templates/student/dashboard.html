@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Trang chủ học viên</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Chào mừng trở lại, <span th:text="${student.name}">Student</span>!</h1>
+    <p class="text-secondary font-body-sm">Tiếp tục hành trình học tập của bạn.</p>
+  </div>
+
+  <div th:if="${#lists.isEmpty(enrollments)}" class="text-center py-20 text-secondary">
+    Bạn chưa được ghi danh vào khóa học nào.
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div th:each="e : ${enrollments}" class="rounded-xxxl border border-hairline-soft bg-canvas overflow-hidden hover:shadow-md transition-shadow">
+      <div class="h-32 bg-surface-container flex items-center justify-center relative">
+        <span class="material-symbols-outlined text-5xl text-primary">school</span>
+        <div class="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-canvas border-2 border-primary flex items-center justify-center font-label-md text-[12px] text-primary"
+             th:text="${progressByCourse.get(e.course)} + '%'">0%</div>
+      </div>
+      <div class="p-6">
+        <h3 class="font-headline-md text-headline-md text-ink mb-1" th:text="${e.course.title}">Course</h3>
+        <p class="text-secondary font-body-sm mb-4 line-clamp-2" th:text="${e.course.description}">Description</p>
+        <a th:if="${continueLessonByCourse.get(e.course) != null}"
+           th:href="@{'/student/lessons/' + ${continueLessonByCourse.get(e.course).id}}"
+           class="w-full inline-flex justify-center py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md">
+          Tiếp tục học
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <a href="/student/progress" class="rounded-xl border border-hairline-soft p-5 hover:shadow-md flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary text-3xl">insights</span>
+      <span class="font-label-md">Xem tiến độ học tập</span>
+    </a>
+    <a href="/student/flashcards" class="rounded-xl border border-hairline-soft p-5 hover:shadow-md flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary text-3xl">style</span>
+      <span class="font-label-md">Luyện thẻ ghi nhớ</span>
+    </a>
+    <a href="/student/quizzes/new" class="rounded-xl border border-hairline-soft p-5 hover:shadow-md flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary text-3xl">quiz</span>
+      <span class="font-label-md">Luyện tập nhanh</span>
+    </a>
+  </div>
+</section>
+</body>
+</html>

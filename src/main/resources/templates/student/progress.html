@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Tiến độ học tập</title></head>
+<body>
+<section>
+  <a href="/student/dashboard" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm mb-6">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về trang chủ
+  </a>
+
+  <div th:if="${noCourses}" class="text-center py-20 text-secondary">Bạn chưa được ghi danh vào khóa học nào.</div>
+
+  <div th:unless="${noCourses}">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1" th:text="${course.title}">Course</h1>
+    <p class="text-secondary font-body-sm mb-6">Tiến độ học tập chi tiết của bạn.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="rounded-xl border border-hairline-soft p-5">
+        <p class="text-secondary font-body-sm mb-1">Thời gian học (ước tính)</p>
+        <p class="font-headline-md text-headline-md text-ink" th:text="${summary.estimatedStudyMinutes} + ' phút'">0</p>
+      </div>
+      <div class="rounded-xl border border-hairline-soft p-5">
+        <p class="text-secondary font-body-sm mb-1">Bài giảng hoàn thành</p>
+        <p class="font-headline-md text-headline-md text-ink" th:text="${summary.completedLessons} + '/' + ${summary.totalLessons}">0/0</p>
+      </div>
+      <div class="rounded-xl border border-hairline-soft p-5">
+        <p class="text-secondary font-body-sm mb-1">Điểm trung bình (Quiz / Bài tập)</p>
+        <p class="font-headline-md text-headline-md text-ink" th:text="${summary.averageQuizScore} + '% / ' + ${summary.averageAssignmentScore} + '%'">0</p>
+      </div>
+    </div>
+
+    <h2 class="font-headline-md text-headline-md mb-3">Tiến độ theo module</h2>
+    <div class="space-y-3 mb-10">
+      <div th:each="m : ${summary.moduleProgress}">
+        <div class="flex justify-between font-body-sm mb-1">
+          <span th:text="${m.moduleTitle}">Module</span>
+          <span th:text="${m.completedLessons} + '/' + ${m.totalLessons}">0/0</span>
+        </div>
+        <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+          <div class="h-full bg-primary" th:style="'width:' + ${m.percent} + '%'"></div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="font-headline-md text-headline-md mb-3">Hoạt động gần đây</h2>
+    <ul class="space-y-2">
+      <li th:each="a : ${summary.recentActivities}" class="flex items-center gap-3 text-body-sm">
+        <span class="material-symbols-outlined text-success text-[18px]">check_circle</span>
+        <span th:text="${a.description}">Activity</span>
+        <span class="text-secondary text-[12px]" th:text="${#temporals.format(a.timestamp, 'dd/MM/yyyy HH:mm')}">-</span>
+      </li>
+    </ul>
+  </div>
+</section>
+</body>
+</html>

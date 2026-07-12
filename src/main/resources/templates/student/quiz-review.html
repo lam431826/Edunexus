@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Xem lại bài trắc nghiệm</title></head>
+<body>
+<section class="flex gap-8">
+  <div class="w-56 shrink-0 hidden md:block">
+    <p class="font-label-md text-secondary mb-3">Câu hỏi</p>
+    <div class="grid grid-cols-5 gap-2">
+      <a th:each="a, stat : ${attempt.answers}" th:href="'#q' + ${stat.index}"
+         class="w-9 h-9 flex items-center justify-center rounded-lg text-[13px] border"
+         th:classappend="${a.correct} ? 'bg-success/20 border-success text-success' : 'bg-critical/20 border-critical text-critical'"
+         th:text="${stat.index + 1}">1</a>
+    </div>
+  </div>
+
+  <div class="flex-1 max-w-2xl space-y-6">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-2">Xem lại bài trắc nghiệm</h1>
+
+    <div th:each="a, stat : ${attempt.answers}" th:id="'q' + ${stat.index}" class="rounded-xl border border-hairline-soft p-6">
+      <p class="font-label-md text-secondary mb-2">Câu <span th:text="${stat.index + 1}">1</span></p>
+      <p class="font-body-md text-ink mb-4" th:text="${a.question.text}">Question text</p>
+      <div class="space-y-2 mb-3">
+        <div th:each="opt : ${a.question.options}" class="flex items-center gap-2 p-3 rounded-lg border"
+             th:classappend="${opt.correct} ? 'border-success bg-success/5' : (${a.selectedOption != null and a.selectedOption.id == opt.id} ? 'border-critical bg-critical/5' : 'border-hairline')">
+          <span class="material-symbols-outlined text-[18px]"
+                th:text="${opt.correct} ? 'check_circle' : (${a.selectedOption != null and a.selectedOption.id == opt.id} ? 'cancel' : '')"
+                th:classappend="${opt.correct} ? 'text-success' : 'text-critical'"></span>
+          <span th:text="${opt.text}">Option</span>
+        </div>
+      </div>
+      <div class="rounded-lg bg-surface-soft p-3 text-[13px] text-secondary" th:if="${a.question.explanation}">
+        <b>Giải thích:</b> <span th:text="${a.question.explanation}"></span>
+      </div>
+    </div>
+
+    <a href="/student/quizzes" class="inline-block px-6 py-2 rounded-full border border-hairline font-label-md">Thoát</a>
+  </div>
+</section>
+</body>
+</html>
