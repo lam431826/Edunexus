@@ -59,7 +59,8 @@ public class StudentFlashcardController {
         enrollmentService.assertEnrolled(student, deck.getModule().getCourse().getId());
         List<Flashcard> cards = flashcardService.getCards(deck);
         List<FlashcardView> cardViews = cards.stream()
-                .map(c -> new FlashcardView(c.getId(), c.getFrontText(), c.getBackText()))
+                .map(c -> new FlashcardView(c.getId(), c.getFrontText(), c.getBackText(),
+                        flashcardService.getMastery(student, c) == MasteryLevel.KNOWN))
                 .toList();
         model.addAttribute("deck", deck);
         model.addAttribute("cards", cardViews);

@@ -12,20 +12,30 @@
   <div th:if="${#lists.isEmpty(cards)}" class="text-secondary py-16">Bộ thẻ này chưa có thẻ nào.</div>
 
   <div th:unless="${#lists.isEmpty(cards)}">
-    <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden mb-8">
-      <div id="progressBar" class="h-full bg-primary" style="width:0%"></div>
+    <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden mb-2">
+      <div id="progressBar" class="h-full bg-primary transition-all" style="width:0%"></div>
     </div>
+    <p id="cardCounter" class="text-secondary text-[12px] mb-6">1 / 1</p>
 
     <div id="cardViewport" onclick="flipCard()"
-         class="mx-auto w-full h-64 rounded-xxxl border border-hairline-soft bg-canvas flex items-center justify-center p-8 cursor-pointer select-none shadow-sm">
+         class="mx-auto w-full h-64 rounded-xxxl border border-hairline-soft bg-canvas flex flex-col items-center justify-center p-8 cursor-pointer select-none shadow-sm relative">
+      <span id="knownBadge" class="hidden absolute top-4 right-4 px-3 py-1 rounded-full bg-success/10 text-success text-[12px] font-label-md flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">check_circle</span> Đã thuộc
+      </span>
       <p id="cardText" class="font-headline-md text-headline-md text-ink"></p>
     </div>
     <p class="text-secondary text-[12px] mt-2">Nhấn vào thẻ để xem đáp án</p>
 
-    <div class="flex justify-center gap-3 mt-8">
-      <button onclick="review('HARD')" class="px-6 py-2 rounded-full bg-critical/10 text-critical font-label-md">Khó</button>
-      <button onclick="review('LEARNING')" class="px-6 py-2 rounded-full bg-attention/10 text-attention font-label-md">Trung bình</button>
-      <button onclick="review('KNOWN')" class="px-6 py-2 rounded-full bg-success/10 text-success font-label-md">Dễ</button>
+    <div class="flex items-center justify-center gap-3 mt-8">
+      <button id="prevBtn" onclick="goPrev()" class="px-5 py-2 rounded-full border border-hairline text-ink font-label-md flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span> Lùi
+      </button>
+      <button id="knownBtn" onclick="toggleKnown()" class="px-6 py-2 rounded-full font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">check_circle</span> Đã thuộc
+      </button>
+      <button id="nextBtn" onclick="goNext()" class="px-5 py-2 rounded-full border border-hairline text-ink font-label-md flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed">
+        Tiến <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+      </button>
     </div>
   </div>
 
@@ -35,29 +45,42 @@
   let showingBack = false;
 
   function renderCard() {
-    if (index >= cards.length) {
-      document.getElementById('cardText').textContent = 'Bạn đã hoàn thành bộ thẻ này!';
-      document.getElementById('progressBar').style.width = '100%';
-      return;
-    }
     showingBack = false;
-    document.getElementById('cardText').textContent = cards[index].frontText;
-    document.getElementById('progressBar').style.width = Math.round(index * 100 / cards.length) + '%';
+    const card = cards[index];
+    document.getElementById('cardText').textContent = card.frontText;
+    document.getElementById('cardCounter').textContent = (index + 1) + ' / ' + cards.length;
+    document.getElementById('progressBar').style.width = Math.round((index + 1) * 100 / cards.length) + '%';
+
+    document.getElementById('prevBtn').disabled = index === 0;
+    document.getElementById('nextBtn').disabled = index === cards.length - 1;
+
+    document.getElementById('knownBadge').classList.toggle('hidden', !card.known);
+    const knownBtn = document.getElementById('knownBtn');
+    knownBtn.className = 'px-6 py-2 rounded-full font-label-md flex items-center gap-2 ' +
+      (card.known ? 'bg-success text-white' : 'bg-success/10 text-success');
   }
 
   function flipCard() {
-    if (index >= cards.length) return;
     showingBack = !showingBack;
     document.getElementById('cardText').textContent = showingBack ? cards[index].backText : cards[index].frontText;
   }
 
-  function review(level) {
-    if (index >= cards.length) return;
+  function goPrev() {
+    if (index > 0) { index--; renderCard(); }
+  }
+
+  function goNext() {
+    if (index < cards.length - 1) { index++; renderCard(); }
+  }
+
+  function toggleKnown() {
+    const card = cards[index];
+    const newLevel = card.known ? 'NEW' : 'KNOWN';
     const headerName = document.querySelector('meta[name="_csrf_header"]').content;
     const token = document.querySelector('meta[name="_csrf"]').content;
-    fetch('/student/flashcards/cards/' + cards[index].id + '/review?level=' + level,
+    fetch('/student/flashcards/cards/' + card.id + '/review?level=' + newLevel,
       { method: 'POST', headers: { [headerName]: token } })
-      .finally(() => { index++; renderCard(); });
+      .then(() => { card.known = !card.known; renderCard(); });
   }
 
   renderCard();
