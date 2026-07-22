@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title th:replace="${title}">EduNexus</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script th:replace="~{fragments/head-common :: tailwind-config}"></script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<header class="bg-canvas border-b border-hairline-soft sticky top-0 z-20">
+  <div class="max-w-7xl mx-auto px-base md:px-xxl py-4 flex items-center justify-between">
+    <a href="/catalog" class="flex items-center gap-2">
+      <div class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center text-on-primary font-headline-md">EN</div>
+      <span class="font-headline-md text-ink">EduNexus</span>
+    </a>
+    <nav class="flex items-center gap-4">
+      <a href="/catalog" class="font-label-md text-secondary hover:text-ink">Khóa học</a>
+      <a href="/login" class="font-label-md text-secondary hover:text-ink">Đăng nhập</a>
+      <a href="/register" class="px-4 py-2 rounded-full bg-ink text-white font-label-md hover:bg-ink-deep transition-colors">Đăng ký</a>
+    </nav>
+  </div>
+</header>
+<main class="max-w-7xl mx-auto p-base md:p-xxl">
+  <div th:replace="~{fragments/head-common :: flash-messages}"></div>
+  <div th:replace="${content}"></div>
+</main>
+</body>
+</html>

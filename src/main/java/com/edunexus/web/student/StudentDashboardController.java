@@ -29,21 +29,29 @@ public class StudentDashboardController {
         User student = currentUserProvider.getCurrentUser();
         List<Enrollment> enrollments = enrollmentService.getEnrollments(student);
 
-        Map<Course, Integer> progressByCourse = new LinkedHashMap<>();
-        Map<Course, Lesson> continueLessonByCourse = new LinkedHashMap<>();
+        // H1 -> its own course; H2 -> the class's source course; H3 (group subscription) has no
+        // single course, so it's shown in the list without a per-course progress card.
+        Map<Long, Course> courseByEnrollmentId = new LinkedHashMap<>();
+        Map<Long, Integer> progressByEnrollmentId = new LinkedHashMap<>();
+        Map<Long, Lesson> continueLessonByEnrollmentId = new LinkedHashMap<>();
         for (Enrollment e : enrollments) {
-            Course course = e.getCourse();
-            progressByCourse.put(course, progressService.buildSummary(student, course).completionPercent());
+            Course course = enrollmentService.resolveCourse(e);
+            if (course == null) {
+                continue;
+            }
+            courseByEnrollmentId.put(e.getId(), course);
+            progressByEnrollmentId.put(e.getId(), progressService.buildSummary(student, course).completionPercent());
             Lesson next = progressService.firstIncompleteLesson(student, course);
             if (next != null) {
-                continueLessonByCourse.put(course, next);
+                continueLessonByEnrollmentId.put(e.getId(), next);
             }
         }
 
         model.addAttribute("student", student);
         model.addAttribute("enrollments", enrollments);
-        model.addAttribute("progressByCourse", progressByCourse);
-        model.addAttribute("continueLessonByCourse", continueLessonByCourse);
+        model.addAttribute("courseByEnrollmentId", courseByEnrollmentId);
+        model.addAttribute("progressByEnrollmentId", progressByEnrollmentId);
+        model.addAttribute("continueLessonByEnrollmentId", continueLessonByEnrollmentId);
         return "student/dashboard";
     }
 }

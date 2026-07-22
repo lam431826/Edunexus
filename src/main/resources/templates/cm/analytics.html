@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-cm :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Doanh thu</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Doanh thu</h1>
+    <p class="text-secondary font-body-sm">Doanh thu và số lượt ghi danh theo từng nhóm khóa học bạn phụ trách.</p>
+  </div>
+
+  <div th:if="${#lists.isEmpty(rows)}" class="text-center py-20 text-secondary">
+    Bạn chưa được phân công phụ trách nhóm khóa học nào.
+  </div>
+
+  <div th:unless="${#lists.isEmpty(rows)}">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+      <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+        <p class="text-secondary font-body-sm mb-1">Tổng doanh thu</p>
+        <p class="font-headline-lg text-headline-lg text-success" th:text="${#numbers.formatDecimal(grandTotal, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</p>
+      </div>
+      <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+        <p class="text-secondary font-body-sm mb-1">Ghi danh H1 (khóa học)</p>
+        <p class="font-headline-lg text-headline-lg text-ink" th:text="${grandCourseEnrollments}">0</p>
+      </div>
+      <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+        <p class="text-secondary font-body-sm mb-1">Ghi danh H2 (lớp học)</p>
+        <p class="font-headline-lg text-headline-lg text-ink" th:text="${grandClassEnrollments}">0</p>
+      </div>
+      <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+        <p class="text-secondary font-body-sm mb-1">Ghi danh H3 (gói thuê bao)</p>
+        <p class="font-headline-lg text-headline-lg text-ink" th:text="${grandPlanEnrollments}">0</p>
+      </div>
+    </div>
+
+    <h2 class="font-headline-md text-headline-md text-ink mb-4">Chi tiết theo nhóm khóa học</h2>
+    <div class="rounded-xl border border-hairline-soft overflow-hidden">
+      <table class="w-full text-left">
+        <thead class="bg-surface-soft font-label-md text-label-md text-secondary">
+          <tr>
+            <th class="p-4">Nhóm khóa học</th>
+            <th class="p-4">Doanh thu H1</th>
+            <th class="p-4">Doanh thu H2</th>
+            <th class="p-4">Doanh thu H3</th>
+            <th class="p-4">Tổng doanh thu</th>
+            <th class="p-4">Ghi danh (H1/H2/H3)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="r : ${rows}" class="border-t border-hairline-soft">
+            <td class="p-4 font-label-md text-ink" th:text="${r.group.name}">Group</td>
+            <td class="p-4 text-secondary" th:text="${#numbers.formatDecimal(r.courseRevenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</td>
+            <td class="p-4 text-secondary" th:text="${#numbers.formatDecimal(r.classRevenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</td>
+            <td class="p-4 text-secondary" th:text="${#numbers.formatDecimal(r.planRevenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</td>
+            <td class="p-4 font-label-md text-success" th:text="${#numbers.formatDecimal(r.totalRevenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</td>
+            <td class="p-4 text-secondary" th:text="${r.courseEnrollments} + ' / ' + ${r.classEnrollments} + ' / ' + ${r.planEnrollments}">0 / 0 / 0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</body>
+</html>

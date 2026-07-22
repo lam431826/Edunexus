@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Kết quả thanh toán</title></head>
+<body>
+<section class="max-w-lg text-center py-16">
+  <div th:if="${status == 'SUCCESS'}">
+    <span class="material-symbols-outlined text-5xl text-success mb-3 inline-block">check_circle</span>
+    <p class="font-headline-md text-headline-md text-ink mb-2">Thanh toán thành công</p>
+    <p class="font-body-sm text-secondary">Quyền truy cập của bạn đã được kích hoạt.</p>
+  </div>
+  <div th:if="${status == 'PENDING'}">
+    <span class="material-symbols-outlined text-5xl text-attention mb-3 inline-block">hourglass_top</span>
+    <p class="font-headline-md text-headline-md text-ink mb-2">Đang xác nhận thanh toán</p>
+    <p class="font-body-sm text-secondary">Vui lòng đợi trong giây lát, hệ thống đang xác nhận giao dịch của bạn.</p>
+  </div>
+  <div th:if="${status == 'FAILED'}">
+    <span class="material-symbols-outlined text-5xl text-critical mb-3 inline-block">error</span>
+    <p class="font-headline-md text-headline-md text-ink mb-2">Thanh toán không thành công</p>
+    <p class="font-body-sm text-secondary">Giao dịch không được xác nhận. Chưa có quyền truy cập nào được cấp.</p>
+  </div>
+  <div th:if="${status == 'UNKNOWN'}">
+    <span class="material-symbols-outlined text-5xl text-secondary mb-3 inline-block">help</span>
+    <p class="font-headline-md text-headline-md text-ink mb-2">Không tìm thấy giao dịch</p>
+  </div>
+  <a href="/student/my-courses" class="inline-block mt-6 px-6 py-3 rounded-full border border-hairline font-label-md">Khóa học của tôi</a>
+</section>
+</body>
+</html>

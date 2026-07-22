@@ -89,10 +89,20 @@
       </div>
     </div>
     <div class="mt-base">
-      <button class="w-full inline-flex justify-center items-center py-3 px-4 border border-hairline rounded-full bg-canvas hover:bg-surface-soft font-label-md text-label-md text-on-surface transition-colors gap-2 opacity-60 cursor-not-allowed"
+      <a th:if="${googleLoginEnabled}" href="/oauth2/authorization/google"
+         class="w-full inline-flex justify-center items-center py-3 px-4 border border-hairline rounded-full bg-canvas hover:bg-surface-soft font-label-md text-label-md text-on-surface transition-colors gap-2">
+        Đăng nhập bằng Google
+      </a>
+      <button th:unless="${googleLoginEnabled}"
+              class="w-full inline-flex justify-center items-center py-3 px-4 border border-hairline rounded-full bg-canvas hover:bg-surface-soft font-label-md text-label-md text-on-surface transition-colors gap-2 opacity-60 cursor-not-allowed"
               type="button" title="Google OAuth chưa được cấu hình trong bản demo này" disabled>
         Đăng nhập bằng Google
       </button>
+    </div>
+    <div class="mt-base text-center">
+      <p class="font-body-sm text-body-sm text-on-surface-variant">
+        Chưa có tài khoản? <a href="/register" class="text-primary font-label-md">Đăng ký ngay</a>
+      </p>
     </div>
     <div class="mt-section text-center">
       <p class="font-body-sm text-body-sm text-on-surface-variant">

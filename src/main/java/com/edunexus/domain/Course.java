@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "courses")
 @Getter
@@ -45,4 +47,13 @@ public class Course {
     @Column(nullable = false)
     @Builder.Default
     private int version = 1;
+
+    /** Nullable until an Admin/Course Manager assigns this course into a CourseGroup. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_group_id")
+    private CourseGroup courseGroup;
+
+    /** H1 single-course purchase price; nullable until a Course Manager sets it via Catalog & Pricing. */
+    @Column(name = "unit_price", precision = 12, scale = 2)
+    private BigDecimal unitPrice;
 }

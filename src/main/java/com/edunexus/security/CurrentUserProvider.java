@@ -13,9 +13,11 @@ public class CurrentUserProvider {
     private final UserRepository userRepository;
 
     public User getCurrentUser() {
-        AppUserPrincipal principal = (AppUserPrincipal) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        return userRepository.findById(principal.getId())
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!(principal instanceof AppPrincipal appPrincipal)) {
+            throw new IllegalStateException("Unsupported authentication principal: " + principal.getClass());
+        }
+        return userRepository.findById(appPrincipal.getId())
                 .orElseThrow(() -> new IllegalStateException("Authenticated user no longer exists"));
     }
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-admin :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Giám sát khóa học</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Khóa học</h1>
+    <p class="text-secondary font-body-sm">Toàn bộ khóa học trên hệ thống, không phân biệt SME phụ trách.</p>
+  </div>
+
+  <div th:if="${#lists.isEmpty(courses)}" class="text-center py-20 text-secondary">
+    Chưa có khóa học nào trên hệ thống.
+  </div>
+
+  <div class="rounded-xxxl border border-hairline-soft bg-canvas overflow-hidden">
+    <table class="w-full text-left">
+      <thead class="bg-surface-container">
+        <tr>
+          <th class="p-4 font-label-md text-secondary">Tên khóa học</th>
+          <th class="p-4 font-label-md text-secondary">SME phụ trách</th>
+          <th class="p-4 font-label-md text-secondary">Nhóm khóa học</th>
+          <th class="p-4 font-label-md text-secondary">Trạng thái</th>
+          <th class="p-4 font-label-md text-secondary text-right">Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="c : ${courses}" class="border-t border-hairline-soft">
+          <td class="p-4" th:text="${c.title}">Course</td>
+          <td class="p-4 text-secondary" th:text="${c.owner.name}">Owner</td>
+          <td class="p-4 text-secondary" th:text="${c.courseGroup != null ? c.courseGroup.name : '-'}">Group</td>
+          <td class="p-4">
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase"
+                  th:classappend="${c.status.name() == 'PUBLISHED'} ? 'bg-success/10 text-success' : 'bg-attention/10 text-attention'"
+                  th:text="${c.status}">Status</span>
+          </td>
+          <td class="p-4 text-right">
+            <a th:href="@{'/admin/courses/' + ${c.id}}" class="px-3 py-1.5 rounded-full border border-hairline text-[12px] font-label-md hover:border-primary hover:text-primary">Xem chi tiết</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>

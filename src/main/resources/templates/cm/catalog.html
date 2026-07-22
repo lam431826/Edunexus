@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-cm :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Giá &amp; Catalog</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Giá &amp; Catalog</h1>
+    <p class="text-secondary font-body-sm">Thiết lập giá bán lẻ (H1) cho khóa học và học phí (H2) cho lớp học.</p>
+  </div>
+
+  <h2 class="font-headline-md text-headline-md text-ink mb-4">Khóa học (giá H1)</h2>
+  <div th:if="${#lists.isEmpty(courses)}" class="text-center py-10 text-secondary mb-10">
+    Chưa có khóa học nào trong các nhóm bạn phụ trách.
+  </div>
+  <div class="rounded-xl border border-hairline-soft overflow-hidden mb-10" th:unless="${#lists.isEmpty(courses)}">
+    <table class="w-full text-left">
+      <thead class="bg-surface-soft font-label-md text-label-md text-secondary">
+        <tr>
+          <th class="p-4">Khóa học</th>
+          <th class="p-4">Trạng thái</th>
+          <th class="p-4">Giá hiện tại</th>
+          <th class="p-4">Cập nhật giá</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="course : ${courses}" class="border-t border-hairline-soft">
+          <td class="p-4 font-label-md text-ink" th:text="${course.title}">Course</td>
+          <td class="p-4 text-secondary" th:text="${course.status}">DRAFT</td>
+          <td class="p-4 text-secondary"
+              th:text="${course.unitPrice != null ? #numbers.formatDecimal(course.unitPrice, 0, 'COMMA', 0, 'POINT') + ' đ' : 'Chưa đặt giá'}">-</td>
+          <td class="p-4">
+            <form th:action="@{'/cm/catalog/courses/' + ${course.id} + '/price'}" method="post" class="flex items-center gap-2">
+              <input type="number" name="unitPrice" min="0" step="1000" th:value="${course.unitPrice}"
+                     class="w-32 border border-hairline rounded-lg px-3 py-1.5" required/>
+              <button type="submit" class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md">Lưu</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="font-headline-md text-headline-md text-ink mb-4">Lớp học (học phí H2)</h2>
+  <div th:if="${#lists.isEmpty(classes)}" class="text-center py-10 text-secondary">
+    Chưa có lớp học nào trong các nhóm bạn phụ trách.
+  </div>
+  <div class="rounded-xl border border-hairline-soft overflow-hidden" th:unless="${#lists.isEmpty(classes)}">
+    <table class="w-full text-left">
+      <thead class="bg-surface-soft font-label-md text-label-md text-secondary">
+        <tr>
+          <th class="p-4">Lớp học</th>
+          <th class="p-4">Khóa học nguồn</th>
+          <th class="p-4">Học phí hiện tại</th>
+          <th class="p-4">Cập nhật học phí</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="c : ${classes}" class="border-t border-hairline-soft">
+          <td class="p-4 font-label-md text-ink" th:text="${c.name}">Class</td>
+          <td class="p-4 text-secondary" th:text="${c.sourceCourse.title}">Course</td>
+          <td class="p-4 text-secondary" th:text="${#numbers.formatDecimal(c.fee, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</td>
+          <td class="p-4">
+            <form th:action="@{'/cm/catalog/classes/' + ${c.id} + '/fee'}" method="post" class="flex items-center gap-2">
+              <input type="number" name="fee" min="0" step="1000" th:value="${c.fee}"
+                     class="w-32 border border-hairline rounded-lg px-3 py-1.5" required/>
+              <button type="submit" class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md">Lưu</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>

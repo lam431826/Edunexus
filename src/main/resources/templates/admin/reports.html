@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-admin :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Báo cáo</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Báo cáo tổng quan</h1>
+    <p class="text-secondary font-body-sm">Số liệu tổng hợp toàn hệ thống EduNexus.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+      <span class="material-symbols-outlined text-primary text-3xl">payments</span>
+      <p class="font-headline-lg text-headline-lg text-ink-deep mt-2"
+         th:text="${#numbers.formatDecimal(totalRevenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">0</p>
+      <p class="text-secondary font-body-sm" th:text="'Tổng doanh thu (' + ${totalPaymentsCount} + ' giao dịch thành công)'">Revenue</p>
+    </div>
+    <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+      <span class="material-symbols-outlined text-primary text-3xl">groups</span>
+      <p class="font-headline-lg text-headline-lg text-ink-deep mt-2" th:text="${activeLearners}">0</p>
+      <p class="text-secondary font-body-sm">Học viên đang học (có ghi danh active)</p>
+    </div>
+    <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+      <span class="material-symbols-outlined text-primary text-3xl">person_add</span>
+      <p class="font-headline-lg text-headline-lg text-ink-deep mt-2" th:text="${newAccountsThisMonth}">0</p>
+      <p class="text-secondary font-body-sm">Tài khoản mới trong tháng này</p>
+    </div>
+  </div>
+
+  <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+    <h2 class="font-headline-md text-headline-md text-ink mb-4">Số lượng lớp học theo trạng thái</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div th:each="entry : ${classStatusCounts}" class="rounded-xl border border-hairline-soft p-5 text-center">
+        <p class="font-headline-lg text-headline-lg text-ink-deep" th:text="${entry.value}">0</p>
+        <p class="text-secondary font-body-sm" th:text="${entry.key}">STATUS</p>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-admin :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Quản lý người dùng</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="font-headline-lg text-headline-lg text-ink-deep">Người dùng</h1>
+      <p class="text-secondary font-body-sm">Quản lý tài khoản SME, Giảng viên, Trưởng nhóm khóa học và Quản trị viên.</p>
+    </div>
+    <button onclick="document.getElementById('newUserModal').classList.remove('hidden')"
+            class="px-6 py-2 bg-primary hover:bg-primary-container text-on-primary rounded-full font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">person_add</span> Tạo tài khoản mới
+    </button>
+  </div>
+
+  <div class="rounded-xxxl border border-hairline-soft bg-canvas overflow-hidden">
+    <table class="w-full text-left">
+      <thead class="bg-surface-container">
+        <tr>
+          <th class="p-4 font-label-md text-secondary">Họ tên</th>
+          <th class="p-4 font-label-md text-secondary">Email</th>
+          <th class="p-4 font-label-md text-secondary">Vai trò</th>
+          <th class="p-4 font-label-md text-secondary">Trạng thái</th>
+          <th class="p-4 font-label-md text-secondary">Ngày tạo</th>
+          <th class="p-4 font-label-md text-secondary text-right">Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="u : ${users}" class="border-t border-hairline-soft">
+          <td class="p-4" th:text="${u.name}">Name</td>
+          <td class="p-4 text-secondary" th:text="${u.email}">email</td>
+          <td class="p-4">
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase bg-surface-container-high text-ink"
+                  th:text="${u.role}">ROLE</span>
+          </td>
+          <td class="p-4">
+            <span th:if="${u.enabled}" class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase bg-success/10 text-success">Đang hoạt động</span>
+            <span th:unless="${u.enabled}" class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase bg-error-container text-error">Vô hiệu hóa</span>
+          </td>
+          <td class="p-4 text-secondary text-[12px]" th:text="${#temporals.format(u.createdAt, 'dd/MM/yyyy')}">-</td>
+          <td class="p-4">
+            <div class="flex justify-end gap-2">
+              <form th:action="@{'/admin/users/' + ${u.id} + '/disable'}" method="post" th:if="${u.enabled}">
+                <button type="submit" class="px-3 py-1.5 rounded-full border border-hairline text-[12px] font-label-md hover:border-critical hover:text-critical">Vô hiệu hóa</button>
+              </form>
+              <form th:action="@{'/admin/users/' + ${u.id} + '/enable'}" method="post" th:unless="${u.enabled}">
+                <button type="submit" class="px-3 py-1.5 rounded-full border border-hairline text-[12px] font-label-md hover:border-success hover:text-success">Kích hoạt</button>
+              </form>
+              <form th:action="@{'/admin/users/' + ${u.id} + '/reset-password'}" method="post">
+                <button type="submit" class="px-3 py-1.5 rounded-full border border-hairline text-[12px] font-label-md hover:border-primary hover:text-primary">Đặt lại mật khẩu</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="newUserModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="bg-canvas rounded-xl p-8 w-full max-w-md">
+      <h3 class="font-headline-md text-headline-md mb-4">Tạo tài khoản mới</h3>
+      <form th:action="@{/admin/users}" th:object="${adminUserForm}" method="post" class="space-y-4">
+        <div>
+          <label class="block font-label-md text-label-md mb-1">Họ tên</label>
+          <input th:field="*{name}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+        </div>
+        <div>
+          <label class="block font-label-md text-label-md mb-1">Email</label>
+          <input type="email" th:field="*{email}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+        </div>
+        <div>
+          <label class="block font-label-md text-label-md mb-1">Vai trò</label>
+          <select th:field="*{role}" class="w-full border border-hairline rounded-lg px-3 py-2">
+            <option th:each="r : ${assignableRoles}" th:value="${r}" th:text="${r}">ROLE</option>
+          </select>
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="document.getElementById('newUserModal').classList.add('hidden')"
+                  class="px-5 py-2 rounded-full border border-hairline">Hủy</button>
+          <button type="submit" class="px-5 py-2 rounded-full bg-primary text-on-primary">Tạo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</body>
+</html>

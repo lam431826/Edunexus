@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Khóa học của tôi</title></head>
+<body>
+<section>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6">Khóa học của tôi</h1>
+
+  <div th:if="${#lists.isEmpty(enrollments)}" class="text-center py-16">
+    <p class="font-label-md text-secondary mb-4">Bạn chưa có khóa học hoặc lớp học nào.</p>
+    <a href="/catalog" class="inline-block px-6 py-3 rounded-full bg-ink text-white font-label-md hover:bg-ink-deep transition-colors">Khám phá danh mục khóa học</a>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div th:each="e : ${enrollments}" class="p-5 rounded-xl border border-hairline-soft">
+      <p class="text-[11px] font-label-md uppercase text-secondary mb-1"
+         th:text="${e.accessType.name() == 'H1_COURSE' ? 'Mua khóa học' : (e.accessType.name() == 'H2_CLASS' ? 'Lớp học' : 'Gói thuê bao')}">Access type</p>
+
+      <div th:if="${e.accessType.name() == 'H1_COURSE'}">
+        <p class="font-headline-md text-headline-md text-ink mb-2" th:text="${e.course.title}">Course</p>
+        <a th:href="@{'/student/lessons?courseId=' + ${e.course.id}}" class="text-primary font-label-md">Vào học &rarr;</a>
+      </div>
+
+      <div th:if="${e.accessType.name() == 'H2_CLASS'}">
+        <p class="font-headline-md text-headline-md text-ink mb-1" th:text="${e.classEntity.name}">Class</p>
+        <p class="text-[12px] text-secondary mb-2" th:text="'Khóa gốc: ' + ${e.classEntity.sourceCourse.title}">Course</p>
+        <a th:href="@{'/student/lessons?courseId=' + ${e.classEntity.sourceCourse.id}}" class="text-primary font-label-md">Vào học &rarr;</a>
+      </div>
+
+      <div th:if="${e.accessType.name() == 'H3_GROUP_SUBSCRIPTION'}">
+        <p class="font-headline-md text-headline-md text-ink mb-1" th:text="${e.plan.name}">Plan</p>
+        <p class="text-[12px] text-secondary mb-2" th:text="'Nhóm: ' + ${e.plan.courseGroup.name}">Group</p>
+        <a href="/catalog" class="text-primary font-label-md">Xem khóa học trong nhóm &rarr;</a>
+      </div>
+
+      <p class="text-[11px] text-secondary mt-3" th:text="${e.status.name() == 'ACTIVE' ? 'Đang hoạt động' : (e.status.name() == 'EXPIRED' ? 'Đã hết hạn' : 'Đã thu hồi')}">Status</p>
+      <p th:if="${e.validUntil != null}" class="text-[11px] text-secondary" th:text="'Hết hạn: ' + ${#temporals.format(e.validUntil, 'dd/MM/yyyy')}">Valid until</p>
+    </div>
+  </div>
+</section>
+</body>
+</html>

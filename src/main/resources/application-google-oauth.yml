@@ -1,0 +1,23 @@
+# Opt-in profile: activates Google OAuth2 sign-in/registration once real credentials are available.
+# Run with, e.g.: mvn spring-boot:run -Dspring-boot.run.profiles=h2,google-oauth
+# (or the SQL Server default: -Dspring-boot.run.profiles=google-oauth)
+#
+# Needed: a Google Cloud OAuth 2.0 Web-application client (console.cloud.google.com -> APIs &
+# Services -> Credentials), with authorized redirect URI:
+#   http://localhost:8080/login/oauth2/code/google
+# Set GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET as environment variables before starting the app.
+#
+# This block is NOT in application.yml because Spring Boot's OAuth2ClientAutoConfiguration
+# validates a declared registration's client-id eagerly at startup, even when it resolves to an
+# empty string and even if SecurityConfig never wires up .oauth2Login() - so without this profile
+# active, the registration simply doesn't exist and the app starts normally with email/password
+# login only.
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope: openid,email,profile

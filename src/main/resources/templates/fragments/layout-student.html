@@ -27,6 +27,16 @@
       <span class="material-symbols-outlined">dashboard</span>
       <span class="font-label-md">Dashboard</span>
     </a>
+    <a href="/student/my-courses" class="flex items-center gap-3 px-4 py-3 rounded-full transition-colors"
+       th:classappend="${requestUri.startsWith('/student/my-courses')} ? 'bg-ink-deep text-white' : 'text-secondary hover:bg-surface-soft'">
+      <span class="material-symbols-outlined">school</span>
+      <span class="font-label-md">Khóa học của tôi</span>
+    </a>
+    <a href="/catalog" class="flex items-center gap-3 px-4 py-3 rounded-full transition-colors"
+       th:classappend="${requestUri.startsWith('/catalog')} ? 'bg-ink-deep text-white' : 'text-secondary hover:bg-surface-soft'">
+      <span class="material-symbols-outlined">storefront</span>
+      <span class="font-label-md">Danh mục khóa học</span>
+    </a>
     <a href="/student/progress" class="flex items-center gap-3 px-4 py-3 rounded-full transition-colors"
        th:classappend="${requestUri == '/student/progress'} ? 'bg-ink-deep text-white' : 'text-secondary hover:bg-surface-soft'">
       <span class="material-symbols-outlined">insights</span>

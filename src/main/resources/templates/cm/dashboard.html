@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-cm :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Dashboard Quản lý</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Tổng quan</h1>
+    <p class="text-secondary font-body-sm">Tình hình các nhóm khóa học bạn đang phụ trách.</p>
+  </div>
+
+  <div th:if="${#lists.isEmpty(groupSummaries)}" class="text-center py-20 text-secondary">
+    Bạn chưa được phân công phụ trách nhóm khóa học nào.
+  </div>
+
+  <div th:unless="${#lists.isEmpty(groupSummaries)}">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+      <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+        <p class="text-secondary font-body-sm mb-1">Lớp học</p>
+        <p class="font-headline-lg text-headline-lg text-ink" th:text="${totalClasses}">0</p>
+      </div>
+      <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+        <p class="text-secondary font-body-sm mb-1">Ghi danh đang hoạt động</p>
+        <p class="font-headline-lg text-headline-lg text-ink" th:text="${totalActiveEnrollments}">0</p>
+      </div>
+      <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+        <p class="text-secondary font-body-sm mb-1">Gói thuê bao</p>
+        <p class="font-headline-lg text-headline-lg text-ink" th:text="${totalPlans}">0</p>
+      </div>
+      <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+        <p class="text-secondary font-body-sm mb-1">Doanh thu</p>
+        <p class="font-headline-lg text-headline-lg text-success" th:text="${#numbers.formatDecimal(totalRevenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</p>
+      </div>
+    </div>
+
+    <h2 class="font-headline-md text-headline-md text-ink mb-4">Theo nhóm khóa học</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div th:each="s : ${groupSummaries}" class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+        <h3 class="font-headline-md text-headline-md text-ink mb-1" th:text="${s.group.name}">Group</h3>
+        <p class="text-secondary font-body-sm mb-4 line-clamp-2" th:text="${s.group.description}">Description</p>
+        <div class="grid grid-cols-2 gap-3 text-body-sm">
+          <div><span class="text-secondary">Lớp học:</span> <span class="font-label-md text-ink" th:text="${s.classCount}">0</span></div>
+          <div><span class="text-secondary">Ghi danh:</span> <span class="font-label-md text-ink" th:text="${s.activeEnrollmentCount}">0</span></div>
+          <div><span class="text-secondary">Gói thuê bao:</span> <span class="font-label-md text-ink" th:text="${s.planCount}">0</span></div>
+          <div><span class="text-secondary">Doanh thu:</span> <span class="font-label-md text-success" th:text="${#numbers.formatDecimal(s.revenue, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Lớp của tôi</title></head>
+<body>
+<section>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6">Lớp của tôi</h1>
+
+  <div th:if="${#lists.isEmpty(classes)}" class="text-center py-16 text-secondary">
+    Bạn chưa được phân công lớp học nào.
+  </div>
+
+  <table th:if="${not #lists.isEmpty(classes)}" class="w-full text-left rounded-xl border border-hairline-soft overflow-hidden">
+    <thead class="bg-surface-soft font-label-md text-secondary">
+      <tr>
+        <th class="p-3">Lớp</th>
+        <th class="p-3">Khóa học gốc</th>
+        <th class="p-3">Thời gian</th>
+        <th class="p-3">Sĩ số</th>
+        <th class="p-3">Trạng thái</th>
+        <th class="p-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="c : ${classes}" class="border-t border-hairline-soft">
+        <td class="p-3 font-label-md text-ink" th:text="${c.name}">Class</td>
+        <td class="p-3 text-secondary" th:text="${c.sourceCourse.title}">Course</td>
+        <td class="p-3 text-secondary text-[13px]">
+          <span th:text="${c.startDate}">-</span> &rarr; <span th:text="${c.endDate}">-</span>
+        </td>
+        <td class="p-3" th:text="${c.maxSize}">50</td>
+        <td class="p-3">
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase"
+                th:classappend="${c.status.name() == 'PUBLISHED'} ? 'bg-success/10 text-success' : (${c.status.name() == 'CLOSED'} ? 'bg-critical/10 text-critical' : 'bg-attention/10 text-attention')"
+                th:text="${c.status}">DRAFT</span>
+        </td>
+        <td class="p-3">
+          <a th:href="@{'/teacher/classes/' + ${c.id}}" class="text-primary hover:underline font-label-md text-[13px]">Xem chi tiết</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>

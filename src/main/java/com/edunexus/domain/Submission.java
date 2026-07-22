@@ -56,6 +56,22 @@ public class Submission {
     @Column(name = "ai_feedback")
     private String aiFeedback;
 
+    /** Final teacher-confirmed score/feedback (GBR-09) - kept separate from the AI preliminary result above. */
+    @Column(name = "teacher_score")
+    private Integer teacherScore;
+
+    @Nationalized
+    @Lob
+    @Column(name = "teacher_feedback")
+    private String teacherFeedback;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "confirmed_by")
+    private User confirmedBy;
+
+    @Column(name = "confirmed_at")
+    private LocalDateTime confirmedAt;
+
     @Column(name = "submitted_at", nullable = false)
     @Builder.Default
     private LocalDateTime submittedAt = LocalDateTime.now();

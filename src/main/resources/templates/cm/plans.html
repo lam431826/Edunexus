@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-cm :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Gói thuê bao</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Gói thuê bao</h1>
+    <p class="text-secondary font-body-sm">Các gói thuê bao (H3) theo từng nhóm khóa học bạn phụ trách.</p>
+  </div>
+
+  <div th:if="${#lists.isEmpty(groups)}" class="text-center py-20 text-secondary">
+    Bạn chưa được phân công phụ trách nhóm khóa học nào.
+  </div>
+
+  <div th:each="group : ${groups}" class="mb-10">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="font-headline-md text-headline-md text-ink" th:text="${group.name}">Group</h2>
+      <a th:href="@{'/cm/plans/new?groupId=' + ${group.id}}"
+         class="px-5 py-2 bg-primary hover:bg-primary-container text-on-primary rounded-full font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">add</span> Tạo gói mới
+      </a>
+    </div>
+
+    <div th:with="plans=${plansByGroup.get(group.id)}">
+      <div th:if="${#lists.isEmpty(plans)}" class="text-center py-10 text-secondary border border-hairline-soft rounded-xl">
+        Chưa có gói thuê bao nào cho nhóm này.
+      </div>
+      <div class="rounded-xl border border-hairline-soft overflow-hidden" th:unless="${#lists.isEmpty(plans)}">
+        <table class="w-full text-left">
+          <thead class="bg-surface-soft font-label-md text-label-md text-secondary">
+            <tr>
+              <th class="p-4">Tên gói</th>
+              <th class="p-4">Thời hạn</th>
+              <th class="p-4">Giá</th>
+              <th class="p-4">Trạng thái</th>
+              <th class="p-4">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="p : ${plans}" class="border-t border-hairline-soft">
+              <td class="p-4 font-label-md text-ink" th:text="${p.name}">Plan</td>
+              <td class="p-4 text-secondary" th:text="${p.durationMonths} + ' tháng'">1 tháng</td>
+              <td class="p-4 text-secondary" th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</td>
+              <td class="p-4">
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase"
+                      th:classappend="${p.status.name() == 'ACTIVE'} ? 'bg-success/10 text-success' : 'bg-critical/10 text-critical'"
+                      th:text="${p.status}">ACTIVE</span>
+              </td>
+              <td class="p-4">
+                <a th:href="@{'/cm/plans/' + ${p.id}}" class="text-primary hover:underline font-label-md">Chi tiết</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

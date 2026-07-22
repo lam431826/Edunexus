@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Soạn bộ thẻ ghi nhớ</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-6">
+    <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/flashcards'}" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về danh sách bộ thẻ
+    </a>
+    <form th:action="@{'/teacher/classes/' + ${classEntity.id} + '/flashcards/decks/' + ${deck.id} + '/delete'}" method="post"
+          onsubmit="return confirm('Xóa bộ thẻ này? Toàn bộ thẻ bên trong sẽ bị xóa.');">
+      <button type="submit" class="text-critical font-label-md text-[13px] flex items-center gap-1">
+        <span class="material-symbols-outlined text-[16px]">delete</span> Xóa bộ thẻ
+      </button>
+    </form>
+  </div>
+
+  <form th:action="@{'/teacher/classes/' + ${classEntity.id} + '/flashcards/decks/' + ${deck.id}}" th:object="${deckForm}" method="post" class="space-y-6">
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Tên bộ thẻ</label>
+        <input th:field="*{name}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Mô tả</label>
+        <input th:field="*{description}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+    </div>
+
+    <div>
+      <label class="block font-label-md text-label-md mb-2">Danh sách thẻ</label>
+      <div id="cardRows" class="space-y-2">
+        <div class="card-row grid grid-cols-12 gap-2 items-center" th:each="c, stat : *{cards}">
+          <input type="hidden" th:if="${c.id != null}" th:field="*{cards[__${stat.index}__].id}"/>
+          <input th:field="*{cards[__${stat.index}__].frontText}" placeholder="Mặt trước" class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+          <input th:field="*{cards[__${stat.index}__].backText}" placeholder="Mặt sau" class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+          <form th:if="${c.id != null}" th:action="@{'/teacher/classes/' + ${classEntity.id} + '/flashcards/decks/' + ${deck.id} + '/cards/' + ${c.id} + '/delete'}"
+                method="post" class="col-span-2" onsubmit="return confirm('Xóa thẻ này?');">
+            <button type="submit" class="text-critical text-[13px]">Xóa</button>
+          </form>
+        </div>
+      </div>
+      <button type="button" id="addCardBtn" class="mt-2 text-primary text-[13px] flex items-center gap-1">
+        <span class="material-symbols-outlined text-[16px]">add</span> Thêm thẻ
+      </button>
+    </div>
+
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Lưu bộ thẻ</button>
+  </form>
+
+  <script>
+  document.getElementById('addCardBtn').addEventListener('click', function () {
+    const container = document.getElementById('cardRows');
+    const nextIndex = container.querySelectorAll('.card-row').length;
+    const row = document.createElement('div');
+    row.className = 'card-row grid grid-cols-12 gap-2 items-center';
+    row.innerHTML = `
+      <input name="cards[${nextIndex}].frontText" placeholder="Mặt trước" class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+      <input name="cards[${nextIndex}].backText" placeholder="Mặt sau" class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+    `;
+    container.appendChild(row);
+  });
+  </script>
+</section>
+</body>
+</html>

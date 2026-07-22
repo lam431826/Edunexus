@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Thống kê lớp học</title></head>
+<body>
+<section>
+  <a th:href="@{'/teacher/classes/' + ${classEntity.id}}" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm mb-4 w-fit">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về chi tiết lớp
+  </a>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1" th:text="${classEntity.name}">Class</h1>
+  <p class="text-secondary font-body-sm mb-6">Thống kê nhanh cho lớp học này.</p>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="rounded-xl border border-hairline-soft bg-canvas p-5">
+      <p class="text-[12px] text-secondary mb-1">Sĩ số lớp</p>
+      <p class="font-headline-lg text-headline-lg text-ink" th:text="${rosterSize}">0</p>
+    </div>
+    <div class="rounded-xl border border-hairline-soft bg-canvas p-5">
+      <p class="text-[12px] text-secondary mb-1">Tỷ lệ hoàn thành bài giảng</p>
+      <p class="font-headline-lg text-headline-lg text-ink" th:if="${lessonCompletionRate != null}"
+         th:text="${#numbers.formatDecimal(lessonCompletionRate, 1, 1)} + '%'">0%</p>
+      <p class="text-secondary text-[13px]" th:if="${lessonCompletionRate == null}">Chưa đủ dữ liệu</p>
+      <p class="text-[11px] text-secondary mt-1" th:text="${totalLessons} + ' bài giảng trong khóa học gốc'">0 bài giảng</p>
+    </div>
+    <div class="rounded-xl border border-hairline-soft bg-canvas p-5">
+      <p class="text-[12px] text-secondary mb-1">Điểm trắc nghiệm trung bình</p>
+      <p class="font-headline-lg text-headline-lg text-ink" th:if="${quizAverage != null}"
+         th:text="${#numbers.formatDecimal(quizAverage, 1, 1)}">0</p>
+      <p class="text-secondary text-[13px]" th:if="${quizAverage == null}">Chưa có dữ liệu</p>
+    </div>
+    <div class="rounded-xl border border-hairline-soft bg-canvas p-5">
+      <p class="text-[12px] text-secondary mb-1">Bài chờ chấm</p>
+      <p class="font-headline-lg text-headline-lg" th:classappend="${pendingGrading > 0} ? 'text-attention' : 'text-ink'" th:text="${pendingGrading}">0</p>
+      <a href="/teacher/grading" class="text-[12px] text-primary hover:underline">Đi tới hàng đợi chấm bài</a>
+    </div>
+  </div>
+</section>
+</body>
+</html>

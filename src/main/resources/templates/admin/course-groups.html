@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-admin :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Nhóm khóa học</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="font-headline-lg text-headline-lg text-ink-deep">Nhóm khóa học</h1>
+      <p class="text-secondary font-body-sm">Quản lý các nhóm khóa học và Trưởng nhóm phụ trách.</p>
+    </div>
+    <button onclick="document.getElementById('newGroupModal').classList.remove('hidden')"
+            class="px-6 py-2 bg-primary hover:bg-primary-container text-on-primary rounded-full font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">add</span> Tạo nhóm mới
+    </button>
+  </div>
+
+  <div th:if="${#lists.isEmpty(groups)}" class="text-center py-20 text-secondary">
+    Chưa có nhóm khóa học nào.
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div th:each="g : ${groups}" class="rounded-xxxl border border-hairline-soft bg-canvas p-6 hover:shadow-md transition-shadow">
+      <h3 class="font-headline-md text-headline-md text-ink mb-1" th:text="${g.name}">Group name</h3>
+      <p class="text-secondary font-body-sm mb-3 line-clamp-2" th:text="${g.description}">Description</p>
+      <p class="text-[12px] text-secondary mb-4">
+        Trưởng nhóm:
+        <span th:if="${g.manager != null}" th:text="${g.manager.name}">Manager</span>
+        <span th:unless="${g.manager != null}" class="italic">Chưa gán</span>
+      </p>
+      <a th:href="@{'/admin/course-groups/' + ${g.id}}"
+         class="w-full inline-flex justify-center py-2 rounded-full border border-hairline hover:border-primary font-label-md text-label-md text-ink">
+        Xem chi tiết
+      </a>
+    </div>
+  </div>
+
+  <div id="newGroupModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="bg-canvas rounded-xl p-8 w-full max-w-md">
+      <h3 class="font-headline-md text-headline-md mb-4">Tạo nhóm khóa học mới</h3>
+      <form th:action="@{/admin/course-groups}" th:object="${courseGroupForm}" method="post" class="space-y-4">
+        <div>
+          <label class="block font-label-md text-label-md mb-1">Tên nhóm</label>
+          <input th:field="*{name}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+        </div>
+        <div>
+          <label class="block font-label-md text-label-md mb-1">Mô tả</label>
+          <textarea th:field="*{description}" rows="3" class="w-full border border-hairline rounded-lg px-3 py-2"></textarea>
+        </div>
+        <div>
+          <label class="block font-label-md text-label-md mb-1">Trưởng nhóm phụ trách</label>
+          <select th:field="*{managerId}" class="w-full border border-hairline rounded-lg px-3 py-2">
+            <option value="">-- Chưa gán --</option>
+            <option th:each="m : ${managers}" th:value="${m.id}" th:text="${m.name} + ' (' + ${m.email} + ')'">Manager</option>
+          </select>
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="document.getElementById('newGroupModal').classList.add('hidden')"
+                  class="px-5 py-2 rounded-full border border-hairline">Hủy</button>
+          <button type="submit" class="px-5 py-2 rounded-full bg-primary text-on-primary">Tạo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</body>
+</html>

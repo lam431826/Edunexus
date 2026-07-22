@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-cm :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Quản lý lớp học</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="font-headline-lg text-headline-lg text-ink-deep">Quản lý lớp học</h1>
+      <p class="text-secondary font-body-sm">Các lớp học (H2) thuộc những nhóm khóa học bạn phụ trách.</p>
+    </div>
+    <div th:unless="${#lists.isEmpty(courses)}">
+      <button onclick="document.getElementById('newClassModal').classList.remove('hidden')"
+              class="px-6 py-2 bg-primary hover:bg-primary-container text-on-primary rounded-full font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">add</span> Tạo lớp học mới
+      </button>
+    </div>
+  </div>
+
+  <div th:if="${#lists.isEmpty(classes)}" class="text-center py-20 text-secondary">
+    Chưa có lớp học nào trong các nhóm khóa học bạn phụ trách.
+  </div>
+
+  <div class="rounded-xl border border-hairline-soft overflow-hidden" th:unless="${#lists.isEmpty(classes)}">
+    <table class="w-full text-left">
+      <thead class="bg-surface-soft font-label-md text-label-md text-secondary">
+        <tr>
+          <th class="p-4">Tên lớp</th>
+          <th class="p-4">Khóa học nguồn</th>
+          <th class="p-4">Giáo viên</th>
+          <th class="p-4">Sĩ số</th>
+          <th class="p-4">Học phí</th>
+          <th class="p-4">Trạng thái</th>
+          <th class="p-4">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="c : ${classes}" class="border-t border-hairline-soft">
+          <td class="p-4 font-label-md text-ink" th:text="${c.name}">Class</td>
+          <td class="p-4 text-secondary" th:text="${c.sourceCourse.title}">Course</td>
+          <td class="p-4 text-secondary" th:text="${c.teacher != null ? c.teacher.name : 'Chưa phân công'}">Teacher</td>
+          <td class="p-4 text-secondary" th:text="${c.maxSize}">0</td>
+          <td class="p-4 text-secondary" th:text="${#numbers.formatDecimal(c.fee, 0, 'COMMA', 0, 'POINT')} + ' đ'">0 đ</td>
+          <td class="p-4">
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase"
+                  th:classappend="${c.status.name() == 'PUBLISHED'} ? 'bg-success/10 text-success' : (${c.status.name() == 'CLOSED'} ? 'bg-critical/10 text-critical' : 'bg-attention/10 text-attention')"
+                  th:text="${c.status}">DRAFT</span>
+          </td>
+          <td class="p-4">
+            <a th:href="@{'/cm/classes/' + ${c.id}}" class="text-primary hover:underline font-label-md">Chi tiết</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="newClassModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="bg-canvas rounded-xl p-8 w-full max-w-md">
+      <h3 class="font-headline-md text-headline-md mb-4">Tạo lớp học mới</h3>
+      <form method="get" th:action="@{/cm/classes/new}" class="space-y-4">
+        <div>
+          <label class="block font-label-md text-label-md mb-1">Khóa học nguồn</label>
+          <select name="courseId" required class="w-full border border-hairline rounded-lg px-3 py-2">
+            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.title}">Course</option>
+          </select>
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="document.getElementById('newClassModal').classList.add('hidden')"
+                  class="px-5 py-2 rounded-full border border-hairline">Hủy</button>
+          <button type="submit" class="px-5 py-2 rounded-full bg-primary text-on-primary">Tiếp tục</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</body>
+</html>

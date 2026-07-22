@@ -53,7 +53,11 @@ public class StudentQuizController {
         User student = currentUserProvider.getCurrentUser();
         List<Module> modules = new ArrayList<>();
         for (Enrollment e : enrollmentService.getEnrollments(student)) {
-            modules.addAll(moduleRepository.findByCourseOrderByOrderIndexAsc(e.getCourse()));
+            var course = enrollmentService.resolveCourse(e);
+            if (course == null) {
+                continue;
+            }
+            modules.addAll(moduleRepository.findByCourseOrderByOrderIndexAsc(course));
         }
         model.addAttribute("modules", modules);
         model.addAttribute("newQuizForm", new NewQuizForm());

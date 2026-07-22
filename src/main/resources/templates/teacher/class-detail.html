@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Chi tiết lớp học</title></head>
+<body>
+<section>
+  <nav class="flex items-center gap-2 font-body-sm text-secondary mb-2">
+    <a href="/teacher/classes" class="hover:text-ink">Lớp của tôi</a>
+    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+    <span class="text-ink font-bold" th:text="${classEntity.name}">Class</span>
+  </nav>
+
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="font-headline-lg text-headline-lg text-ink-deep" th:text="${classEntity.name}">Class</h1>
+      <p class="text-secondary font-body-sm">Khóa học gốc: <span th:text="${classEntity.sourceCourse.title}">Course</span></p>
+    </div>
+    <div class="flex items-center gap-2">
+      <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/analytics'}" class="px-5 py-2 rounded-full border border-hairline font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">insights</span> Thống kê
+      </a>
+      <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/notify'}" class="px-5 py-2 rounded-full border border-hairline font-label-md flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">campaign</span> Thông báo
+      </a>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <!-- Roster -->
+    <div class="rounded-xl border border-hairline-soft bg-canvas p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-headline-md text-headline-md text-ink">Danh sách học viên</h3>
+        <span class="text-[12px] text-secondary" th:text="${#lists.size(roster)} + '/' + ${classEntity.maxSize}">0/50</span>
+      </div>
+      <ul class="space-y-2 max-h-72 overflow-y-auto">
+        <li th:each="e : ${roster}" class="flex items-center justify-between text-body-sm">
+          <span th:text="${e.student.name}">Student</span>
+          <span class="text-[12px] text-secondary" th:text="${e.student.email}">email</span>
+        </li>
+        <li th:if="${#lists.isEmpty(roster)}" class="text-secondary text-[13px]">Chưa có học viên nào.</li>
+      </ul>
+    </div>
+
+    <!-- Materials -->
+    <div class="rounded-xl border border-hairline-soft bg-canvas p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-headline-md text-headline-md text-ink">Tài liệu bổ sung</h3>
+        <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/materials'}" class="text-primary text-[13px] hover:underline flex items-center gap-1">
+          <span class="material-symbols-outlined text-[16px]">description</span> Quản lý
+        </a>
+      </div>
+      <ul class="space-y-1">
+        <li th:each="m : ${materials}" class="flex items-center gap-2 text-body-sm">
+          <span class="material-symbols-outlined text-[16px] text-secondary">article</span>
+          <span th:text="${m.title}">Material</span>
+        </li>
+        <li th:if="${#lists.isEmpty(materials)}" class="text-secondary text-[13px]">Chưa có tài liệu nào.</li>
+      </ul>
+    </div>
+
+    <!-- Flashcard decks -->
+    <div class="rounded-xl border border-hairline-soft bg-canvas p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-headline-md text-headline-md text-ink">Bộ thẻ ghi nhớ</h3>
+        <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/flashcards'}" class="text-primary text-[13px] hover:underline flex items-center gap-1">
+          <span class="material-symbols-outlined text-[16px]">style</span> Quản lý
+        </a>
+      </div>
+      <ul class="space-y-1">
+        <li th:each="d : ${decks}" class="flex items-center gap-2 text-body-sm">
+          <span class="material-symbols-outlined text-[16px] text-secondary">style</span>
+          <span th:text="${d.name}">Deck</span>
+        </li>
+        <li th:if="${#lists.isEmpty(decks)}" class="text-secondary text-[13px]">Chưa có bộ thẻ nào.</li>
+      </ul>
+    </div>
+
+    <!-- Assignments overview -->
+    <div class="rounded-xl border border-hairline-soft bg-canvas p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-headline-md text-headline-md text-ink">Bài tập</h3>
+        <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/assignments'}" class="text-primary text-[13px] hover:underline flex items-center gap-1">
+          <span class="material-symbols-outlined text-[16px]">assignment</span> Quản lý
+        </a>
+      </div>
+      <p class="text-[12px] text-secondary mb-1">Bài tập riêng của lớp</p>
+      <ul class="space-y-1 mb-3">
+        <li th:each="a : ${classAssignments}" class="flex items-center gap-2 text-body-sm">
+          <span class="material-symbols-outlined text-[16px] text-secondary">assignment</span>
+          <span th:text="${a.title}">Assignment</span>
+        </li>
+        <li th:if="${#lists.isEmpty(classAssignments)}" class="text-secondary text-[13px]">Chưa có bài tập riêng.</li>
+      </ul>
+      <p class="text-[12px] text-secondary mb-1">Bài tập từ khóa học gốc (SME)</p>
+      <ul class="space-y-1">
+        <li th:each="a : ${courseAssignments}" class="flex items-center gap-2 text-body-sm">
+          <span class="material-symbols-outlined text-[16px] text-secondary">school</span>
+          <span th:text="${a.title}">Assignment</span>
+        </li>
+        <li th:if="${#lists.isEmpty(courseAssignments)}" class="text-secondary text-[13px]">Không có.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</body>
+</html>

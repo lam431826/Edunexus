@@ -27,14 +27,18 @@ public class StudentProgressController {
     public String progress(@RequestParam(required = false) Long courseId, Model model) {
         User student = currentUserProvider.getCurrentUser();
         List<Enrollment> enrollments = enrollmentService.getEnrollments(student);
-        if (enrollments.isEmpty()) {
+        List<Course> courses = enrollments.stream()
+                .map(enrollmentService::resolveCourse)
+                .filter(java.util.Objects::nonNull)
+                .distinct()
+                .toList();
+        if (courses.isEmpty()) {
             model.addAttribute("noCourses", true);
             return "student/progress";
         }
         Course course = courseId != null
-                ? enrollments.stream().map(Enrollment::getCourse).filter(c -> c.getId().equals(courseId))
-                    .findFirst().orElse(enrollments.get(0).getCourse())
-                : enrollments.get(0).getCourse();
+                ? courses.stream().filter(c -> c.getId().equals(courseId)).findFirst().orElse(courses.get(0))
+                : courses.get(0);
 
         model.addAttribute("course", course);
         model.addAttribute("enrollments", enrollments);

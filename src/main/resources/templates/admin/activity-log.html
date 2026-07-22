@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-admin :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Nhật ký hệ thống</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Nhật ký hệ thống</h1>
+    <p class="text-secondary font-body-sm" th:text="'Tổng cộng ' + ${totalCount} + ' hoạt động đã ghi nhận.'">Total</p>
+  </div>
+
+  <div class="rounded-xxxl border border-hairline-soft bg-canvas overflow-hidden mb-6">
+    <table class="w-full text-left">
+      <thead class="bg-surface-container">
+        <tr>
+          <th class="p-4 font-label-md text-secondary">Thời gian</th>
+          <th class="p-4 font-label-md text-secondary">Người thực hiện</th>
+          <th class="p-4 font-label-md text-secondary">Hành động</th>
+          <th class="p-4 font-label-md text-secondary">Đối tượng</th>
+          <th class="p-4 font-label-md text-secondary">Kết quả</th>
+          <th class="p-4 font-label-md text-secondary">Chi tiết</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="log : ${logs}" class="border-t border-hairline-soft align-top">
+          <td class="p-4 text-secondary text-[12px] whitespace-nowrap" th:text="${#temporals.format(log.createdAt, 'dd/MM/yyyy HH:mm')}">-</td>
+          <td class="p-4" th:text="${log.actor != null ? log.actor.name : 'Hệ thống'}">Actor</td>
+          <td class="p-4 font-label-md" th:text="${log.action}">ACTION</td>
+          <td class="p-4 text-secondary" th:text="${log.targetType} + (${log.targetId} != null ? ' #' + ${log.targetId} : '')">Target</td>
+          <td class="p-4">
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase"
+                  th:classappend="${log.result == 'SUCCESS'} ? 'bg-success/10 text-success' : 'bg-error-container text-error'"
+                  th:text="${log.result}">Result</span>
+          </td>
+          <td class="p-4 text-secondary text-[13px]" th:text="${log.detail}">Detail</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(logs)}">
+          <td colspan="6" class="p-8 text-center text-secondary">Không có nhật ký nào.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex items-center justify-between" th:if="${totalPages > 1}">
+    <a th:if="${currentPage > 0}" th:href="@{/admin/activity-log(page=${currentPage - 1})}"
+       class="px-4 py-2 rounded-full border border-hairline font-label-md text-label-md">Trang trước</a>
+    <span th:unless="${currentPage > 0}"></span>
+    <span class="text-secondary font-body-sm" th:text="'Trang ' + (${currentPage} + 1) + ' / ' + ${totalPages}">Page</span>
+    <a th:if="${currentPage + 1 < totalPages}" th:href="@{/admin/activity-log(page=${currentPage + 1})}"
+       class="px-4 py-2 rounded-full border border-hairline font-label-md text-label-md">Trang sau</a>
+    <span th:unless="${currentPage + 1 < totalPages}"></span>
+  </div>
+</section>
+</body>
+</html>

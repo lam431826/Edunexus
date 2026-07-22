@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Thông báo tới lớp</title></head>
+<body>
+<section>
+  <a th:href="@{'/teacher/classes/' + ${classEntity.id}}" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm mb-4 w-fit">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về chi tiết lớp
+  </a>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1" th:text="${classEntity.name}">Class</h1>
+  <p class="text-secondary font-body-sm mb-6">Gửi thông báo trong ứng dụng tới cả lớp hoặc một học viên cụ thể.</p>
+
+  <form th:action="@{'/teacher/classes/' + ${classEntity.id} + '/notify'}" th:object="${notifyForm}" method="post" class="space-y-4 rounded-xl border border-hairline-soft bg-canvas p-5 mb-10">
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Người nhận</label>
+      <select th:field="*{studentId}" class="w-full border border-hairline rounded-lg px-3 py-2">
+        <option value="">Cả lớp</option>
+        <option th:each="e : ${roster}" th:value="${e.student.id}" th:text="${e.student.name} + ' (' + ${e.student.email} + ')'">Student</option>
+      </select>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Nội dung thông báo</label>
+      <textarea th:field="*{message}" required rows="4" class="w-full border border-hairline rounded-lg px-3 py-2"></textarea>
+    </div>
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">send</span> Gửi thông báo
+    </button>
+  </form>
+
+  <h2 class="font-headline-md text-headline-md text-ink mb-3">Lịch sử thông báo</h2>
+  <ul class="space-y-2">
+    <li th:each="n : ${notifications}" class="rounded-lg border border-hairline-soft p-3">
+      <div class="flex items-center justify-between mb-1">
+        <span class="font-label-md text-[13px] text-ink" th:text="${n.recipient != null ? n.recipient.name : 'Cả lớp'}">Cả lớp</span>
+        <span class="text-[11px] text-secondary" th:text="${#temporals.format(n.createdAt, 'dd/MM/yyyy HH:mm')}">-</span>
+      </div>
+      <p class="text-body-sm" th:text="${n.message}">Message</p>
+    </li>
+    <li th:if="${#lists.isEmpty(notifications)}" class="text-secondary text-[13px]">Chưa có thông báo nào.</li>
+  </ul>
+</section>
+</body>
+</html>

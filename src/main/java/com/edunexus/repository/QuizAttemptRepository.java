@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface QuizAttemptRepository extends JpaRepository<QuizAttempt, Long> {
     List<QuizAttempt> findByStudentOrderByStartedAtDesc(User student);
+
+    List<QuizAttempt> findByStudentAndModule_CourseId(User student, Long courseId);
 }

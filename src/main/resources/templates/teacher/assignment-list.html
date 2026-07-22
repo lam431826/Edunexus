@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Bài tập của lớp</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <a th:href="@{'/teacher/classes/' + ${classEntity.id}}" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm mb-2 w-fit">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về chi tiết lớp
+      </a>
+      <h1 class="font-headline-lg text-headline-lg text-ink-deep" th:text="${classEntity.name}">Class</h1>
+    </div>
+    <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/assignments/new'}" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2">
+      <span class="material-symbols-outlined text-[18px]">add</span> Tạo bài tập mới
+    </a>
+  </div>
+
+  <table class="w-full text-left rounded-xl border border-hairline-soft overflow-hidden">
+    <thead class="bg-surface-soft font-label-md text-secondary">
+      <tr><th class="p-3">Tiêu đề</th><th class="p-3">Hạn nộp</th><th class="p-3">Điểm tối đa</th><th class="p-3"></th></tr>
+    </thead>
+    <tbody>
+      <tr th:each="a : ${assignments}" class="border-t border-hairline-soft">
+        <td class="p-3 font-label-md text-ink" th:text="${a.title}">Assignment</td>
+        <td class="p-3 text-secondary" th:text="${a.dueDate != null ? #temporals.format(a.dueDate, 'dd/MM/yyyy HH:mm') : '-'}">-</td>
+        <td class="p-3" th:text="${a.maxScore}">100</td>
+        <td class="p-3">
+          <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/assignments/' + ${a.id}}" class="text-primary hover:underline font-label-md text-[13px]">Xem / Sửa</a>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(assignments)}"><td colspan="4" class="p-4 text-secondary text-[13px]">Chưa có bài tập nào cho lớp này.</td></tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>

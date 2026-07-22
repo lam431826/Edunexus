@@ -1,5 +1,7 @@
 package com.edunexus.domain;
 
+import com.edunexus.domain.enums.EnrollmentAccessType;
+import com.edunexus.domain.enums.EnrollmentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +11,16 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Unifies all three access models: H1 one-off course purchase, H2 class enrollment, H3 group
+ * subscription. Exactly one of course/classEntity/plan is set, matching accessType. No DB unique
+ * constraint on the target (SQL Server NULL semantics can't express "unique per target-type"
+ * cleanly across three nullable FK columns) - "no duplicate active grant" is enforced in
+ * EnrollmentService/PaymentService before insert, the same way SubmissionService already guards
+ * its own uniqueness in code rather than relying purely on the DB.
+ */
 @Entity
-@Table(name = "enrollments",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"student_id", "course_id"}))
+@Table(name = "enrollments")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,11 +36,36 @@ public class Enrollment {
     @JoinColumn(name = "student_id", nullable = false)
     private User student;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "access_type", nullable = false, length = 30)
+    private EnrollmentAccessType accessType;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", nullable = false)
+    @JoinColumn(name = "course_id")
     private Course course;
 
-    @Column(name = "enrolled_at", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_id")
+    private ClassEntity classEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "plan_id")
+    private SubscriptionPlan plan;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     @Builder.Default
-    private LocalDateTime enrolledAt = LocalDateTime.now();
+    private EnrollmentStatus status = EnrollmentStatus.ACTIVE;
+
+    @Column(name = "valid_from", nullable = false)
+    @Builder.Default
+    private LocalDateTime validFrom = LocalDateTime.now();
+
+    /** Null = perpetual (H1 access never expires). */
+    @Column(name = "valid_until")
+    private LocalDateTime validUntil;
+
+    @Column(name = "created_at", nullable = false)
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

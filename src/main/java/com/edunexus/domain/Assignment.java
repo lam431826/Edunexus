@@ -25,9 +25,19 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** Exactly one of module/classScope is set - enforced in AssignmentService, not the DB. */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "module_id", nullable = false)
+    @JoinColumn(name = "module_id")
     private Module module;
+
+    /** Set only for a Teacher-created class-specific assignment; the original SME course is untouched. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_id")
+    private ClassEntity classScope;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 
     @Nationalized
     @Column(nullable = false, length = 200)

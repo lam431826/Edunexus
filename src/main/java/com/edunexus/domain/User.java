@@ -1,5 +1,6 @@
 package com.edunexus.domain;
 
+import com.edunexus.domain.enums.AuthProvider;
 import com.edunexus.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -42,4 +45,13 @@ public class User {
     @Column(nullable = false)
     @Builder.Default
     private boolean enabled = true;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "auth_provider", nullable = false, length = 20)
+    @Builder.Default
+    private AuthProvider authProvider = AuthProvider.LOCAL;
+
+    @Column(name = "created_at", nullable = false)
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

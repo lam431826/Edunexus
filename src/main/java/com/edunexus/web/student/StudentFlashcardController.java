@@ -36,7 +36,11 @@ public class StudentFlashcardController {
         Map<FlashcardDeck, int[]> deckStats = new LinkedHashMap<>(); // [mastered, total]
         List<FlashcardDeck> decks = new ArrayList<>();
         for (Enrollment e : enrollments) {
-            List<FlashcardDeck> courseDecks = flashcardService.getDecksByCourse(e.getCourse().getId());
+            com.edunexus.domain.Course course = enrollmentService.resolveCourse(e);
+            if (course == null) {
+                continue;
+            }
+            List<FlashcardDeck> courseDecks = flashcardService.getDecksByCourse(course.getId());
             decks.addAll(courseDecks);
             for (FlashcardDeck deck : courseDecks) {
                 List<Flashcard> cards = flashcardService.getCards(deck);

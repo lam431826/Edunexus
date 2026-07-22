@@ -1,8 +1,9 @@
 # EduNexus - Course Management System
 
 Hệ thống quản lý khóa học (Course Management System) xây dựng bằng **Spring Boot + Thymeleaf**,
-triển khai 26 màn hình cho 2 vai trò **SME** (soạn nội dung khóa học) và **Student** (học viên),
-theo đặc tả trong `G1_1-PRD.md` và `List_Screen.md`.
+triển khai đầy đủ 6 vai trò theo đặc tả trong `Requirement.md`: **Admin**, **SME** (soạn nội dung
+khóa học), **Course Manager** (quản lý nhóm khóa học, lớp học, giá & gói thuê bao), **Teacher**
+(quản lý lớp học, chấm bài), **Student** (học viên) và **Guest** (khách truy cập danh mục công khai).
 
 ## 1. Yêu cầu môi trường
 
@@ -54,13 +55,17 @@ Mở trình duyệt tại: **http://localhost:8080/login**
 
 **Tài khoản demo** (mật khẩu chung: `Password123!`):
 
-| Email | Vai trò |
-|---|---|
-| `sme@edunexus.dev` | SME (soạn nội dung khóa học) |
-| `student1@edunexus.dev` | Student |
-| `student2@edunexus.dev` | Student |
+| Email | Vai trò | Vào thẳng |
+|---|---|---|
+| `admin@edunexus.dev` | Admin | Admin Dashboard |
+| `cm@edunexus.dev` | Course Manager (quản lý nhóm "Lập trình Web") | CM Dashboard |
+| `teacher@edunexus.dev` | Teacher (phụ trách lớp "Lập trình Web - Lớp K01") | Teacher Dashboard |
+| `sme@edunexus.dev` | SME (soạn nội dung khóa học) | Khóa học của tôi |
+| `student1@edunexus.dev` | Student (ghi danh H1 - mua khóa học trực tiếp) | Student Dashboard |
+| `student2@edunexus.dev` | Student (ghi danh H2 - qua lớp học) | Student Dashboard |
 
-Đăng nhập SME sẽ vào thẳng "Khóa học của tôi"; đăng nhập Student vào thẳng "Dashboard".
+Học viên mới có thể tự đăng ký tại `/register` (hoặc qua Google, nếu đã cấu hình — xem mục 7),
+hoặc duyệt danh mục khóa học công khai không cần đăng nhập tại `/catalog`.
 
 ## 4. Script SQL Server (thư mục `sql/`)
 
@@ -106,25 +111,40 @@ mục `bin` đã giải nén (hoặc thêm vào PATH). Ví dụ chạy trực ti
 
 ```
 src/main/java/com/edunexus/
-  domain/        Entity JPA (User, Course, Module, Lesson, Question, Flashcard, Assignment, Quiz...)
+  domain/        Entity JPA (User, Course, CourseGroup, ClassEntity, SubscriptionPlan, Payment,
+                  Module, Lesson, Question, Flashcard, Assignment, Submission, Enrollment, Quiz...)
   repository/    Spring Data JPA repositories
-  security/      Cấu hình đăng nhập, phân quyền theo vai trò
-  service/       Nghiệp vụ; service/ai chứa AI giả lập (mock, không cần API key thật)
-  web/           Controller: web/auth, web/sme, web/student
+  security/      Cấu hình đăng nhập (form + Google OAuth2), phân quyền theo vai trò
+  service/       Nghiệp vụ; service/ai chứa AI (mock mặc định + Anthropic thật); service/payment
+                 chứa tích hợp VNPay
+  web/           Controller: web/auth, web/admin, web/cm, web/teacher, web/sme, web/student,
+                 CatalogController (danh mục công khai), PaymentController (webhook VNPay)
   bootstrap/     DataSeeder - tự chèn dữ liệu mẫu lúc khởi động lần đầu
 src/main/resources/
-  templates/     Giao diện Thymeleaf (fragments/ dùng chung layout Student & SME)
-  application.yml         Cấu hình chính (SQL Server)
-  application-h2.yml      Cấu hình profile H2 để test nhanh
+  templates/     Giao diện Thymeleaf (fragments/ chứa layout riêng cho từng vai trò + layout-public)
+  application.yml              Cấu hình chính (SQL Server, VNPay/YouTube/Anthropic - đều an toàn khi để trống)
+  application-h2.yml            Cấu hình profile H2 để test nhanh
+  application-google-oauth.yml  Cấu hình Google OAuth2 (chỉ bật khi có client-id/secret thật)
 sql/             Script tạo database & chèn dữ liệu test
 ```
 
-## 7. Một số điểm đơn giản hóa (do giới hạn phạm vi 26 màn hình)
+## 7. Tích hợp thật & biến môi trường (tuỳ chọn)
 
-- Không có vai trò Admin/Teacher/Course Manager, không có màn thanh toán/đăng ký khóa học — dữ liệu
-  ghi danh (Enrollment) được seed sẵn, không có màn hình tự đăng ký.
-- Tính năng AI (soạn bài giảng, sinh câu hỏi/thẻ ghi nhớ, chấm luận bằng AI, trích xuất YouTube) đều
-  là **mock** (giả lập rule-based), không gọi API AI thật, không cần API key.
-- Bài luận sau khi AI chấm hiển thị điểm trực tiếp cho học viên (không có bước Giáo viên xác nhận vì
-  không có vai trò Teacher trong phạm vi 26 màn).
+Tính năng AI mặc định vẫn chạy **mock** (không cần API key). Để bật các tích hợp thật, đặt biến môi
+trường tương ứng trước khi chạy — ứng dụng luôn hoạt động bình thường (chỉ tắt tính năng đó) nếu để
+trống, không bao giờ crash vì thiếu credential:
+
+| Tích hợp | Biến môi trường | Cách bật |
+|---|---|---|
+| AI thật (Anthropic Claude) thay cho mock | `AI_PROVIDER=anthropic`, `ANTHROPIC_API_KEY` | Set 2 biến rồi chạy bình thường |
+| Xác thực video YouTube thật (API v3) | `YOUTUBE_API_KEY` | Cần bật YouTube Data API v3 trong Google Cloud Console |
+| Thanh toán VNPay sandbox | `VNPAY_TMN_CODE`, `VNPAY_HASH_SECRET` | Đăng ký merchant sandbox tại VNPay |
+| Đăng nhập Google | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Tạo OAuth Client trên Google Cloud Console, redirect URI: `http://localhost:8080/login/oauth2/code/google`, rồi chạy với `-Dspring-boot.run.profiles=h2,google-oauth` (hoặc thêm `google-oauth` vào danh sách profile khi chạy với SQL Server) |
+
+## 8. Một số điểm đơn giản hóa còn lại
+
+- Background jobs (đối soát thanh toán, hết hạn truy cập tự động, gửi thông báo định kỳ, retry AI,
+  audit retention) chưa được lập lịch (`@EnableScheduling`) — các trạng thái liên quan (`validUntil`,
+  v.v.) được ghi đúng nhưng chưa có tiến trình nào tự động chuyển trạng thái theo thời gian.
 - "Thời gian học" trên Personal Progress là số ước tính, không phải thời gian phiên học thực tế.
+- Thông báo (Notification) chỉ hiển thị trong ứng dụng, chưa gửi email/SMS thật.

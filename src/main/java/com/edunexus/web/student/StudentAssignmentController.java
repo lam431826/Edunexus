@@ -31,7 +31,7 @@ public class StudentAssignmentController {
     public String submitForm(@PathVariable Long id, Model model) {
         User student = currentUserProvider.getCurrentUser();
         Assignment assignment = assignmentService.getById(id);
-        enrollmentService.assertEnrolled(student, assignment.getModule().getCourse().getId());
+        enrollmentService.assertEnrolled(student, resolveCourseId(assignment));
 
         Optional<Submission> existing = submissionService.findExisting(assignment, student);
         model.addAttribute("assignment", assignment);
@@ -45,7 +45,7 @@ public class StudentAssignmentController {
                           Model model, RedirectAttributes redirectAttributes) {
         User student = currentUserProvider.getCurrentUser();
         Assignment assignment = assignmentService.getById(id);
-        enrollmentService.assertEnrolled(student, assignment.getModule().getCourse().getId());
+        enrollmentService.assertEnrolled(student, resolveCourseId(assignment));
         try {
             submissionService.submit(assignment, student, submissionForm);
             return "redirect:/student/assignments/" + id + "/result";
@@ -63,11 +63,19 @@ public class StudentAssignmentController {
     public String result(@PathVariable Long id, Model model) {
         User student = currentUserProvider.getCurrentUser();
         Assignment assignment = assignmentService.getById(id);
-        enrollmentService.assertEnrolled(student, assignment.getModule().getCourse().getId());
+        enrollmentService.assertEnrolled(student, resolveCourseId(assignment));
         Submission submission = submissionService.findExisting(assignment, student)
                 .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("No submission yet for this assignment."));
         model.addAttribute("assignment", assignment);
         model.addAttribute("submission", submission);
         return "student/assignment-result";
+    }
+
+    /** Assignment.module is set for SME-authored assignments, classScope for Teacher class-scoped ones (GBR-03). */
+    private Long resolveCourseId(Assignment assignment) {
+        if (assignment.getModule() != null) {
+            return assignment.getModule().getCourse().getId();
+        }
+        return assignment.getClassScope().getSourceCourse().getId();
     }
 }

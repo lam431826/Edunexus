@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Bộ thẻ ghi nhớ của lớp</title></head>
+<body>
+<section>
+  <a th:href="@{'/teacher/classes/' + ${classEntity.id}}" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm mb-4 w-fit">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về chi tiết lớp
+  </a>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1" th:text="${classEntity.name}">Class</h1>
+  <p class="text-secondary font-body-sm mb-6">Bộ thẻ ghi nhớ riêng của lớp (không ảnh hưởng nội dung gốc của khóa học).</p>
+
+  <div class="rounded-xl border border-hairline-soft bg-canvas mb-8">
+    <ul>
+      <li th:each="d, stat : ${decks}" class="p-4 flex items-center justify-between" th:classappend="${!stat.last} ? 'border-b border-hairline-soft' : ''">
+        <div>
+          <p class="font-label-md text-ink" th:text="${d.name}">Deck</p>
+          <p class="text-[12px] text-secondary" th:text="${d.description}">Description</p>
+        </div>
+        <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/flashcards/decks/' + ${d.id}}" class="text-primary hover:underline font-label-md text-[13px]">Quản lý thẻ</a>
+      </li>
+      <li th:if="${#lists.isEmpty(decks)}" class="p-4 text-secondary text-[13px]">Chưa có bộ thẻ nào.</li>
+    </ul>
+  </div>
+
+  <div class="rounded-xl border border-dashed border-hairline-soft p-5">
+    <h3 class="font-headline-md text-headline-md text-ink mb-4">Tạo bộ thẻ mới</h3>
+    <form th:action="@{'/teacher/classes/' + ${classEntity.id} + '/flashcards'}" th:object="${deckForm}" method="post" class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Tên bộ thẻ</label>
+        <input th:field="*{name}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Mô tả</label>
+        <input th:field="*{description}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div class="col-span-2">
+        <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Tạo bộ thẻ</button>
+      </div>
+    </form>
+  </div>
+</section>
+</body>
+</html>

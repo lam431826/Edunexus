@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduNexus - Đăng ký</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script th:replace="~{fragments/head-common :: tailwind-config}"></script>
+</head>
+<body class="bg-canvas font-body-md text-on-surface h-screen overflow-hidden flex">
+<div class="hidden lg:flex w-[60%] relative h-full bg-surface-variant flex-col justify-between p-section">
+  <div class="absolute inset-0 z-0">
+    <div class="w-full h-full bg-cover bg-center bg-primary-container"></div>
+    <div class="absolute inset-0 bg-ink-deep/60 backdrop-blur-[2px]"></div>
+  </div>
+  <div class="relative z-10">
+    <h1 class="font-display-lg text-display-lg text-on-primary mb-lg">EduNexus</h1>
+  </div>
+  <div class="relative z-10 max-w-xl">
+    <p class="font-headline-lg text-headline-lg text-on-primary leading-tight">Bắt đầu hành trình học tập của bạn</p>
+    <p class="font-body-lg text-body-lg text-surface-soft mt-base max-w-md opacity-90">
+      Đăng ký miễn phí để khám phá khóa học, luyện tập và theo dõi tiến trình học tập.
+    </p>
+  </div>
+</div>
+<div class="w-full lg:w-[40%] flex items-center justify-center h-full bg-canvas relative overflow-y-auto">
+  <div class="absolute top-section left-0 w-full flex justify-center lg:hidden">
+    <h1 class="font-headline-md text-headline-md text-primary font-bold">EduNexus</h1>
+  </div>
+  <div class="w-full max-w-md p-xxl">
+    <div class="mb-section text-center lg:text-left">
+      <h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Đăng ký tài khoản</h2>
+      <p class="font-body-md text-body-md text-secondary">Tạo tài khoản học viên miễn phí.</p>
+    </div>
+
+    <div th:if="${errorMessage}" class="mb-4 px-4 py-3 rounded-lg bg-error-container text-error font-body-sm">
+      <span th:text="${errorMessage}">Error</span>
+    </div>
+    <div th:if="${#fields.hasErrors('registerForm.*')}" class="mb-4 px-4 py-3 rounded-lg bg-error-container text-error font-body-sm">
+      <ul>
+        <li th:each="err : ${#fields.errors('registerForm.*')}" th:text="${err}">Error</li>
+      </ul>
+    </div>
+
+    <form th:action="@{/register}" th:object="${registerForm}" method="post" class="space-y-lg">
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface-variant mb-2" for="name">Họ và tên</label>
+        <input th:field="*{name}" class="block w-full px-3 py-3 border border-hairline rounded-lg bg-canvas text-on-surface font-body-md focus:ring-2 focus:ring-primary focus:border-primary transition-shadow duration-200"
+               id="name" placeholder="Nguyễn Văn A" required type="text"/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface-variant mb-2" for="email">Email</label>
+        <input th:field="*{email}" class="block w-full px-3 py-3 border border-hairline rounded-lg bg-canvas text-on-surface font-body-md focus:ring-2 focus:ring-primary focus:border-primary transition-shadow duration-200"
+               id="email" placeholder="ban@example.com" required type="email"/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface-variant mb-2" for="password">Mật khẩu</label>
+        <input th:field="*{password}" class="block w-full px-3 py-3 border border-hairline rounded-lg bg-canvas text-on-surface font-body-md focus:ring-2 focus:ring-primary focus:border-primary transition-shadow duration-200"
+               id="password" placeholder="Tối thiểu 8 ký tự" required type="password"/>
+      </div>
+      <div class="pt-base">
+        <button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm font-label-md text-label-md text-white bg-ink hover:bg-ink-deep focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ink transition-colors active:scale-[0.98] duration-150" type="submit">
+          Đăng ký
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-section text-center">
+      <p class="font-body-sm text-body-sm text-on-surface-variant">
+        Đã có tài khoản? <a href="/login" class="text-primary font-label-md">Đăng nhập</a>
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

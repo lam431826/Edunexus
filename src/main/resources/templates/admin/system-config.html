@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-admin :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Cấu hình hệ thống</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Cấu hình hệ thống</h1>
+    <p class="text-secondary font-body-sm">Các tham số cấu hình toàn hệ thống (key/value).</p>
+  </div>
+
+  <div class="rounded-xxxl border border-hairline-soft bg-canvas overflow-hidden mb-8">
+    <table class="w-full text-left">
+      <thead class="bg-surface-container">
+        <tr>
+          <th class="p-4 font-label-md text-secondary">Key</th>
+          <th class="p-4 font-label-md text-secondary">Giá trị</th>
+          <th class="p-4 font-label-md text-secondary">Mô tả</th>
+          <th class="p-4 font-label-md text-secondary">Cập nhật lúc</th>
+          <th class="p-4 font-label-md text-secondary text-right">Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="e, iter : ${entries}" class="border-t border-hairline-soft">
+          <td class="p-4 font-mono text-[13px]" th:text="${e.configKey}">key</td>
+          <td class="p-4">
+            <input type="text" name="configValue" th:value="${e.configValue}" th:form="'cfgForm' + ${iter.index}"
+                   class="w-full border border-hairline rounded-lg px-3 py-1.5"/>
+          </td>
+          <td class="p-4">
+            <input type="text" name="description" th:value="${e.description}" th:form="'cfgForm' + ${iter.index}"
+                   class="w-full border border-hairline rounded-lg px-3 py-1.5"/>
+          </td>
+          <td class="p-4 text-secondary text-[12px]" th:text="${#temporals.format(e.updatedAt, 'dd/MM/yyyy HH:mm')}">-</td>
+          <td class="p-4 text-right">
+            <button type="submit" th:form="'cfgForm' + ${iter.index}"
+                    class="px-3 py-1.5 rounded-full border border-hairline text-[12px] font-label-md hover:border-primary hover:text-primary">Lưu</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- One out-of-table form per row (HTML5 form="..." attribute links the inputs above to these) -->
+  <form th:each="e, iter : ${entries}" th:id="'cfgForm' + ${iter.index}" th:action="@{/admin/system-config}" method="post" class="hidden">
+    <input type="hidden" name="configKey" th:value="${e.configKey}"/>
+  </form>
+
+  <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+    <h2 class="font-headline-md text-headline-md text-ink mb-4">Thêm cấu hình mới</h2>
+    <form th:action="@{/admin/system-config}" method="post" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+      <div class="md:col-span-1">
+        <label class="block font-label-md text-label-md mb-1">Key</label>
+        <input type="text" name="configKey" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div class="md:col-span-1">
+        <label class="block font-label-md text-label-md mb-1">Giá trị</label>
+        <input type="text" name="configValue" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div class="md:col-span-1">
+        <label class="block font-label-md text-label-md mb-1">Mô tả</label>
+        <input type="text" name="description" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div class="md:col-span-1">
+        <button type="submit" class="w-full px-5 py-2 rounded-full bg-primary text-on-primary font-label-md">Thêm mới</button>
+      </div>
+    </form>
+  </div>
+</section>
+</body>
+</html>

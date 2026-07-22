@@ -83,7 +83,7 @@ public class ProgressService {
         List<Submission> submissions = allLessons.isEmpty() ? List.of()
                 : submissionRepository.findAll().stream()
                 .filter(s -> s.getStudent().getId().equals(student.getId())
-                        && s.getAssignment().getModule().getCourse().getId().equals(course.getId())
+                        && course.getId().equals(resolveAssignmentCourseId(s))
                         && s.getAiScore() != null)
                 .toList();
         int avgAssignmentScore = (int) Math.round(submissions.stream()
@@ -102,5 +102,17 @@ public class ProgressService {
 
         return new ProgressSummary(totalLessons, completedLessons, completionPercent, avgQuizScore,
                 avgAssignmentScore, estimatedMinutes, moduleRows, activities);
+    }
+
+    /** Assignment.module is set for SME-authored assignments, classScope for Teacher class-scoped ones. */
+    private Long resolveAssignmentCourseId(Submission submission) {
+        var assignment = submission.getAssignment();
+        if (assignment.getModule() != null) {
+            return assignment.getModule().getCourse().getId();
+        }
+        if (assignment.getClassScope() != null) {
+            return assignment.getClassScope().getSourceCourse().getId();
+        }
+        return null;
     }
 }

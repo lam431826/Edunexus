@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-admin :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Admin Dashboard</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Bảng điều khiển quản trị</h1>
+    <p class="text-secondary font-body-sm">Tổng quan toàn hệ thống EduNexus.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+    <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+      <span class="material-symbols-outlined text-primary text-3xl">group</span>
+      <p class="font-headline-lg text-headline-lg text-ink-deep mt-2" th:text="${totalUsers}">0</p>
+      <p class="text-secondary font-body-sm">Tổng người dùng</p>
+    </div>
+    <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+      <span class="material-symbols-outlined text-primary text-3xl">school</span>
+      <p class="font-headline-lg text-headline-lg text-ink-deep mt-2" th:text="${totalCourses}">0</p>
+      <p class="text-secondary font-body-sm">Tổng khóa học</p>
+    </div>
+    <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+      <span class="material-symbols-outlined text-primary text-3xl">folder_open</span>
+      <p class="font-headline-lg text-headline-lg text-ink-deep mt-2" th:text="${totalCourseGroups}">0</p>
+      <p class="text-secondary font-body-sm">Nhóm khóa học</p>
+    </div>
+    <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+      <span class="material-symbols-outlined text-primary text-3xl">how_to_reg</span>
+      <p class="font-headline-lg text-headline-lg text-ink-deep mt-2" th:text="${activeEnrollments}">0</p>
+      <p class="text-secondary font-body-sm">Ghi danh đang hoạt động</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+      <h2 class="font-headline-md text-headline-md text-ink mb-4">Người dùng theo vai trò</h2>
+      <div class="space-y-3">
+        <div th:each="entry : ${usersByRole}" class="flex items-center justify-between">
+          <span class="font-label-md text-secondary" th:text="${entry.key}">ROLE</span>
+          <span class="font-headline-md text-ink" th:text="${entry.value}">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-xxxl border border-hairline-soft bg-canvas p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-headline-md text-headline-md text-ink">Hoạt động gần đây</h2>
+        <a href="/admin/activity-log" class="text-primary font-label-md text-label-md">Xem tất cả</a>
+      </div>
+      <div th:if="${#lists.isEmpty(recentActivity)}" class="text-secondary font-body-sm py-6 text-center">
+        Chưa có hoạt động nào được ghi nhận.
+      </div>
+      <div class="space-y-3">
+        <div th:each="log : ${recentActivity}" class="flex items-start justify-between border-b border-hairline-soft pb-3 last:border-0">
+          <div>
+            <p class="font-label-md text-ink" th:text="${log.action}">ACTION</p>
+            <p class="text-secondary text-[12px]" th:text="${log.targetType} + ' #' + ${log.targetId}">Target</p>
+          </div>
+          <span class="text-secondary text-[12px]" th:text="${#temporals.format(log.createdAt, 'dd/MM/yyyy HH:mm')}">-</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -12,14 +12,22 @@
     <a th:href="@{'/student/assignments/' + ${assignment.id} + '/result'}" class="inline-block mt-4 px-5 py-2 rounded-full border border-hairline">Tải lại</a>
   </div>
 
-  <div th:if="${submission.status.name() == 'AI_SCORED'}">
+  <!-- GBR-09: the AI preliminary score is never shown to the Student until a Teacher confirms it. -->
+  <div th:if="${submission.status.name() == 'AI_SCORED'}" class="text-center py-16">
+    <span class="material-symbols-outlined text-5xl text-attention mb-3 inline-block">pending_actions</span>
+    <p class="font-label-md text-ink">Bài của bạn đã được AI chấm sơ bộ và đang chờ giáo viên xác nhận.</p>
+    <p class="text-[12px] text-secondary mt-1">Điểm và nhận xét chính thức sẽ hiển thị sau khi giáo viên xác nhận.</p>
+    <a th:href="@{'/student/assignments/' + ${assignment.id} + '/result'}" class="inline-block mt-4 px-5 py-2 rounded-full border border-hairline">Tải lại</a>
+  </div>
+
+  <div th:if="${submission.status.name() == 'TEACHER_CONFIRMED'}">
     <div class="flex items-center gap-4 mb-6">
       <div class="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center">
-        <span class="font-headline-lg text-headline-lg text-primary" th:text="${submission.aiScore} + '/' + ${assignment.maxScore}"></span>
+        <span class="font-headline-lg text-headline-lg text-primary" th:text="${submission.teacherScore} + '/' + ${assignment.maxScore}"></span>
       </div>
       <div>
-        <p class="font-label-md text-secondary">Điểm đánh giá bởi AI (sơ bộ)</p>
-        <p class="text-[12px] text-secondary">Đây là điểm do AI chấm tự động, mang tính tham khảo.</p>
+        <p class="font-label-md text-secondary">Điểm chính thức (đã giáo viên xác nhận)</p>
+        <p class="text-[12px] text-secondary">Được giáo viên xem xét và xác nhận từ điểm AI chấm sơ bộ.</p>
       </div>
     </div>
 
@@ -37,8 +45,8 @@
     </table>
 
     <div class="rounded-xl bg-surface-soft p-4 mb-6">
-      <p class="font-label-md text-secondary mb-1">Nhận xét chung từ AI</p>
-      <p class="text-body-sm" th:text="${submission.aiFeedback}">Feedback</p>
+      <p class="font-label-md text-secondary mb-1">Nhận xét từ giáo viên</p>
+      <p class="text-body-sm" th:text="${submission.teacherFeedback}">Feedback</p>
     </div>
   </div>
 

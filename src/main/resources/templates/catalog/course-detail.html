@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-public :: layout(~{::title}, ~{::section})}">
+<head><title th:text="'EduNexus - ' + ${course.title}">EduNexus</title></head>
+<body>
+<section class="max-w-4xl">
+  <a href="/catalog" class="font-label-md text-secondary hover:text-ink mb-4 inline-block">&larr; Danh mục khóa học</a>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-2" th:text="${course.title}">Course title</h1>
+  <p class="font-body-md text-secondary mb-4" th:text="${course.description}">Description</p>
+  <p class="font-label-md text-primary mb-section" th:text="${course.unitPrice != null ? 'Giá: ' + #numbers.formatDecimal(course.unitPrice, 0, 'COMMA', 0, 'POINT') + ' VND' : 'Chưa niêm yết giá'}">Price</p>
+
+  <div th:if="${!#lists.isEmpty(classes)}" class="mb-section">
+    <h2 class="font-headline-md text-headline-md text-ink mb-3">Lớp học liên quan</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <a th:each="cls : ${classes}" th:href="@{'/catalog/classes/' + ${cls.id}}"
+         class="block p-4 rounded-xl border border-hairline-soft hover:shadow-md transition-shadow">
+        <p class="font-label-md text-ink" th:text="${cls.name}">Class</p>
+        <p class="text-[12px] text-secondary" th:text="${#numbers.formatDecimal(cls.fee, 0, 'COMMA', 0, 'POINT')} + ' VND'">Fee</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="mb-section">
+    <h2 class="font-headline-md text-headline-md text-ink mb-3">Câu hỏi mẫu (xem trước)</h2>
+    <p th:if="${#lists.isEmpty(sampleQuestions)}" class="text-secondary font-body-sm">Chưa có câu hỏi mẫu.</p>
+    <ol class="list-decimal list-inside space-y-2">
+      <li th:each="q : ${sampleQuestions}" class="font-body-sm text-ink" th:text="${q.text}">Question</li>
+    </ol>
+    <p th:if="${previewLimited}" class="mt-4 px-4 py-3 rounded-lg bg-attention/10 text-attention font-body-sm">
+      Bạn đã xem giới hạn xem trước (10 câu hỏi). <a href="/register" class="font-label-md underline">Đăng ký</a> để xem toàn bộ <span th:text="${totalQuestionCount}">0</span> câu hỏi.
+    </p>
+  </div>
+
+  <div>
+    <h2 class="font-headline-md text-headline-md text-ink mb-3">Thẻ ghi nhớ mẫu (xem trước)</h2>
+    <p th:if="${#lists.isEmpty(sampleFlashcards)}" class="text-secondary font-body-sm">Chưa có thẻ ghi nhớ mẫu.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div th:each="card : ${sampleFlashcards}" class="p-4 rounded-xl border border-hairline-soft">
+        <p class="font-label-md text-ink mb-1" th:text="${card.frontText}">Front</p>
+        <p class="text-[12px] text-secondary" th:text="${card.backText}">Back</p>
+      </div>
+    </div>
+    <p class="mt-4 px-4 py-3 rounded-lg bg-surface-soft text-secondary font-body-sm">
+      Xem trước tối đa 5 thẻ ghi nhớ. <a href="/register" class="text-primary font-label-md">Đăng ký</a> để luyện tập toàn bộ bộ thẻ.
+    </p>
+  </div>
+</section>
+</body>
+</html>

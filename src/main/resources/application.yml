@@ -26,3 +26,30 @@ spring:
 
 app:
   upload-dir: uploads
+  ai:
+    provider: ${AI_PROVIDER:mock}
+
+# --- Real sandbox integrations (Phase 3/5) ---
+# All of the following need credentials the operator must obtain themselves; every key below is
+# blank-safe (the corresponding feature degrades gracefully / stays disabled if left empty).
+# Google OAuth2 login is the one exception: Spring Boot's OAuth2ClientAutoConfiguration validates
+# a declared registration's client-id eagerly at startup even if it's blank and even if
+# .oauth2Login() is never wired up - so that registration block lives in the opt-in
+# application-google-oauth.yml profile instead of here, and is simply absent by default.
+vnpay:
+  tmn-code: ${VNPAY_TMN_CODE:}
+  hash-secret: ${VNPAY_HASH_SECRET:}
+  pay-url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+  return-url: http://localhost:8080/payment/vnpay/return
+  ipn-url: http://localhost:8080/payment/vnpay/ipn
+  version: "2.1.0"
+  currency: VND
+
+youtube:
+  api-key: ${YOUTUBE_API_KEY:}
+  api-base-url: https://www.googleapis.com/youtube/v3
+
+anthropic:
+  api-key: ${ANTHROPIC_API_KEY:}
+  base-url: https://api.anthropic.com
+  model: claude-sonnet-4-5-20250929

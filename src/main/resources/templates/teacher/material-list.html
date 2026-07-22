@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Tài liệu bổ sung</title></head>
+<body>
+<section>
+  <a th:href="@{'/teacher/classes/' + ${classEntity.id}}" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm mb-4 w-fit">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về chi tiết lớp
+  </a>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-1" th:text="${classEntity.name}">Class</h1>
+  <p class="text-secondary font-body-sm mb-6">Tài liệu bổ sung riêng của lớp (không ảnh hưởng nội dung gốc của khóa học).</p>
+
+  <div class="rounded-xl border border-hairline-soft bg-canvas mb-8">
+    <ul>
+      <li th:each="m, stat : ${materials}" class="p-4 flex items-center justify-between" th:classappend="${!stat.last} ? 'border-b border-hairline-soft' : ''">
+        <div>
+          <p class="font-label-md text-ink" th:text="${m.title}">Material</p>
+          <p class="text-[12px] text-secondary" th:if="${m.videoUrl}">Video: <span th:text="${m.videoUrl}"></span></p>
+          <p class="text-[12px] text-secondary" th:if="${m.attachmentPath}">
+            Tệp: <a th:href="${m.attachmentPath}" target="_blank" class="text-primary hover:underline">Tải xuống</a>
+          </p>
+        </div>
+        <div class="flex items-center gap-3 font-label-md text-[13px]">
+          <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/materials/' + ${m.id} + '/edit'}" class="text-primary hover:underline">Sửa</a>
+          <form th:action="@{'/teacher/classes/' + ${classEntity.id} + '/materials/' + ${m.id} + '/delete'}" method="post"
+                onsubmit="return confirm('Xóa tài liệu này?');">
+            <button type="submit" class="text-critical hover:underline">Xóa</button>
+          </form>
+        </div>
+      </li>
+      <li th:if="${#lists.isEmpty(materials)}" class="p-4 text-secondary text-[13px]">Chưa có tài liệu nào.</li>
+    </ul>
+  </div>
+
+  <div class="rounded-xl border border-dashed border-hairline-soft p-5">
+    <h3 class="font-headline-md text-headline-md text-ink mb-4">Thêm tài liệu mới</h3>
+    <form th:action="@{'/teacher/classes/' + ${classEntity.id} + '/materials'}" th:object="${materialForm}"
+          method="post" enctype="multipart/form-data" class="space-y-4">
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Tiêu đề</label>
+        <input th:field="*{title}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Video URL</label>
+        <input th:field="*{videoUrl}" class="w-full border border-hairline rounded-lg px-3 py-2" placeholder="https://youtube.com/watch?v=..."/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Nội dung (Markdown)</label>
+        <textarea th:field="*{bodyMarkdown}" rows="8" class="w-full border border-hairline rounded-xl px-4 py-3 font-code-sm text-code-sm"></textarea>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Tệp đính kèm</label>
+        <input type="file" name="attachment" class="w-full border border-dashed border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Thêm tài liệu</button>
+    </form>
+  </div>
+</section>
+</body>
+</html>

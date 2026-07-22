@@ -1,6 +1,7 @@
 package com.edunexus.service.ai;
 
 import com.edunexus.domain.RubricCriterion;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,9 +11,13 @@ import java.util.regex.Pattern;
 /**
  * Rule-based stand-in for a real LLM/YouTube provider. No external network calls are made — this
  * lets the whole SME authoring / AI-staging flow (SCR-07, SCR-08, SCR-15, SCR-20) and the essay
- * preliminary-grading flow (Assignment Result) run without any API key.
+ * preliminary-grading flow (Assignment Result) run without any API key. Active by default
+ * ({@code app.ai.provider=mock}); set {@code app.ai.provider=anthropic} to switch to
+ * {@link AnthropicAiContentService} once a real API key is supplied - the app remains fully usable
+ * without AI support either way (NFR: manual authoring/grading must always work).
  */
 @Service
+@ConditionalOnProperty(name = "app.ai.provider", havingValue = "mock", matchIfMissing = true)
 public class MockAiContentService implements AiContentService {
 
     private static final Pattern YOUTUBE_PATTERN =

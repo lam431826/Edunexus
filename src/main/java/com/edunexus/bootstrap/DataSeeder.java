@@ -1,7 +1,9 @@
 package com.edunexus.bootstrap;
 
 import com.edunexus.domain.Assignment;
+import com.edunexus.domain.ClassEntity;
 import com.edunexus.domain.Course;
+import com.edunexus.domain.CourseGroup;
 import com.edunexus.domain.Enrollment;
 import com.edunexus.domain.Flashcard;
 import com.edunexus.domain.FlashcardDeck;
@@ -10,14 +12,21 @@ import com.edunexus.domain.Module;
 import com.edunexus.domain.Question;
 import com.edunexus.domain.QuestionOption;
 import com.edunexus.domain.RubricCriterion;
+import com.edunexus.domain.SubscriptionPlan;
 import com.edunexus.domain.User;
+import com.edunexus.domain.enums.ClassStatus;
 import com.edunexus.domain.enums.ContentSource;
 import com.edunexus.domain.enums.ContentStatus;
 import com.edunexus.domain.enums.CourseStatus;
 import com.edunexus.domain.enums.Difficulty;
+import com.edunexus.domain.enums.EnrollmentAccessType;
+import com.edunexus.domain.enums.EnrollmentStatus;
 import com.edunexus.domain.enums.LessonStatus;
+import com.edunexus.domain.enums.PlanStatus;
 import com.edunexus.domain.enums.Role;
 import com.edunexus.repository.AssignmentRepository;
+import com.edunexus.repository.ClassRepository;
+import com.edunexus.repository.CourseGroupRepository;
 import com.edunexus.repository.CourseRepository;
 import com.edunexus.repository.EnrollmentRepository;
 import com.edunexus.repository.FlashcardDeckRepository;
@@ -25,6 +34,7 @@ import com.edunexus.repository.FlashcardRepository;
 import com.edunexus.repository.LessonRepository;
 import com.edunexus.repository.ModuleRepository;
 import com.edunexus.repository.QuestionRepository;
+import com.edunexus.repository.SubscriptionPlanRepository;
 import com.edunexus.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -32,9 +42,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
-/** Seeds demo accounts and one full course so every one of the 26 screens renders with real data on first run. */
+/** Seeds demo accounts and one full course so every screen renders with real data on first run. */
 @Component
 @RequiredArgsConstructor
 public class DataSeeder implements CommandLineRunner {
@@ -48,6 +60,9 @@ public class DataSeeder implements CommandLineRunner {
     private final FlashcardRepository flashcardRepository;
     private final AssignmentRepository assignmentRepository;
     private final EnrollmentRepository enrollmentRepository;
+    private final CourseGroupRepository courseGroupRepository;
+    private final ClassRepository classRepository;
+    private final SubscriptionPlanRepository subscriptionPlanRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -81,12 +96,63 @@ public class DataSeeder implements CommandLineRunner {
                 .enabled(true)
                 .build());
 
+        User admin = userRepository.save(User.builder()
+                .name("Quản Trị Viên")
+                .email("admin@edunexus.dev")
+                .passwordHash(passwordEncoder.encode("Password123!"))
+                .role(Role.ADMIN)
+                .enabled(true)
+                .build());
+
+        User courseManager = userRepository.save(User.builder()
+                .name("Phạm Thị Quản Lý")
+                .email("cm@edunexus.dev")
+                .passwordHash(passwordEncoder.encode("Password123!"))
+                .role(Role.COURSE_MANAGER)
+                .enabled(true)
+                .build());
+
+        User teacher = userRepository.save(User.builder()
+                .name("Hoàng Văn Giáo Viên")
+                .email("teacher@edunexus.dev")
+                .passwordHash(passwordEncoder.encode("Password123!"))
+                .role(Role.TEACHER)
+                .enabled(true)
+                .build());
+
+        CourseGroup courseGroup = courseGroupRepository.save(CourseGroup.builder()
+                .name("Lập trình Web")
+                .description("Nhóm khóa học nền tảng về phát triển web.")
+                .manager(courseManager)
+                .build());
+
         Course course = courseRepository.save(Course.builder()
                 .title("Nền tảng Lập trình Web")
                 .description("Khóa học nhập môn HTML, CSS và JavaScript cho người mới bắt đầu.")
                 .owner(sme)
                 .status(CourseStatus.PUBLISHED)
                 .version(1)
+                .courseGroup(courseGroup)
+                .unitPrice(BigDecimal.valueOf(299000))
+                .build());
+
+        ClassEntity demoClass = classRepository.save(ClassEntity.builder()
+                .name("Lập trình Web - Lớp K01")
+                .sourceCourse(course)
+                .teacher(teacher)
+                .startDate(LocalDate.now().minusDays(7))
+                .endDate(LocalDate.now().plusMonths(3))
+                .maxSize(40)
+                .fee(BigDecimal.valueOf(499000))
+                .status(ClassStatus.PUBLISHED)
+                .build());
+
+        subscriptionPlanRepository.save(SubscriptionPlan.builder()
+                .courseGroup(courseGroup)
+                .name("Gói 3 tháng - Lập trình Web")
+                .durationMonths(3)
+                .price(BigDecimal.valueOf(699000))
+                .status(PlanStatus.ACTIVE)
                 .build());
 
         Module module1 = moduleRepository.save(Module.builder().course(course).title("Nhập môn HTML & CSS").orderIndex(0).build());
@@ -118,8 +184,19 @@ public class DataSeeder implements CommandLineRunner {
         ));
         assignmentRepository.save(assignment);
 
-        enrollmentRepository.save(Enrollment.builder().student(student1).course(course).build());
-        enrollmentRepository.save(Enrollment.builder().student(student2).course(course).build());
+        // student1: direct H1 course purchase. student2: H2 class enrollment (access derived via demoClass -> course).
+        enrollmentRepository.save(Enrollment.builder()
+                .student(student1)
+                .accessType(EnrollmentAccessType.H1_COURSE)
+                .course(course)
+                .status(EnrollmentStatus.ACTIVE)
+                .build());
+        enrollmentRepository.save(Enrollment.builder()
+                .student(student2)
+                .accessType(EnrollmentAccessType.H2_CLASS)
+                .classEntity(demoClass)
+                .status(EnrollmentStatus.ACTIVE)
+                .build());
     }
 
     private void seedLessons(Module module, String title1, String title2) {

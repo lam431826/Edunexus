@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Sửa tài liệu</title></head>
+<body>
+<section>
+  <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/materials'}" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm mb-6 w-fit">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về danh sách tài liệu
+  </a>
+
+  <form th:action="@{'/teacher/classes/' + ${classEntity.id} + '/materials/' + ${material.id}}" th:object="${materialForm}"
+        method="post" enctype="multipart/form-data" class="space-y-6">
+    <input th:field="*{title}" required
+           class="w-full bg-transparent border-none p-0 font-display-lg text-headline-lg text-ink focus:ring-0 outline-none"
+           placeholder="Tiêu đề tài liệu"/>
+
+    <div>
+      <label class="block font-label-md text-label-md text-on-surface-variant mb-2">Video URL</label>
+      <input th:field="*{videoUrl}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+    </div>
+
+    <div>
+      <label class="block font-label-md text-label-md text-on-surface-variant mb-2">Nội dung (Markdown)</label>
+      <textarea th:field="*{bodyMarkdown}" rows="14"
+                class="w-full border border-hairline rounded-xl px-4 py-3 font-code-sm text-code-sm"></textarea>
+    </div>
+
+    <div>
+      <label class="block font-label-md text-label-md text-on-surface-variant mb-2">Tệp đính kèm</label>
+      <input type="file" name="attachment" class="w-full border border-dashed border-hairline rounded-lg px-3 py-2"/>
+      <p th:if="${material.attachmentPath}" class="text-[12px] text-secondary mt-1">
+        Đã có tệp: <a th:href="${material.attachmentPath}" target="_blank" class="text-primary hover:underline">Xem tệp hiện tại</a>
+      </p>
+    </div>
+
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Lưu thay đổi</button>
+  </form>
+</section>
+</body>
+</html>

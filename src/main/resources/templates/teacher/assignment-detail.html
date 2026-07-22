@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Chi tiết bài tập</title></head>
+<body>
+<section>
+  <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/assignments'}" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm mb-6 w-fit">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về danh sách bài tập
+  </a>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6">Chi tiết bài tập</h1>
+
+  <div th:if="${errorMessage}" class="mb-4 px-4 py-3 rounded-lg bg-error-container text-error font-body-sm" th:text="${errorMessage}"></div>
+
+  <form th:action="@{'/teacher/classes/' + ${classEntity.id} + '/assignments/' + ${assignment.id}}" th:object="${assignmentForm}" method="post" class="space-y-6">
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Tiêu đề bài tập</label>
+      <input th:field="*{title}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Đề bài (Markdown)</label>
+      <textarea th:field="*{promptMarkdown}" rows="6" class="w-full border border-hairline rounded-lg px-3 py-2"></textarea>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Hạn nộp</label>
+        <input type="datetime-local" th:field="*{dueDate}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Điểm tối đa</label>
+        <input type="number" th:field="*{maxScore}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+    </div>
+
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <label class="font-label-md text-label-md">Rubric chấm điểm</label>
+        <span id="totalWeight" class="font-label-md text-label-md">0%</span>
+      </div>
+      <div id="rubricContainer" class="space-y-2">
+        <div class="rubric-row grid grid-cols-12 gap-2" th:each="c, stat : *{rubricCriteria}">
+          <input th:field="*{rubricCriteria[__${stat.index}__].name}" placeholder="Tên tiêu chí"
+                 class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+          <input type="number" th:field="*{rubricCriteria[__${stat.index}__].weightPercent}" placeholder="Trọng số %"
+                 class="weight-input col-span-2 border border-hairline rounded-lg px-3 py-2"/>
+          <input th:field="*{rubricCriteria[__${stat.index}__].descriptor}" placeholder="Mô tả tiêu chí"
+                 class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+        </div>
+      </div>
+      <button type="button" id="addCriterionBtn" class="mt-2 text-primary text-[13px] flex items-center gap-1">
+        <span class="material-symbols-outlined text-[16px]">add</span> Thêm tiêu chí
+      </button>
+    </div>
+
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Lưu bài tập</button>
+  </form>
+
+  <div class="mt-10" th:if="${not #lists.isEmpty(submissions)}">
+    <h2 class="font-headline-md text-headline-md mb-3">Bài nộp</h2>
+    <table class="w-full text-left rounded-xl border border-hairline-soft overflow-hidden">
+      <thead class="bg-surface-soft font-label-md text-secondary">
+        <tr><th class="p-3">Học viên</th><th class="p-3">Trạng thái</th><th class="p-3">Thời gian nộp</th><th class="p-3">Điểm AI</th><th class="p-3">Điểm GV</th><th class="p-3"></th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="s : ${submissions}" class="border-t border-hairline-soft">
+          <td class="p-3" th:text="${s.student.name}">Student</td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 rounded-full text-[11px] font-label-md uppercase"
+                  th:classappend="${s.status.name() == 'TEACHER_CONFIRMED'} ? 'bg-success/10 text-success' : (${s.status.name() == 'AI_SCORED'} ? 'bg-attention/10 text-attention' : 'bg-surface-soft text-secondary')"
+                  th:text="${s.status}">SUBMITTED</span>
+          </td>
+          <td class="p-3" th:text="${#temporals.format(s.submittedAt, 'dd/MM/yyyy HH:mm')}">-</td>
+          <td class="p-3" th:text="${s.aiScore ?: '-'}">-</td>
+          <td class="p-3" th:text="${s.teacherScore ?: '-'}">-</td>
+          <td class="p-3">
+            <a th:if="${s.status.name() != 'SUBMITTED'}" th:href="@{'/teacher/grading/' + ${s.id}}" class="text-primary hover:underline font-label-md text-[13px]">Chấm bài</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script th:inline="javascript">
+  function recalcWeight() {
+    const inputs = document.querySelectorAll('.weight-input');
+    let total = 0;
+    inputs.forEach(i => total += (parseInt(i.value, 10) || 0));
+    const el = document.getElementById('totalWeight');
+    el.textContent = total + '%';
+    el.className = 'font-label-md text-label-md ' + (total === 100 ? 'text-success' : (total > 100 ? 'text-critical' : 'text-attention'));
+  }
+  document.getElementById('rubricContainer').addEventListener('input', recalcWeight);
+  recalcWeight();
+
+  document.getElementById('addCriterionBtn').addEventListener('click', function () {
+    const container = document.getElementById('rubricContainer');
+    const rows = container.querySelectorAll('.rubric-row');
+    const nextIndex = rows.length;
+    const row = document.createElement('div');
+    row.className = 'rubric-row grid grid-cols-12 gap-2';
+    row.innerHTML = `
+      <input name="rubricCriteria[${nextIndex}].name" placeholder="Tên tiêu chí" class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+      <input type="number" name="rubricCriteria[${nextIndex}].weightPercent" placeholder="Trọng số %" class="weight-input col-span-2 border border-hairline rounded-lg px-3 py-2"/>
+      <input name="rubricCriteria[${nextIndex}].descriptor" placeholder="Mô tả tiêu chí" class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+    `;
+    container.appendChild(row);
+  });
+  </script>
+</section>
+</body>
+</html>

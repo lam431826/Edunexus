@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Hàng đợi chấm bài</title></head>
+<body>
+<section>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-2">Chấm bài</h1>
+  <p class="text-secondary font-body-sm mb-6">
+    Bài nộp đã được AI chấm sơ bộ nhưng chưa được giáo viên xác nhận sẽ không hiển thị điểm cho học viên (GBR-09).
+  </p>
+
+  <h2 class="font-headline-md text-headline-md text-ink mb-3">Chờ xác nhận (<span th:text="${#lists.size(pendingSubmissions)}">0</span>)</h2>
+  <table class="w-full text-left rounded-xl border border-hairline-soft overflow-hidden mb-10">
+    <thead class="bg-surface-soft font-label-md text-secondary">
+      <tr><th class="p-3">Học viên</th><th class="p-3">Bài tập</th><th class="p-3">Lớp / Nguồn</th><th class="p-3">Điểm AI</th><th class="p-3">Thời gian nộp</th><th class="p-3"></th></tr>
+    </thead>
+    <tbody>
+      <tr th:each="s : ${pendingSubmissions}" class="border-t border-hairline-soft">
+        <td class="p-3 font-label-md text-ink" th:text="${s.student.name}">Student</td>
+        <td class="p-3" th:text="${s.assignment.title}">Assignment</td>
+        <td class="p-3 text-secondary text-[13px]"
+            th:text="${s.assignment.classScope != null ? s.assignment.classScope.name : s.assignment.module.course.title + ' (khóa học gốc)'}">Class</td>
+        <td class="p-3" th:text="${s.aiScore} + '/' + ${s.assignment.maxScore}">0/100</td>
+        <td class="p-3 text-secondary" th:text="${#temporals.format(s.submittedAt, 'dd/MM/yyyy HH:mm')}">-</td>
+        <td class="p-3">
+          <a th:href="@{'/teacher/grading/' + ${s.id}}" class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-[13px]">Chấm bài</a>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(pendingSubmissions)}"><td colspan="6" class="p-4 text-secondary text-[13px]">Không có bài nào đang chờ chấm.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="font-headline-md text-headline-md text-ink mb-3">Đã xác nhận (<span th:text="${#lists.size(confirmedSubmissions)}">0</span>)</h2>
+  <table class="w-full text-left rounded-xl border border-hairline-soft overflow-hidden">
+    <thead class="bg-surface-soft font-label-md text-secondary">
+      <tr><th class="p-3">Học viên</th><th class="p-3">Bài tập</th><th class="p-3">Lớp / Nguồn</th><th class="p-3">Điểm chính thức</th><th class="p-3">Xác nhận lúc</th><th class="p-3"></th></tr>
+    </thead>
+    <tbody>
+      <tr th:each="s : ${confirmedSubmissions}" class="border-t border-hairline-soft">
+        <td class="p-3 font-label-md text-ink" th:text="${s.student.name}">Student</td>
+        <td class="p-3" th:text="${s.assignment.title}">Assignment</td>
+        <td class="p-3 text-secondary text-[13px]"
+            th:text="${s.assignment.classScope != null ? s.assignment.classScope.name : s.assignment.module.course.title + ' (khóa học gốc)'}">Class</td>
+        <td class="p-3 text-success" th:text="${s.teacherScore} + '/' + ${s.assignment.maxScore}">0/100</td>
+        <td class="p-3 text-secondary" th:text="${#temporals.format(s.confirmedAt, 'dd/MM/yyyy HH:mm')}">-</td>
+        <td class="p-3">
+          <a th:href="@{'/teacher/grading/' + ${s.id}}" class="text-primary hover:underline font-label-md text-[13px]">Xem lại</a>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(confirmedSubmissions)}"><td colspan="6" class="p-4 text-secondary text-[13px]">Chưa có bài nào được xác nhận.</td></tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>

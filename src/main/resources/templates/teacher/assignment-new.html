@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Tạo bài tập mới</title></head>
+<body>
+<section>
+  <a th:href="@{'/teacher/classes/' + ${classEntity.id} + '/assignments'}" class="flex items-center gap-2 text-secondary hover:text-ink font-body-sm mb-6 w-fit">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span> Về danh sách bài tập
+  </a>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6">Tạo bài tập mới</h1>
+
+  <div th:if="${errorMessage}" class="mb-4 px-4 py-3 rounded-lg bg-error-container text-error font-body-sm" th:text="${errorMessage}"></div>
+
+  <form th:action="@{'/teacher/classes/' + ${classEntity.id} + '/assignments/new'}" th:object="${assignmentForm}" method="post" class="space-y-6">
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Tiêu đề bài tập</label>
+      <input th:field="*{title}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Đề bài (Markdown)</label>
+      <textarea th:field="*{promptMarkdown}" rows="6" class="w-full border border-hairline rounded-lg px-3 py-2"></textarea>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Hạn nộp</label>
+        <input type="datetime-local" th:field="*{dueDate}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Điểm tối đa</label>
+        <input type="number" th:field="*{maxScore}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+    </div>
+
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <label class="font-label-md text-label-md">Rubric chấm điểm</label>
+        <span id="totalWeight" class="font-label-md text-label-md">0%</span>
+      </div>
+      <div id="rubricContainer" class="space-y-2">
+        <div class="rubric-row grid grid-cols-12 gap-2" th:each="c, stat : *{rubricCriteria}">
+          <input th:field="*{rubricCriteria[__${stat.index}__].name}" placeholder="Tên tiêu chí"
+                 class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+          <input type="number" th:field="*{rubricCriteria[__${stat.index}__].weightPercent}" placeholder="Trọng số %"
+                 class="weight-input col-span-2 border border-hairline rounded-lg px-3 py-2"/>
+          <input th:field="*{rubricCriteria[__${stat.index}__].descriptor}" placeholder="Mô tả tiêu chí"
+                 class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+        </div>
+      </div>
+      <button type="button" id="addCriterionBtn" class="mt-2 text-primary text-[13px] flex items-center gap-1">
+        <span class="material-symbols-outlined text-[16px]">add</span> Thêm tiêu chí
+      </button>
+    </div>
+
+    <button type="submit" class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md">Tạo bài tập</button>
+  </form>
+
+  <script th:inline="javascript">
+  function recalcWeight() {
+    const inputs = document.querySelectorAll('.weight-input');
+    let total = 0;
+    inputs.forEach(i => total += (parseInt(i.value, 10) || 0));
+    const el = document.getElementById('totalWeight');
+    el.textContent = total + '%';
+    el.className = 'font-label-md text-label-md ' + (total === 100 ? 'text-success' : (total > 100 ? 'text-critical' : 'text-attention'));
+  }
+  document.getElementById('rubricContainer').addEventListener('input', recalcWeight);
+  recalcWeight();
+
+  document.getElementById('addCriterionBtn').addEventListener('click', function () {
+    const container = document.getElementById('rubricContainer');
+    const rows = container.querySelectorAll('.rubric-row');
+    const nextIndex = rows.length;
+    const row = document.createElement('div');
+    row.className = 'rubric-row grid grid-cols-12 gap-2';
+    row.innerHTML = `
+      <input name="rubricCriteria[${nextIndex}].name" placeholder="Tên tiêu chí" class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+      <input type="number" name="rubricCriteria[${nextIndex}].weightPercent" placeholder="Trọng số %" class="weight-input col-span-2 border border-hairline rounded-lg px-3 py-2"/>
+      <input name="rubricCriteria[${nextIndex}].descriptor" placeholder="Mô tả tiêu chí" class="col-span-5 border border-hairline rounded-lg px-3 py-2"/>
+    `;
+    container.appendChild(row);
+  });
+  </script>
+</section>
+</body>
+</html>

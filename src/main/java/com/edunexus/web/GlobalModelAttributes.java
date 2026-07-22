@@ -17,7 +17,7 @@ public class GlobalModelAttributes {
     @ModelAttribute("currentUserName")
     public String currentUserName() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !(auth.getPrincipal() instanceof com.edunexus.security.AppUserPrincipal principal)) {
+        if (auth == null || !(auth.getPrincipal() instanceof com.edunexus.security.AppPrincipal principal)) {
             return "";
         }
         return principal.getUser().getName();

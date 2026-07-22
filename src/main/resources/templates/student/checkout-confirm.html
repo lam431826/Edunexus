@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-student :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Thanh toán</title></head>
+<body>
+<section class="max-w-lg">
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6">Xác nhận thanh toán</h1>
+  <div class="rounded-xl border border-hairline-soft p-6 mb-6">
+    <p class="font-label-md text-secondary mb-1">Nội dung</p>
+    <p class="font-headline-md text-headline-md text-ink mb-4" th:text="${targetName}">Item</p>
+    <p class="font-label-md text-secondary mb-1">Số tiền</p>
+    <p class="font-headline-lg text-headline-lg text-primary" th:text="${#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')} + ' VND'">0 VND</p>
+  </div>
+  <form th:action="@{${actionUrl}}" method="post">
+    <button type="submit" class="w-full px-6 py-3 rounded-full bg-ink text-white font-label-md hover:bg-ink-deep transition-colors">
+      Thanh toán qua VNPay
+    </button>
+  </form>
+  <p class="mt-4 text-[12px] text-secondary">Bạn sẽ được chuyển đến cổng thanh toán VNPay để hoàn tất giao dịch.</p>
+</section>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-teacher :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Bảng điều khiển Giáo viên</title></head>
+<body>
+<section>
+  <h1 class="font-headline-lg text-headline-lg text-ink-deep mb-6">Bảng điều khiển</h1>
+
+  <div th:if="${#lists.isEmpty(classes)}" class="text-center py-16 text-secondary">
+    Bạn chưa được phân công lớp học nào.
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div th:each="c : ${classes}" class="rounded-xl border border-hairline-soft bg-canvas p-5">
+      <div class="flex items-start justify-between mb-3">
+        <div>
+          <h3 class="font-headline-md text-headline-md text-ink" th:text="${c.name}">Class</h3>
+          <p class="text-[12px] text-secondary" th:text="${c.sourceCourse.title}">Course</p>
+        </div>
+        <span class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase"
+              th:classappend="${c.status.name() == 'PUBLISHED'} ? 'bg-success/10 text-success' : (${c.status.name() == 'CLOSED'} ? 'bg-critical/10 text-critical' : 'bg-attention/10 text-attention')"
+              th:text="${c.status}">DRAFT</span>
+      </div>
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <div class="rounded-lg bg-surface-soft p-3">
+          <p class="text-[11px] text-secondary">Sĩ số</p>
+          <p class="font-headline-md text-headline-md text-ink" th:text="${rosterSizeByClass.get(c.id)} + '/' + ${c.maxSize}">0</p>
+        </div>
+        <div class="rounded-lg bg-surface-soft p-3">
+          <p class="text-[11px] text-secondary">Chờ chấm</p>
+          <p class="font-headline-md text-headline-md"
+             th:classappend="${pendingGradingByClass.get(c.id) > 0} ? 'text-attention' : 'text-ink'"
+             th:text="${pendingGradingByClass.get(c.id)}">0</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 font-label-md text-label-md">
+        <a th:href="@{'/teacher/classes/' + ${c.id}}" class="text-primary hover:underline">Xem lớp</a>
+        <a th:href="@{'/teacher/classes/' + ${c.id} + '/analytics'}" class="text-primary hover:underline">Thống kê</a>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

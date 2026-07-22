@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-admin :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Hoàn tiền</title></head>
+<body>
+<section>
+  <div class="mb-8">
+    <h1 class="font-headline-lg text-headline-lg text-ink-deep">Hoàn tiền</h1>
+    <p class="text-secondary font-body-sm">Các giao dịch đã thanh toán hoặc đang chờ yêu cầu hoàn tiền.</p>
+  </div>
+
+  <div th:if="${#lists.isEmpty(payments)}" class="text-center py-20 text-secondary">
+    Không có giao dịch nào cần xử lý hoàn tiền.
+  </div>
+
+  <div class="rounded-xxxl border border-hairline-soft bg-canvas overflow-hidden" th:unless="${#lists.isEmpty(payments)}">
+    <table class="w-full text-left">
+      <thead class="bg-surface-container">
+        <tr>
+          <th class="p-4 font-label-md text-secondary">Mã giao dịch</th>
+          <th class="p-4 font-label-md text-secondary">Học viên</th>
+          <th class="p-4 font-label-md text-secondary">Đối tượng</th>
+          <th class="p-4 font-label-md text-secondary">Số tiền</th>
+          <th class="p-4 font-label-md text-secondary">Trạng thái</th>
+          <th class="p-4 font-label-md text-secondary">Thanh toán lúc</th>
+          <th class="p-4 font-label-md text-secondary text-right">Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="p : ${payments}" class="border-t border-hairline-soft">
+          <td class="p-4 font-mono text-[13px]" th:text="${p.reference}">REF</td>
+          <td class="p-4">
+            <p class="font-label-md" th:text="${p.student.name}">Student</p>
+            <p class="text-secondary text-[12px]" th:text="${p.student.email}">email</p>
+          </td>
+          <td class="p-4 text-secondary">
+            <span th:if="${p.targetType.name() == 'COURSE'}" th:text="'Khóa học: ' + ${p.course.title}">Course</span>
+            <span th:if="${p.targetType.name() == 'CLASS'}" th:text="'Lớp học: ' + ${p.classEntity.name}">Class</span>
+            <span th:if="${p.targetType.name() == 'PLAN'}" th:text="'Gói thuê bao: ' + ${p.plan.name}">Plan</span>
+          </td>
+          <td class="p-4" th:text="${#numbers.formatDecimal(p.amount, 0, 'COMMA', 0, 'POINT')} + ' đ'">Amount</td>
+          <td class="p-4">
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase"
+                  th:classappend="${p.status.name() == 'REFUND_REQUESTED'} ? 'bg-attention/10 text-attention' : 'bg-success/10 text-success'"
+                  th:text="${p.status}">Status</span>
+          </td>
+          <td class="p-4 text-secondary text-[12px]" th:text="${p.paidAt != null ? #temporals.format(p.paidAt, 'dd/MM/yyyy HH:mm') : '-'}">-</td>
+          <td class="p-4 text-right">
+            <form th:action="@{'/admin/refunds/' + ${p.id} + '/process'}" method="post"
+                  onsubmit="return confirm('Xác nhận hoàn tiền và thu hồi quyền truy cập của học viên?');">
+              <button type="submit" class="px-3 py-1.5 rounded-full border border-critical text-critical text-[12px] font-label-md hover:bg-error-container/10">
+                Xử lý hoàn tiền
+              </button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>

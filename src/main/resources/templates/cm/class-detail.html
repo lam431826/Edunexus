@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout-cm :: layout(~{::title}, ~{::section})}">
+<head><title>EduNexus - Chi tiết lớp học</title></head>
+<body>
+<section>
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="font-headline-lg text-headline-lg text-ink-deep"
+          th:text="${isNew} ? 'Tạo lớp học mới' : 'Chi tiết lớp học'">Lớp học</h1>
+      <p class="text-secondary font-body-sm">Khóa học nguồn: <span th:text="${course.title}">Course</span></p>
+    </div>
+    <div th:unless="${isNew}" class="flex items-center gap-3">
+      <span class="px-2.5 py-1 rounded-full text-[11px] font-label-md uppercase"
+            th:classappend="${classEntity.status.name() == 'PUBLISHED'} ? 'bg-success/10 text-success' : (${classEntity.status.name() == 'CLOSED'} ? 'bg-critical/10 text-critical' : 'bg-attention/10 text-attention')"
+            th:text="${classEntity.status}">DRAFT</span>
+      <form th:if="${classEntity.status.name() == 'DRAFT'}" th:action="@{'/cm/classes/' + ${classEntity.id} + '/publish'}" method="post">
+        <button type="submit" class="px-4 py-2 rounded-full bg-success/10 text-success font-label-md">Công bố lớp học</button>
+      </form>
+      <form th:if="${classEntity.status.name() != 'CLOSED'}" th:action="@{'/cm/classes/' + ${classEntity.id} + '/close'}" method="post">
+        <button type="submit" class="px-4 py-2 rounded-full bg-critical/10 text-critical font-label-md">Đóng lớp</button>
+      </form>
+    </div>
+  </div>
+
+  <form th:action="${isNew} ? @{/cm/classes} : @{'/cm/classes/' + ${classEntity.id}}"
+        th:object="${classForm}" method="post" class="max-w-2xl space-y-4 rounded-xxxl border border-hairline-soft bg-canvas p-8">
+    <input type="hidden" th:field="*{sourceCourseId}"/>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Tên lớp học</label>
+      <input th:field="*{name}" required class="w-full border border-hairline rounded-lg px-3 py-2"/>
+    </div>
+    <div>
+      <label class="block font-label-md text-label-md mb-1">Giáo viên phụ trách</label>
+      <select th:field="*{teacherId}" class="w-full border border-hairline rounded-lg px-3 py-2">
+        <option value="">-- Chưa phân công --</option>
+        <option th:each="t : ${teachers}" th:value="${t.id}" th:text="${t.name}">Teacher</option>
+      </select>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Ngày bắt đầu</label>
+        <input type="date" th:field="*{startDate}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Ngày kết thúc</label>
+        <input type="date" th:field="*{endDate}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Sĩ số tối đa</label>
+        <input type="number" min="1" th:field="*{maxSize}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+      <div>
+        <label class="block font-label-md text-label-md mb-1">Học phí (đ)</label>
+        <input type="number" min="0" step="1000" th:field="*{fee}" class="w-full border border-hairline rounded-lg px-3 py-2"/>
+      </div>
+    </div>
+    <div class="flex justify-end gap-3 pt-2">
+      <a href="/cm/classes" class="px-5 py-2 rounded-full border border-hairline">Hủy</a>
+      <button type="submit" class="px-5 py-2 rounded-full bg-primary text-on-primary">Lưu</button>
+    </div>
+  </form>
+</section>
+</body>
+</html>
